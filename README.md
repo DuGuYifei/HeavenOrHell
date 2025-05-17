@@ -26,3 +26,4 @@ A game server implementation using KCP protocol for reliable UDP communication.
 
 - Run `proto2cpp.sh` before building if you modify any `.proto` files
 - The generated Protocol Buffer code is in `src/message/gen/` and is ignored by git 
+- In the submodule of `src/message`, put all enums will be used here. Then everyone can know what happened
