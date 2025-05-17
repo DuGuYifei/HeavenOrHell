@@ -1,0 +1,3 @@
+[submodule "src/message"]
+	path = src/message
+	url = git@github.com:DuGuYifei/HeavenOrHell-Message.git
