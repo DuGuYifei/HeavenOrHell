@@ -27,3 +27,8 @@ message PropGetMessage {
     int32 prop_type = 2;
     int32 amount = 3;
 } 
+
+message StringMessage {
+    int32 message_type = 1;
+    string message_content = 2;
+}

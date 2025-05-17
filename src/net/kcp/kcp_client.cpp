@@ -11,6 +11,7 @@
 #include <vector>
 #include "ikcp.h"
 #include "message.pb.h"
+#include <message/message_type.h>
 
 using namespace std::chrono;
 
@@ -67,6 +68,16 @@ void kcp_recv_all(ikcpcb *kcp)
         uint32_t mlen = (uint8_t)buf[0] | ((uint8_t)buf[1] << 8) | ((uint8_t)buf[2] << 16) | ((uint8_t)buf[3] << 24);
         if (mlen != uint32_t(n - 4))
             continue;
+
+        // Parse string meesage
+        message::StringMessage sm;
+        if (sm.ParseFromArray(buf.data() + 4, mlen))
+        {
+            if (sm.message_type() == static_cast<int32_t>(StringMessageType::MAZE_MAP))
+            {
+                std::cout << "[Server→Client] MapMessage: " << sm.message_content() << "\n";
+            }
+        }
 
         // Parse two types of server messages
         message::PlayerBasicMessage pbm;
@@ -147,7 +158,7 @@ int main(int argc, char **argv)
         ikcp_update(kcp, ts);
 
         // 收 UDP
-        char buf[3000];
+        char buf[4096];
         sockaddr_in raddr{};
         socklen_t rlen = sizeof(raddr);
         int n = recvfrom(sockfd, buf, sizeof(buf), 0,

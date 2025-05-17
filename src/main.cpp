@@ -1,10 +1,23 @@
 #include "net/kcp/kcp_server.h"
+#include "map/maze_map.h"
+#include "message/message_type.h"
 
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     KcpServer server(8888);
+    MazeMap maze_map(31, 31);  // Create a maze map instance
+    maze_map.generate();       // Generate the initial maze
+
+    // Set connection callback to send maze map
+    server.setConnectionCallback([&server, &maze_map](uint32_t conv) {
+        // Create and send maze map message
+        message::StringMessage msg;
+        msg.set_message_type(static_cast<int32_t>(StringMessageType::MAZE_MAP));
+        msg.set_message_content(maze_map.get_rle_compressed_maze());
+        server.sendTo(conv, msg);
+    });
 
     server.setMessageCallback([&server](uint32_t conv, const google::protobuf::Message &msg)
                               {

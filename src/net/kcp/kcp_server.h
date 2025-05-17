@@ -107,7 +107,7 @@ private:
     int udpSocket;
 
     // ikcp_output 回调：通过 UDP 发包
-    static int kcpOutput(const char *buf, int len, ikcpcb *kcp, void *user)
+    static int kcpOutput(const char *buf, int len, ikcpcb *, void *user)
     {
         KcpSession *session = static_cast<KcpSession *>(user);
         return sendto(session->udpSocket, buf, len, 0,
@@ -171,6 +171,13 @@ public:
         onClientMessage = std::forward<F>(cb);
     }
 
+    // 用户注册回调：新连接建立
+    template <typename F>
+    void setConnectionCallback(F &&cb)
+    {
+        onConnection = std::forward<F>(cb);
+    }
+
     void sendTo(uint32_t conv, const google::protobuf::Message &msg)
     {
         auto it = sessions.find(conv);
@@ -190,6 +197,8 @@ private:
 
     // 回调：conv + protobuf 消息
     std::function<void(uint32_t, const google::protobuf::Message &)> onClientMessage;
+    // 回调：新连接建立
+    std::function<void(uint32_t)> onConnection;
 
     void initSocket()
     {
@@ -213,14 +222,13 @@ private:
 
     void handleUdpRead()
     {
-        char buf[3000];
+        char buf[4096];
         sockaddr_in cliAddr;
-        socklen_t len = sizeof(cliAddr);
+        socklen_t cliLen = sizeof(cliAddr);
 
         while (true)
         {
-            int n = recvfrom(udpFd, buf, sizeof(buf), 0,
-                             (sockaddr *)&cliAddr, &len);
+            int n = recvfrom(udpFd, buf, sizeof(buf), 0, (sockaddr *)&cliAddr, &cliLen);
             if (n < 0)
             {
                 if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -231,15 +239,17 @@ private:
             if (n < 4)
                 continue;
 
-            uint32_t conv = 0;
-            memcpy(&conv, buf, sizeof(conv)); // 前 4 字节小端
-
+            // 解析 KCP 会话 ID
+            uint32_t conv = ikcp_getconv(buf);
             auto it = sessions.find(conv);
             if (it == sessions.end())
             {
-                // True "new client"
-                auto sess = std::make_shared<KcpSession>(conv, cliAddr, udpFd);
-                sessions.emplace(conv, sess);
+                // 新会话
+                auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd);
+                sessions[conv] = session;
+                if (onConnection) {
+                    onConnection(conv);
+                }
                 it = sessions.find(conv);
                 printf("New session conv=%u addr=%s:%d\n",
                        conv, inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port));
@@ -276,11 +286,11 @@ private:
     int calcNextTimeout()
     {
         uint32_t now = currentMs();
-        int next = 100; // 最多 100ms
+        uint32_t next = 100; // 最多 100ms
         for (auto &kv : sessions)
         {
-            int ts = ikcp_check(kv.second->kcp, now);
-            int diff = int(ts > now ? ts - now : 0);
+            uint32_t ts = ikcp_check(kv.second->kcp, now);
+            uint32_t diff = ts > now ? ts - now : 0;
             next = std::min(next, diff);
         }
         return next;

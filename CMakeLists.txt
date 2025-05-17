@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(HeavenOrHellServer)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find required packages
@@ -15,6 +15,7 @@ file(GLOB PROTO_HEADERS "src/message/gen/*.h")
 add_executable(${PROJECT_NAME}
     src/main.cpp
     src/net/kcp/ikcp.c
+    src/map/maze_map.cpp
     ${PROTO_SOURCES}
 )
 
