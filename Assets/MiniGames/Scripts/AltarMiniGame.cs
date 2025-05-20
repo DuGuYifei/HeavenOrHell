@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-namespace Andrey.MiniGames.Altar 
+namespace MiniGames.Altar
 {
 
     public class AltarMiniGame : MonoBehaviour
