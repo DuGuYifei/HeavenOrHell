@@ -35,7 +35,7 @@ public:
         kcp = ikcp_create(conv, this);
         ikcp_nodelay(kcp, 1, 1, 2, 1);
         kcp->rx_minrto = 10;
-        ikcp_wndsize(kcp, 32 * 1000, 32 * 1000);
+        ikcp_wndsize(kcp, 32 * 4, 32 * 4);
         ikcp_setoutput(kcp, &KcpSession::kcpOutput);
 
         udpSocket = udpFd;
