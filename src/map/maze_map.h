@@ -26,6 +26,7 @@ public:
     std::pair<int, int> get_altar_position() const;
     const std::vector<std::pair<int, int>>& get_treasure_coords() const;
     const std::vector<std::pair<int, int>>& get_spawn_points() const;
+    // TODO: Remove points or move player position on it to let player reconnect.
 
 private:
     std::mt19937& get_rng();
