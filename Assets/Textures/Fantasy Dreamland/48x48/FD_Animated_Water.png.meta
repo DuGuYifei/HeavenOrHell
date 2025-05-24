@@ -1,0 +1,1365 @@
+fileFormatVersion: 2
+guid: 9156f0d7b00b64ce0913713c1f964082
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8450009472231016257
+    second: FD_Animated_Water_0
+  - first:
+      213: -744345838535176745
+    second: FD_Animated_Water_1
+  - first:
+      213: 7057987123346937355
+    second: FD_Animated_Water_2
+  - first:
+      213: 3435514829652644551
+    second: FD_Animated_Water_3
+  - first:
+      213: 1067161392583255148
+    second: FD_Animated_Water_4
+  - first:
+      213: -3751985632380332022
+    second: FD_Animated_Water_5
+  - first:
+      213: 4100105155649046520
+    second: FD_Animated_Water_6
+  - first:
+      213: 6948603114294496915
+    second: FD_Animated_Water_7
+  - first:
+      213: -2856327144332729427
+    second: FD_Animated_Water_8
+  - first:
+      213: 3468011591468514947
+    second: FD_Animated_Water_9
+  - first:
+      213: -7678027804184975116
+    second: FD_Animated_Water_10
+  - first:
+      213: -2383527789468422924
+    second: FD_Animated_Water_11
+  - first:
+      213: 755420626367740743
+    second: FD_Animated_Water_12
+  - first:
+      213: 684567115437660632
+    second: FD_Animated_Water_13
+  - first:
+      213: -1388176342001267605
+    second: FD_Animated_Water_14
+  - first:
+      213: 4779548085497428773
+    second: FD_Animated_Water_15
+  - first:
+      213: -2302819926368522162
+    second: FD_Animated_Water_16
+  - first:
+      213: -1777658355894910825
+    second: FD_Animated_Water_17
+  - first:
+      213: -214545333307381168
+    second: FD_Animated_Water_18
+  - first:
+      213: 1963380578856866794
+    second: FD_Animated_Water_19
+  - first:
+      213: 594269553410392585
+    second: FD_Animated_Water_20
+  - first:
+      213: 3646460556589768540
+    second: FD_Animated_Water_21
+  - first:
+      213: 4723934028906456718
+    second: FD_Animated_Water_22
+  - first:
+      213: 4812905269963801679
+    second: FD_Animated_Water_23
+  - first:
+      213: -7912931135932052592
+    second: FD_Animated_Water_24
+  - first:
+      213: -3335320536877512599
+    second: FD_Animated_Water_25
+  - first:
+      213: 6589365513467577838
+    second: FD_Animated_Water_26
+  - first:
+      213: 9158094571373770615
+    second: FD_Animated_Water_27
+  - first:
+      213: -1462623815966683806
+    second: FD_Animated_Water_28
+  - first:
+      213: -2531869752964271509
+    second: FD_Animated_Water_29
+  - first:
+      213: 2302371662440042338
+    second: FD_Animated_Water_30
+  - first:
+      213: 8735514340117247549
+    second: FD_Animated_Water_31
+  - first:
+      213: -4187023350609823327
+    second: FD_Animated_Water_32
+  - first:
+      213: 6182260545496268425
+    second: FD_Animated_Water_33
+  - first:
+      213: 5098464886786320656
+    second: FD_Animated_Water_34
+  - first:
+      213: -6696920160316331746
+    second: FD_Animated_Water_35
+  - first:
+      213: 6321690703538413417
+    second: FD_Animated_Water_36
+  - first:
+      213: -6793885017688443330
+    second: FD_Animated_Water_37
+  - first:
+      213: 853290394209754711
+    second: FD_Animated_Water_38
+  - first:
+      213: -4657736549034213091
+    second: FD_Animated_Water_39
+  - first:
+      213: 3341060143223093023
+    second: FD_Animated_Water_40
+  - first:
+      213: -6129210184234692566
+    second: FD_Animated_Water_41
+  - first:
+      213: -3764492882931333567
+    second: FD_Animated_Water_42
+  - first:
+      213: -4068796752961594365
+    second: FD_Animated_Water_43
+  - first:
+      213: 279215917344468723
+    second: FD_Animated_Water_44
+  - first:
+      213: 2683548307346576742
+    second: FD_Animated_Water_45
+  - first:
+      213: 2050232747787286531
+    second: FD_Animated_Water_46
+  - first:
+      213: 4796473519829763881
+    second: FD_Animated_Water_47
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FD_Animated_Water_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 959
+        width: 145
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 147040d48d6744570800000000000000
+      internalID: 8450009472231016257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_1
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 959
+        width: 146
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dd0210576d8ba5f0800000000000000
+      internalID: -744345838535176745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_2
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 959
+        width: 146
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b061064d4e103f160800000000000000
+      internalID: 7057987123346937355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_3
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 959
+        width: 145
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c2580219866daf20800000000000000
+      internalID: 3435514829652644551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_4
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 833
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c64afeae1a15fce00800000000000000
+      internalID: 1067161392583255148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_5
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 833
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a08d99b32f44eebc0800000000000000
+      internalID: -3751985632380332022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_6
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 833
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f785307aef76e830800000000000000
+      internalID: 4100105155649046520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_7
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 833
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39e42b897b56e6060800000000000000
+      internalID: 6948603114294496915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 767
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da3edbf78994c58d0800000000000000
+      internalID: -2856327144332729427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_9
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 767
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38efa6a0b2ad02030800000000000000
+      internalID: 3468011591468514947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_10
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 767
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f86bfb546a227590800000000000000
+      internalID: -7678027804184975116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_11
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 767
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fc667c9a120ceed0800000000000000
+      internalID: -2383527789468422924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_12
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 767
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74bf6aaae0bcb7a00800000000000000
+      internalID: 755420626367740743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_13
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 767
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d9539c1a22108900800000000000000
+      internalID: 684567115437660632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_14
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 767
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6cc969c8f43cbce0800000000000000
+      internalID: -1388176342001267605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_15
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 767
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52bf8fe19ad545240800000000000000
+      internalID: 4779548085497428773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 575
+        width: 145
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e40fc135a7dba00e0800000000000000
+      internalID: -2302819926368522162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_17
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 575
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79001ecc42d7457e0800000000000000
+      internalID: -1777658355894910825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_18
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 575
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05aeef3f728c50df0800000000000000
+      internalID: -214545333307381168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_19
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 575
+        width: 145
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae31aa9eb345f3b10800000000000000
+      internalID: 1963380578856866794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_20
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 452
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9024bdf92054f3800800000000000000
+      internalID: 594269553410392585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_21
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 452
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5f91037e84da9230800000000000000
+      internalID: 3646460556589768540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_22
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 452
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e86695788f8ce8140800000000000000
+      internalID: 4723934028906456718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_23
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 452
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f444cc9d7dfdac240800000000000000
+      internalID: 4812905269963801679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 383
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09b44ae6e0f9f2290800000000000000
+      internalID: -7912931135932052592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_25
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 383
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 968c95b94af86b1d0800000000000000
+      internalID: -3335320536877512599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_26
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 383
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee5c175c501227b50800000000000000
+      internalID: 6589365513467577838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_27
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 383
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 777ba22bd76181f70800000000000000
+      internalID: 9158094571373770615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_28
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 383
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26d87418367b3bbe0800000000000000
+      internalID: -1462623815966683806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_29
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 383
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b623205cfddfcdcd0800000000000000
+      internalID: -2531869752964271509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_30
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 383
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26f0aa814daa3ff10800000000000000
+      internalID: 2302371662440042338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_31
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 383
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d36f4057208ca3970800000000000000
+      internalID: 8735514340117247549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 191
+        width: 145
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a9b2a84274b4e5c0800000000000000
+      internalID: -4187023350609823327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_33
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98eb73b063dcbc550800000000000000
+      internalID: 6182260545496268425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_34
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01963bc3dc261c640800000000000000
+      internalID: 5098464886786320656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_35
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 191
+        width: 145
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1961339892cf03a0800000000000000
+      internalID: -6696920160316331746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_36
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 68
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96fdb4c73382bb750800000000000000
+      internalID: 6321690703538413417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_37
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 68
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e36f4db629547b1a0800000000000000
+      internalID: -6793885017688443330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_38
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 68
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75e1025b71f77db00800000000000000
+      internalID: 853290394209754711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_39
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 68
+        width: 104
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d11467159456c5fb0800000000000000
+      internalID: -4657736549034213091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 49
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f173702af74dd5e20800000000000000
+      internalID: 3341060143223093023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_41
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a201cf6bfcba0faa0800000000000000
+      internalID: -6129210184234692566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_42
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14644690ba5d1cbc0800000000000000
+      internalID: -3764492882931333567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_43
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30c167c19eab887c0800000000000000
+      internalID: -4068796752961594365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_44
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fea3f0c569ffd300800000000000000
+      internalID: 279215917344468723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_45
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6655efca7f0ed3520800000000000000
+      internalID: 2683548307346576742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_46
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 308fbbe42d3e37c10800000000000000
+      internalID: 2050232747787286531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Animated_Water_47
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 0
+        width: 49
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9274504e04f709240800000000000000
+      internalID: 4796473519829763881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FD_Animated_Water_0: 8450009472231016257
+      FD_Animated_Water_1: -744345838535176745
+      FD_Animated_Water_10: -7678027804184975116
+      FD_Animated_Water_11: -2383527789468422924
+      FD_Animated_Water_12: 755420626367740743
+      FD_Animated_Water_13: 684567115437660632
+      FD_Animated_Water_14: -1388176342001267605
+      FD_Animated_Water_15: 4779548085497428773
+      FD_Animated_Water_16: -2302819926368522162
+      FD_Animated_Water_17: -1777658355894910825
+      FD_Animated_Water_18: -214545333307381168
+      FD_Animated_Water_19: 1963380578856866794
+      FD_Animated_Water_2: 7057987123346937355
+      FD_Animated_Water_20: 594269553410392585
+      FD_Animated_Water_21: 3646460556589768540
+      FD_Animated_Water_22: 4723934028906456718
+      FD_Animated_Water_23: 4812905269963801679
+      FD_Animated_Water_24: -7912931135932052592
+      FD_Animated_Water_25: -3335320536877512599
+      FD_Animated_Water_26: 6589365513467577838
+      FD_Animated_Water_27: 9158094571373770615
+      FD_Animated_Water_28: -1462623815966683806
+      FD_Animated_Water_29: -2531869752964271509
+      FD_Animated_Water_3: 3435514829652644551
+      FD_Animated_Water_30: 2302371662440042338
+      FD_Animated_Water_31: 8735514340117247549
+      FD_Animated_Water_32: -4187023350609823327
+      FD_Animated_Water_33: 6182260545496268425
+      FD_Animated_Water_34: 5098464886786320656
+      FD_Animated_Water_35: -6696920160316331746
+      FD_Animated_Water_36: 6321690703538413417
+      FD_Animated_Water_37: -6793885017688443330
+      FD_Animated_Water_38: 853290394209754711
+      FD_Animated_Water_39: -4657736549034213091
+      FD_Animated_Water_4: 1067161392583255148
+      FD_Animated_Water_40: 3341060143223093023
+      FD_Animated_Water_41: -6129210184234692566
+      FD_Animated_Water_42: -3764492882931333567
+      FD_Animated_Water_43: -4068796752961594365
+      FD_Animated_Water_44: 279215917344468723
+      FD_Animated_Water_45: 2683548307346576742
+      FD_Animated_Water_46: 2050232747787286531
+      FD_Animated_Water_47: 4796473519829763881
+      FD_Animated_Water_5: -3751985632380332022
+      FD_Animated_Water_6: 4100105155649046520
+      FD_Animated_Water_7: 6948603114294496915
+      FD_Animated_Water_8: -2856327144332729427
+      FD_Animated_Water_9: 3468011591468514947
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1157 @@
+fileFormatVersion: 2
+guid: 7423afa1225554be982dc20512b017b7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1012447914935047854
+    second: FD_Dungeon_Lava_0
+  - first:
+      213: 9079828704109593187
+    second: FD_Dungeon_Lava_1
+  - first:
+      213: 1940981589474632294
+    second: FD_Dungeon_Lava_2
+  - first:
+      213: 1804677945083712458
+    second: FD_Dungeon_Lava_3
+  - first:
+      213: -2268585424850459763
+    second: FD_Dungeon_Lava_4
+  - first:
+      213: 8645883080108035476
+    second: FD_Dungeon_Lava_5
+  - first:
+      213: -94482781247658485
+    second: FD_Dungeon_Lava_6
+  - first:
+      213: 3485010175119521057
+    second: FD_Dungeon_Lava_7
+  - first:
+      213: 3646292861012198954
+    second: FD_Dungeon_Lava_8
+  - first:
+      213: -7795700683262943402
+    second: FD_Dungeon_Lava_9
+  - first:
+      213: -8890537535699774546
+    second: FD_Dungeon_Lava_10
+  - first:
+      213: -8733589384113752579
+    second: FD_Dungeon_Lava_11
+  - first:
+      213: 7968303663133837067
+    second: FD_Dungeon_Lava_12
+  - first:
+      213: -560749226461406572
+    second: FD_Dungeon_Lava_13
+  - first:
+      213: -6979463448840904955
+    second: FD_Dungeon_Lava_14
+  - first:
+      213: 472609555327662066
+    second: FD_Dungeon_Lava_15
+  - first:
+      213: -8050869828527460910
+    second: FD_Dungeon_Lava_16
+  - first:
+      213: 11925735190928820
+    second: FD_Dungeon_Lava_17
+  - first:
+      213: -4455898112852542639
+    second: FD_Dungeon_Lava_18
+  - first:
+      213: -4463494267044975151
+    second: FD_Dungeon_Lava_19
+  - first:
+      213: 1465376912608646661
+    second: FD_Dungeon_Lava_20
+  - first:
+      213: -6585348330054684846
+    second: FD_Dungeon_Lava_21
+  - first:
+      213: -7270403673714594849
+    second: FD_Dungeon_Lava_22
+  - first:
+      213: -8697799624924904300
+    second: FD_Dungeon_Lava_23
+  - first:
+      213: 7218010894814834478
+    second: FD_Dungeon_Lava_24
+  - first:
+      213: 22717475339131293
+    second: FD_Dungeon_Lava_25
+  - first:
+      213: 3828515352853146387
+    second: FD_Dungeon_Lava_26
+  - first:
+      213: 2355384070241253991
+    second: FD_Dungeon_Lava_27
+  - first:
+      213: 5194276347656033356
+    second: FD_Dungeon_Lava_28
+  - first:
+      213: -933056222961763803
+    second: FD_Dungeon_Lava_29
+  - first:
+      213: -4156211492038282415
+    second: FD_Dungeon_Lava_30
+  - first:
+      213: 843170578345490912
+    second: FD_Dungeon_Lava_31
+  - first:
+      213: 8751966738151455138
+    second: FD_Dungeon_Lava_32
+  - first:
+      213: 1281789736142414604
+    second: FD_Dungeon_Lava_33
+  - first:
+      213: 3139702865063175478
+    second: FD_Dungeon_Lava_34
+  - first:
+      213: -82458522834118047
+    second: FD_Dungeon_Lava_35
+  - first:
+      213: 7200262378006276164
+    second: FD_Dungeon_Lava_36
+  - first:
+      213: -2617828453825610559
+    second: FD_Dungeon_Lava_37
+  - first:
+      213: 1882065744244691789
+    second: FD_Dungeon_Lava_38
+  - first:
+      213: 2120021849158529485
+    second: FD_Dungeon_Lava_39
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 383
+        width: 145
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25926bc4cff03f1f0800000000000000
+      internalID: -1012447914935047854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_1
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 383
+        width: 146
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36209d17918020e70800000000000000
+      internalID: 9079828704109593187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_2
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 383
+        width: 146
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 662653cc870cfea10800000000000000
+      internalID: 1940981589474632294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_3
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 383
+        width: 146
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac352ba87018b0910800000000000000
+      internalID: 1804677945083712458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_4
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 383
+        width: 146
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d83e829539d5480e0800000000000000
+      internalID: -2268585424850459763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_5
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 383
+        width: 146
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49d466f7ad85cf770800000000000000
+      internalID: 8645883080108035476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_6
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 383
+        width: 146
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b06a75a396450bef0800000000000000
+      internalID: -94482781247658485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_7
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 383
+        width: 146
+        height: 338
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 125fe963a4e3d5030800000000000000
+      internalID: 3485010175119521057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 191
+        width: 145
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a26cca7c90c3a9230800000000000000
+      internalID: 3646292861012198954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_9
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65f97de288b10d390800000000000000
+      internalID: -7795700683262943402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_10
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea3965227377e9480800000000000000
+      internalID: -8890537535699774546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_11
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df5f6c94abe0cc680800000000000000
+      internalID: -8733589384113752579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_12
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b074987b6f9159e60800000000000000
+      internalID: 7968303663133837067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_13
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49a51bcac81d738f0800000000000000
+      internalID: -560749226461406572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_14
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50fd309d8f6f32f90800000000000000
+      internalID: -6979463448840904955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_15
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 191
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f7b2c6f2eb0f8600800000000000000
+      internalID: 472609555327662066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_16
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dde5b9db80954090800000000000000
+      internalID: -8050869828527460910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_17
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bd9db9946e5a2000800000000000000
+      internalID: 11925735190928820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_18
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15b371456487922c0800000000000000
+      internalID: -4455898112852542639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_19
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ddaacbdc9b7e02c0800000000000000
+      internalID: -4463494267044975151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_20
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 506d812c980165410800000000000000
+      internalID: 1465376912608646661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_21
+      rect:
+        serializedVersion: 2
+        x: 983
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25fe0e0a5942c94a0800000000000000
+      internalID: -6585348330054684846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_22
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdbeb8601665a1b90800000000000000
+      internalID: -7270403673714594849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_23
+      rect:
+        serializedVersion: 2
+        x: 1367
+        y: 71
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49443d4f2553b4780800000000000000
+      internalID: -8697799624924904300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 49
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2f665a8aa68b2460800000000000000
+      internalID: 7218010894814834478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_25
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9958c76c65b05000800000000000000
+      internalID: 22717475339131293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_26
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31be0f7dd6e912530800000000000000
+      internalID: 3828515352853146387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_27
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76af750255100b020800000000000000
+      internalID: 2355384070241253991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_28
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c44504751d6c51840800000000000000
+      internalID: 5194276347656033356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_29
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52a75ea0f4e1d03f0800000000000000
+      internalID: -933056222961763803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_30
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15379a52bab2256c0800000000000000
+      internalID: -4156211492038282415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_31
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e9f7577c2b83bb00800000000000000
+      internalID: 843170578345490912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_32
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a93d81e06b357970800000000000000
+      internalID: 8751966738151455138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_33
+      rect:
+        serializedVersion: 2
+        x: 863
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c03a28b49f4d9c110800000000000000
+      internalID: 1281789736142414604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_34
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 635ed54fe17729b20800000000000000
+      internalID: 3139702865063175478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_35
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16ad4cd096c0bdef0800000000000000
+      internalID: -82458522834118047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_36
+      rect:
+        serializedVersion: 2
+        x: 1151
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4486ca2fb787ce360800000000000000
+      internalID: 7200262378006276164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_37
+      rect:
+        serializedVersion: 2
+        x: 1247
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cc70de14ea9babd0800000000000000
+      internalID: -2617828453825610559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_38
+      rect:
+        serializedVersion: 2
+        x: 1343
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d43d2a1a2d07e1a10800000000000000
+      internalID: 1882065744244691789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Lava_39
+      rect:
+        serializedVersion: 2
+        x: 1439
+        y: 0
+        width: 50
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc13923b3a4db6d10800000000000000
+      internalID: 2120021849158529485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FD_Dungeon_Lava_0: -1012447914935047854
+      FD_Dungeon_Lava_1: 9079828704109593187
+      FD_Dungeon_Lava_10: -8890537535699774546
+      FD_Dungeon_Lava_11: -8733589384113752579
+      FD_Dungeon_Lava_12: 7968303663133837067
+      FD_Dungeon_Lava_13: -560749226461406572
+      FD_Dungeon_Lava_14: -6979463448840904955
+      FD_Dungeon_Lava_15: 472609555327662066
+      FD_Dungeon_Lava_16: -8050869828527460910
+      FD_Dungeon_Lava_17: 11925735190928820
+      FD_Dungeon_Lava_18: -4455898112852542639
+      FD_Dungeon_Lava_19: -4463494267044975151
+      FD_Dungeon_Lava_2: 1940981589474632294
+      FD_Dungeon_Lava_20: 1465376912608646661
+      FD_Dungeon_Lava_21: -6585348330054684846
+      FD_Dungeon_Lava_22: -7270403673714594849
+      FD_Dungeon_Lava_23: -8697799624924904300
+      FD_Dungeon_Lava_24: 7218010894814834478
+      FD_Dungeon_Lava_25: 22717475339131293
+      FD_Dungeon_Lava_26: 3828515352853146387
+      FD_Dungeon_Lava_27: 2355384070241253991
+      FD_Dungeon_Lava_28: 5194276347656033356
+      FD_Dungeon_Lava_29: -933056222961763803
+      FD_Dungeon_Lava_3: 1804677945083712458
+      FD_Dungeon_Lava_30: -4156211492038282415
+      FD_Dungeon_Lava_31: 843170578345490912
+      FD_Dungeon_Lava_32: 8751966738151455138
+      FD_Dungeon_Lava_33: 1281789736142414604
+      FD_Dungeon_Lava_34: 3139702865063175478
+      FD_Dungeon_Lava_35: -82458522834118047
+      FD_Dungeon_Lava_36: 7200262378006276164
+      FD_Dungeon_Lava_37: -2617828453825610559
+      FD_Dungeon_Lava_38: 1882065744244691789
+      FD_Dungeon_Lava_39: 2120021849158529485
+      FD_Dungeon_Lava_4: -2268585424850459763
+      FD_Dungeon_Lava_5: 8645883080108035476
+      FD_Dungeon_Lava_6: -94482781247658485
+      FD_Dungeon_Lava_7: 3485010175119521057
+      FD_Dungeon_Lava_8: 3646292861012198954
+      FD_Dungeon_Lava_9: -7795700683262943402
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

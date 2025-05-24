@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: 33324fd52e5764cbb8b7511f15ebf858
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4513710280911796646
+    second: FD_Dungeon_Doors_0
+  - first:
+      213: 1822193925450431560
+    second: FD_Dungeon_Doors_1
+  - first:
+      213: 3671487147898746282
+    second: FD_Dungeon_Doors_2
+  - first:
+      213: 3190894325617646571
+    second: FD_Dungeon_Doors_3
+  - first:
+      213: 8740400837592470102
+    second: FD_Dungeon_Doors_4
+  - first:
+      213: -7468326975518393852
+    second: FD_Dungeon_Doors_5
+  - first:
+      213: 908982605579917113
+    second: FD_Dungeon_Doors_6
+  - first:
+      213: -5710671235593656994
+    second: FD_Dungeon_Doors_7
+  - first:
+      213: -6709020447658256743
+    second: FD_Dungeon_Doors_8
+  - first:
+      213: -48919787731663639
+    second: FD_Dungeon_Doors_9
+  - first:
+      213: 6529715645749878393
+    second: FD_Dungeon_Doors_10
+  - first:
+      213: -7550535046026998106
+    second: FD_Dungeon_Doors_11
+  - first:
+      213: 4606621062959869397
+    second: FD_Dungeon_Doors_12
+  - first:
+      213: 2176436422249093593
+    second: FD_Dungeon_Doors_13
+  - first:
+      213: 4131942592704208484
+    second: FD_Dungeon_Doors_14
+  - first:
+      213: -7033154893233785205
+    second: FD_Dungeon_Doors_15
+  - first:
+      213: 7521541149344815354
+    second: FD_Dungeon_Doors_16
+  - first:
+      213: 4758594244804161388
+    second: FD_Dungeon_Doors_17
+  - first:
+      213: 2472400417228215572
+    second: FD_Dungeon_Doors_18
+  - first:
+      213: 9019880204224848842
+    second: FD_Dungeon_Doors_19
+  - first:
+      213: -5296345415484281652
+    second: FD_Dungeon_Doors_20
+  - first:
+      213: 3658672398681558000
+    second: FD_Dungeon_Doors_21
+  - first:
+      213: -4720748364176087641
+    second: FD_Dungeon_Doors_22
+  - first:
+      213: -366003343867384043
+    second: FD_Dungeon_Doors_23
+  - first:
+      213: 3603850114753877289
+    second: FD_Dungeon_Doors_24
+  - first:
+      213: -6710143961271475790
+    second: FD_Dungeon_Doors_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_0
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 479
+        width: 194
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a9b6c8f59be3ae30800000000000000
+      internalID: 4513710280911796646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_1
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 482
+        width: 194
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84cf85688bbb94910800000000000000
+      internalID: 1822193925450431560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_2
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 383
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa5baefcb1eb3f230800000000000000
+      internalID: 3671487147898746282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_3
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 383
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bebdf3aab75584c20800000000000000
+      internalID: 3190894325617646571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_4
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 383
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 652d93fc0442c4970800000000000000
+      internalID: 8740400837592470102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_5
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 383
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40a32c54f2c2b5890800000000000000
+      internalID: -7468326975518393852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_6
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 95
+        width: 98
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93799902dda5d9c00800000000000000
+      internalID: 908982605579917113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_7
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 95
+        width: 98
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e55266584ce9fb0b0800000000000000
+      internalID: -5710671235593656994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_8
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 95
+        width: 98
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9965f72e275c4e2a0800000000000000
+      internalID: -6709020447658256743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_9
+      rect:
+        serializedVersion: 2
+        x: 1079
+        y: 95
+        width: 98
+        height: 386
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e444c556b3325ff0800000000000000
+      internalID: -48919787731663639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_10
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 287
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97e5b3da8c53e9a50800000000000000
+      internalID: 6529715645749878393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_11
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 287
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ae4c6d416c173790800000000000000
+      internalID: -7550535046026998106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_12
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 287
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dd2e8823710eef30800000000000000
+      internalID: 4606621062959869397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_13
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 287
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d911601561443e10800000000000000
+      internalID: 2176436422249093593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_14
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 191
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46ed07665eb975930800000000000000
+      internalID: 4131942592704208484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_15
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 191
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b86ff7a43e6356e90800000000000000
+      internalID: -7033154893233785205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_16
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 191
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af85e2213d1e16860800000000000000
+      internalID: 7521541149344815354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_17
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 191
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6f25c7e04ce90240800000000000000
+      internalID: 4758594244804161388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_18
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 95
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4155a63841bbf4220800000000000000
+      internalID: 2472400417228215572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_19
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 95
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac36661a14d0d2d70800000000000000
+      internalID: 9019880204224848842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_20
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 95
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccc6a46e7e99f76b0800000000000000
+      internalID: -5296345415484281652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_21
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 95
+        width: 92
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fbc0f0892736c230800000000000000
+      internalID: 3658672398681558000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_22
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 0
+        width: 98
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a52747df588c7eb0800000000000000
+      internalID: -4720748364176087641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_23
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 2
+        width: 98
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51fed2ed5e1bbeaf0800000000000000
+      internalID: -366003343867384043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_24
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 2
+        width: 98
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 925d7a9d592730230800000000000000
+      internalID: 3603850114753877289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FD_Dungeon_Doors_25
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 2
+        width: 98
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b16eac7e97c0e2a0800000000000000
+      internalID: -6710143961271475790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FD_Dungeon_Doors_0: 4513710280911796646
+      FD_Dungeon_Doors_1: 1822193925450431560
+      FD_Dungeon_Doors_10: 6529715645749878393
+      FD_Dungeon_Doors_11: -7550535046026998106
+      FD_Dungeon_Doors_12: 4606621062959869397
+      FD_Dungeon_Doors_13: 2176436422249093593
+      FD_Dungeon_Doors_14: 4131942592704208484
+      FD_Dungeon_Doors_15: -7033154893233785205
+      FD_Dungeon_Doors_16: 7521541149344815354
+      FD_Dungeon_Doors_17: 4758594244804161388
+      FD_Dungeon_Doors_18: 2472400417228215572
+      FD_Dungeon_Doors_19: 9019880204224848842
+      FD_Dungeon_Doors_2: 3671487147898746282
+      FD_Dungeon_Doors_20: -5296345415484281652
+      FD_Dungeon_Doors_21: 3658672398681558000
+      FD_Dungeon_Doors_22: -4720748364176087641
+      FD_Dungeon_Doors_23: -366003343867384043
+      FD_Dungeon_Doors_24: 3603850114753877289
+      FD_Dungeon_Doors_25: -6710143961271475790
+      FD_Dungeon_Doors_3: 3190894325617646571
+      FD_Dungeon_Doors_4: 8740400837592470102
+      FD_Dungeon_Doors_5: -7468326975518393852
+      FD_Dungeon_Doors_6: 908982605579917113
+      FD_Dungeon_Doors_7: -5710671235593656994
+      FD_Dungeon_Doors_8: -6709020447658256743
+      FD_Dungeon_Doors_9: -48919787731663639
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
