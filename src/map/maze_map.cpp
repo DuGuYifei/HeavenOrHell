@@ -52,11 +52,7 @@ std::string MazeMap::get_rle_compressed_maze() const
                 count = 1;
             }
         }
-        if (count > 1)
-        {
-            ss << count;
-        }
-        ss << prev << "\n";
+        ss << count << prev << "\n";
     }
     return ss.str();
 }
