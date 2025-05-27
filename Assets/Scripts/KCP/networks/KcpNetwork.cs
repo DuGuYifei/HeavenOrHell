@@ -11,7 +11,7 @@ namespace AntMill.Liu.Scripts.networks
     public class KcpNetwork : MonoBehaviour
     {
         [Header("Server Settings")] [SerializeField]
-        private string serverIp = "172.28.63.176";
+        private string serverIp = "172.28.183.56";
 
         [SerializeField] private int serverPort = 8888;
         private bool _startConnect = false;
