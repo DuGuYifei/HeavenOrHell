@@ -88422,6 +88422,68 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 476668718}
+--- !u!1 &698867937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 698867940}
+  - component: {fileID: 698867939}
+  - component: {fileID: 698867938}
+  m_Layer: 0
+  m_Name: Network
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &698867938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698867937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f202764197d74893b37365f7248a244a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverIp: 172.28.183.56
+  serverPort: 8888
+  roomId: 0
+  playerId: 0
+--- !u!114 &698867939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698867937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43339d843a0c4a88b05771f0b767b052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kcp: {fileID: 698867938}
+--- !u!4 &698867940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698867937}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &814017849
 GameObject:
   m_ObjectHideFlags: 0
@@ -88611,6 +88673,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8f27b7a1b440f08b90f688160785de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 100
+  maxHp: 100
 --- !u!4 &942726871
 Transform:
   m_ObjectHideFlags: 0
@@ -89031,3 +89095,4 @@ SceneRoots:
   - {fileID: 942726871}
   - {fileID: 1729417131}
   - {fileID: 814017851}
+  - {fileID: 698867940}

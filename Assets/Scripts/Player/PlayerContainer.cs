@@ -4,7 +4,8 @@ namespace Player
 {
     public class PlayerContainer : MonoBehaviour
     {
-        
+        public float hp = 100;
+        public float maxHp = 100;
         #region Singleton
         private static PlayerContainer _instance;
 
