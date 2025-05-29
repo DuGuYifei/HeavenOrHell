@@ -1,0 +1,102 @@
+monster_small.png
+size:997,289
+filter:Linear,Linear
+pma:true
+BODY_side_v4
+bounds:144,106,181,128
+offsets:1,1,184,130
+rotate:90
+EKOR_back_v4
+bounds:2,6,93,114
+rotate:90
+EKOR_front_v4
+bounds:118,6,93,114
+rotate:90
+EKOR_side_v4
+bounds:542,52,64,73
+EYE CLOSE_front_v4
+bounds:834,63,127,63
+offsets:2,2,131,67
+EYE CLOSE_side_v4
+bounds:808,10,43,59
+offsets:2,1,46,61
+rotate:90
+HEAD_back_v4
+bounds:709,128,139,159
+offsets:1,1,141,161
+HEAD_front_v4
+bounds:274,126,141,161
+HEAD_side_v4
+bounds:2,101,186,140
+offsets:2,1,189,142
+rotate:90
+HELMED 2_back_v4
+bounds:417,127,160,144
+offsets:1,1,162,147
+rotate:90
+HELMED 2_front_v4
+bounds:563,127,160,144
+offsets:1,1,162,147
+rotate:90
+HELMED 2_side_v4
+bounds:850,135,152,145
+offsets:1,1,154,147
+rotate:90
+LEG 1 A_side_v4
+bounds:234,15,74,89
+offsets:1,1,76,94
+LEG 1 B_side_v4
+bounds:608,53,67,72
+offsets:1,1,69,74
+LEG 1 C_side_v4
+bounds:386,41,83,37
+offsets:1,1,85,40
+rotate:90
+LEG 2 A_side_v4
+bounds:310,35,74,89
+offsets:1,1,76,94
+LEG 2 B_side_v4
+bounds:677,53,67,72
+offsets:1,1,69,74
+LEG 2 C_side_v4
+bounds:386,2,83,37
+offsets:1,1,85,40
+LEG L 1_back_v4
+bounds:425,44,37,81
+offsets:2,1,40,83
+LEG L 1_front_v4
+bounds:464,44,37,81
+offsets:2,1,40,84
+LEG L 2_back_v4
+bounds:668,8,43,68
+offsets:1,1,45,71
+rotate:90
+LEG L 2_front_v4
+bounds:746,55,42,71
+offsets:1,3,44,75
+LEG L 3_back_v4
+bounds:554,6,55,44
+offsets:2,1,58,46
+LEG L 3_front_v4
+bounds:869,3,55,58
+offsets:2,1,58,60
+LEG R 1_back_v4
+bounds:503,45,37,80
+offsets:1,1,40,83
+LEG R 1_front_v4
+bounds:471,5,37,81
+offsets:1,1,40,84
+rotate:90
+LEG R 2_back_v4
+bounds:738,8,43,68
+offsets:1,1,45,71
+rotate:90
+LEG R 2_front_v4
+bounds:790,55,42,71
+offsets:1,3,44,75
+LEG R 3_back_v4
+bounds:611,7,55,44
+offsets:1,1,58,46
+LEG R 3_front_v4
+bounds:926,3,55,58
+offsets:1,1,58,60

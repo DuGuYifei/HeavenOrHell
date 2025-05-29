@@ -1,0 +1,59 @@
+monster_20.png
+size:1385,573
+filter:Linear,Linear
+pma:true
+scale:0.7
+3TONGUE
+bounds:1217,21,108,193
+BackBODY_A3
+bounds:2,25,298,204
+BackBODY_B3
+bounds:995,11,277,111
+rotate:90
+BackCASE 13
+bounds:753,2,277,124
+rotate:90
+BackCASE 23
+bounds:984,290,281,103
+rotate:90
+BackEYE_CLOSED3
+bounds:1223,349,128,71
+BackPAPER3
+bounds:1108,216,245,101
+FrontBODY_A3
+bounds:657,281,290,160
+rotate:90
+FrontBODY_B3
+bounds:302,3,285,237
+FrontCASE 13
+bounds:879,4,277,114
+offsets:1,1,279,116
+rotate:90
+FrontCASE 23
+bounds:819,283,288,163
+offsets:1,0,290,164
+rotate:90
+FrontEYE_CLOSED3
+bounds:1223,422,128,76
+FrontPAPER3
+bounds:1089,319,252,132
+rotate:90
+FrontTONGUE3
+bounds:1108,17,107,197
+PAPER
+bounds:589,6,265,162
+rotate:90
+SideBODY_A3
+bounds:367,245,326,173
+rotate:90
+SideBODY_B3
+bounds:2,231,340,228
+rotate:90
+SideCASE 13
+bounds:542,273,298,113
+rotate:90
+SideCASE 23
+bounds:232,242,329,133
+rotate:90
+SideEYE_CLOSED3
+bounds:1223,500,160,71

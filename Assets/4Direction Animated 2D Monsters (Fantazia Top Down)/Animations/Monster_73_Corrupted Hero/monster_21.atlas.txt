@@ -1,0 +1,184 @@
+monster_21.png
+size:397,767
+filter:Linear,Linear
+pma:true
+scale:0.7
+3ARM A1
+bounds:2,231,87,109
+offsets:1,0,88,109
+BackARM_L13
+bounds:2,231,87,109
+offsets:1,0,88,109
+FrontARM L13
+bounds:2,231,87,109
+offsets:1,0,88,109
+3ARM B1
+bounds:292,165,92,101
+offsets:0,0,93,102
+rotate:90
+3ARM B2
+bounds:344,109,47,54
+offsets:0,0,48,54
+FrontARM L23
+bounds:344,109,47,54
+offsets:0,0,48,54
+3BODY
+bounds:173,291,109,117
+offsets:12,1,121,123
+rotate:90
+3HAND B
+bounds:2,342,193,87
+offsets:0,2,193,92
+rotate:90
+3HEAD
+bounds:91,61,74,60
+offsets:0,4,74,65
+3HEAD EYES
+bounds:322,625,16,11
+offsets:1,0,17,11
+rotate:90
+3HEAD EYES CLOSED
+bounds:322,615,9,8
+offsets:1,0,10,8
+3HIP
+bounds:167,115,63,72
+rotate:90
+3HIP CLOTH
+bounds:338,2,37,60
+offsets:1,1,39,62
+FrontCLOTH3
+bounds:338,2,37,60
+offsets:1,1,39,62
+3LEG 1
+bounds:2,3,53,53
+offsets:0,0,55,57
+FrontLEG R13
+bounds:2,3,53,53
+offsets:0,0,55,57
+LEG_R1_back3
+bounds:2,3,53,53
+offsets:0,0,55,57
+3LEG 2
+bounds:285,9,43,50
+rotate:90
+FrontLEG R23
+bounds:285,9,43,50
+rotate:90
+LEG_R2_back3
+bounds:285,9,43,50
+rotate:90
+3LEG 3
+bounds:208,7,43,29
+rotate:90
+FrontLEG R33
+bounds:208,7,43,29
+rotate:90
+3SHIELD
+bounds:184,514,136,127
+offsets:1,1,139,129
+BODY CAPE
+bounds:241,94,84,46
+offsets:0,1,85,48
+rotate:90
+BackARM_L23
+bounds:240,35,43,57
+offsets:0,1,43,58
+BackARM_R13
+bounds:2,120,87,109
+offsets:0,0,88,109
+FrontARM R13
+bounds:2,120,87,109
+offsets:0,0,88,109
+BackARM_R23
+bounds:338,64,43,57
+offsets:0,1,43,58
+rotate:90
+BackBODY3
+bounds:173,180,109,117
+offsets:0,1,121,123
+rotate:90
+BackCAPE3
+bounds:292,259,88,108
+offsets:1,2,90,111
+BackHEAD3
+bounds:167,52,71,61
+offsets:1,4,72,66
+BackHIP3
+bounds:91,196,74,71
+offsets:0,1,74,73
+BackLEG L13
+bounds:289,110,53,53
+offsets:2,0,55,57
+FrontLEG L13
+bounds:289,110,53,53
+offsets:2,0,55,57
+BackLEG L23
+bounds:156,7,43,50
+rotate:90
+FrontLEG L23
+bounds:156,7,43,50
+rotate:90
+BackLEG L33
+bounds:292,424,41,28
+offsets:1,1,43,29
+rotate:90
+BackSHIELD3
+bounds:184,643,152,122
+offsets:1,0,153,123
+BackWEAPON3
+bounds:2,661,104,180
+offsets:1,0,105,181
+rotate:90
+BackWEAPONHammerHead2
+bounds:91,403,80,132
+offsets:0,1,80,133
+FrontARM R23
+bounds:289,54,47,54
+offsets:1,0,48,54
+FrontBODY3
+bounds:173,402,110,117
+offsets:0,1,110,118
+rotate:90
+FrontCAPE3
+bounds:75,11,79,48
+offsets:1,1,81,50
+FrontEYES_CLOSED3
+bounds:156,636,26,8
+offsets:0,0,27,8
+FrontHEAD GLOW1
+bounds:292,467,45,27
+offsets:3,3,51,34
+rotate:90
+FrontHEAD3
+bounds:2,58,71,60
+offsets:0,5,72,66
+FrontHIP3
+bounds:91,123,74,71
+offsets:0,1,74,73
+FrontLEG L33
+bounds:239,4,43,29
+FrontSHIELD GLOW1
+bounds:338,559,99,48
+offsets:2,3,104,53
+rotate:90
+FrontSHIELD3
+bounds:2,537,152,122
+offsets:0,0,153,123
+FrontWEAPON3
+bounds:322,369,72,188
+offsets:1,1,74,190
+FrontWEAPONHeadHammer2
+bounds:91,269,80,132
+offsets:0,1,80,133
+HEAD EYES ACC
+bounds:156,646,13,20
+offsets:2,2,17,23
+rotate:90
+LEG_R3_back3
+bounds:292,381,41,28
+offsets:1,1,43,29
+rotate:90
+SHIELD EYES
+bounds:338,660,105,54
+offsets:3,3,111,60
+rotate:90

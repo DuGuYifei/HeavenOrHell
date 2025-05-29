@@ -1,0 +1,66 @@
+monster_19.png
+size:1189,545
+filter:Linear,Linear
+pma:true
+scale:0.7
+2ARM 1
+bounds:721,376,125,167
+2ARM 2
+bounds:956,242,97,132
+2BODY
+bounds:596,38,174,153
+rotate:90
+2SCYTHE
+bounds:79,214,227,329
+offsets:0,1,309,331
+3ARM 1
+bounds:848,376,125,167
+3ARM 2
+bounds:1055,446,97,132
+rotate:90
+3DAGGER
+bounds:2,202,75,341
+offsets:1,1,76,342
+ARM 1
+bounds:906,54,125,167
+ARM 2
+bounds:1055,347,97,132
+rotate:90
+BackARML2
+bounds:721,263,111,92
+rotate:90
+BackARMR2
+bounds:1055,124,122,123
+rotate:90
+BackBODY2
+bounds:815,223,139,151
+BackHEAD2
+bounds:215,2,170,210
+BackWEAPON2
+bounds:308,214,165,329
+offsets:1,1,166,331
+FrontARML2
+bounds:1033,4,116,118
+FrontARMR2
+bounds:1055,248,97,132
+rotate:90
+FrontBODY2
+bounds:751,39,174,153
+rotate:90
+FrontEYES2
+bounds:642,215,119,45
+offsets:1,0,121,45
+FrontHEAD2
+bounds:2,21,179,211
+rotate:90
+FrontWEAPON2
+bounds:475,214,165,329
+offsets:0,1,166,331
+STAFF
+bounds:642,262,77,281
+offsets:0,1,78,283
+SideEYES2
+bounds:975,481,74,62
+offsets:1,0,75,62
+SideHEAD2
+bounds:387,3,207,209
