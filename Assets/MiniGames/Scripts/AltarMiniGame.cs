@@ -106,6 +106,7 @@ namespace MiniGames.Altar
             for (int i = 0; i < buttonSequenceLength; ++i)
             {
                 expectedbuttons[i] = Random.Range(0,4);
+                // expectedbuttons[i] = i % 4;
                 Debug.Log(i + " => " + expectedbuttons[i]);
             }
         }
@@ -114,29 +115,24 @@ namespace MiniGames.Altar
         {
             for (int i = 0; i < buttonSequenceLength; ++i)
             {
-                // instantiate the right object
                 switch (expectedbuttons[i]) {
                     case 0:
                     {
-                        Debug.Log("Place Up");
                         buttons[i] = Instantiate<GameObject>(arrowUp);
                         break;
                     }
                     case 1:
                     {
-                        Debug.Log("Place Right");
-                        buttons[i] = Instantiate<GameObject>(arrowDown);
+                        buttons[i] = Instantiate<GameObject>(arrowRight);
                         break;
                     }
                     case 2:
                     {
-                        Debug.Log("Place Down");
                         buttons[i] = Instantiate<GameObject>(arrowDown);
                         break;
                     }
                     case 3:
                     {
-                        Debug.Log("Place Left");
                         buttons[i] = Instantiate<GameObject>(arrowLeft);
                         break;
                     }
@@ -144,7 +140,6 @@ namespace MiniGames.Altar
                         Debug.LogError("Wrong Arrow id: " + expectedbuttons[i]);
                         return;
                 }
-                // place it relative to the altar on the map
                 buttons[i].transform.position = transform.position;
                 buttons[i].transform.position = new Vector2
                 (
