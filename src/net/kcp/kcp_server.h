@@ -247,14 +247,32 @@ public:
 
             for (int roomId : roomIds)
             {
-                // 创建状态消息 / Create state message
-                // message::SoulBasicMessage stateMsg;
-                // ... 填充状态数据 / ... fill state data ...
+                std::shared_ptr<Room> room = manager->getRoom(roomId);
+                if (!room)
+                    continue;
 
-                // 直接广播到房间 / Broadcast directly to room
-                // broadcastToRoom(roomId, stateMsg);
+                // 获取房间内所有玩家 / Get all players in room
+                std::vector<int> all_players = room->getAllPlayerIds();
 
-                // TODO: 实现具体的状态广播逻辑 / TODO: Implement specific state broadcast logic
+                // 为每个玩家广播SoulBasicMessage，跳过自己 / Broadcast each player's SoulBasicMessage, skip themselves
+                for (int player_id : all_players)
+                {
+                    // 创建该玩家的状态消息 / Create state message for this player
+                    message::SoulBasicMessage stateMsg;
+                    stateMsg.set_player_id(player_id);
+                    // TODO: 填充玩家的实际位置和状态数据 / Fill player's actual position and state data
+                    stateMsg.set_position_x(0.0f); // 示例数据 / Example data
+                    stateMsg.set_position_y(0.0f); // 示例数据 / Example data
+                    stateMsg.set_hp(100.0f);       // 示例数据 / Example data
+                    stateMsg.set_max_hp(100.0f);   // 示例数据 / Example data
+
+                    // 广播给房间内其他玩家，跳过自己 / Broadcast to other players in room, skip self
+                    message::MessageWrapper wrapper;
+                    wrapper.mutable_soul_basic_message()->CopyFrom(stateMsg);
+                    broadcastToRoom(roomId, wrapper, {player_id});
+                }
+
+                // TODO: 广播其他消息 / broadcast other messages
             }
 
             lastBroadcast = now;
@@ -270,7 +288,7 @@ public:
         // - 道具生成 / - Item generation
         // - AI逻辑等 / - AI logic, etc.
 
-        // TODO: 实现具体的游戏逻辑 / TODO: Implement specific game logic
+        // TODO: 实现具体的游戏逻辑 / Implement specific game logic
     }
 
 private:
@@ -427,7 +445,7 @@ private:
             {
                 message::Character *character = roomMsg.add_characters();
                 character->set_player_id(pid);
-                // TODO: 未来需要创建map同时有player_id和character_type，以直接获取，保证所有人character_type唯一 / TODO: Need to create map with both player_id and character_type for direct access, ensure unique character_type for everyone
+                // TODO: 未来需要创建map同时有player_id和character_type，以直接获取，保证所有人character_type唯一 / Need to create map with both player_id and character_type for direct access, ensure unique character_type for everyone
                 character->set_character_type(getRandomCharacterType());
             }
 
