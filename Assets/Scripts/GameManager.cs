@@ -4,6 +4,7 @@ using DefaultNamespace;
 using Message;
 using network;
 using Player;
+using Unity.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -15,11 +16,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ReaperContainer reaperContainerPrefab;
     [SerializeField] private KcpNetwork kcpNetwork;
     [SerializeField] private Transform characterParent;
+
+    private Dictionary<int, CharacterContainer> _idToCharContainer = new Dictionary<int, CharacterContainer>();
+    private int _playerId;
     
 
     private void Start()
     {
         KcpRecvMessageParser.Instance.onRoomMessageReceived.AddListener(OnRoomMessageReceived);
+        
     }
 
     private void OnRoomMessageReceived(RoomMessage roomMessage)
@@ -53,7 +58,12 @@ public class GameManager : MonoBehaviour
             if (kcpNetwork.playerId == character.PlayerId)
             {
                 // instantiate player container, add as child of character parent
+                _playerId = character.PlayerId;
                 var playerContainer = Instantiate(playerContainerPrefab, Consts.PlayerPrefabPosition, Quaternion.identity, charContainer.transform);
+            }
+            else
+            {
+                _idToCharContainer[character.PlayerId] = charContainer;
             }
         }
         
