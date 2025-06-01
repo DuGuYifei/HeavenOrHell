@@ -31,6 +31,7 @@ public:
     uint32_t conv;
     ikcpcb *kcp = nullptr;
     sockaddr_in peerAddr;
+    std::mutex kcp_mutex;
 
     KcpSession(uint32_t _conv, const sockaddr_in &addr, int udpFd)
         : conv(_conv), peerAddr(addr)
@@ -111,6 +112,7 @@ public:
     {
         std::string data;
         msg.SerializeToString(&data);
+        std::lock_guard<std::mutex> lock(kcp_mutex);
         ikcp_send(kcp, data.data(), data.size());
     }
 
