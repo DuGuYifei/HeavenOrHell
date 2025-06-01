@@ -1,10 +1,12 @@
 
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using MapGeneration;
+using Message;
+using network;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
@@ -27,10 +29,22 @@ namespace MapGeneration
         public static char TREASURE = '$';
         public static char REAPER = 'R';
 
-        public void ParseMap()
+        private void Start()
         {
+            KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
+        }
+        
+        private void ParseMessage(StringMessage msg)
+        {
+            ParseMap(msg.MessageContent);
+        }
+
+        public void ParseMap(string msg)
+        {
+            
             //open sample_map.txt
-            var lines = File.ReadAllText("Assets/Scripts/sample_map.txt");
+            // var lines = 
+            var lines = msg;
             var width = 31;
             var height = 31;
             var decodedLines = DecompressRle(lines, height, width).Split('\n');
@@ -135,7 +149,7 @@ public class MapParserEditor : Editor
 
         var mapParser = (MapParser)target;
 
-        if (GUILayout.Button("Parse Map")) mapParser.ParseMap();
+        if (GUILayout.Button("Parse Map")) mapParser.ParseMap(File.ReadAllText("Assets/Scripts/sample_map.txt"));
     }
 }
 #endif

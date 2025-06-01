@@ -17,7 +17,8 @@ namespace Player
         {
             var actionMap = playerActionAsset.FindActionMap("Player", true);
             _moveAction = actionMap.FindAction("Move", true);
-            _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+            _rigidbody2D = transform.parent.GetComponent<Rigidbody2D>();
+            transform.parent.GetComponent<Collider2D>().enabled = true;
         }
 
         private void FixedUpdate()

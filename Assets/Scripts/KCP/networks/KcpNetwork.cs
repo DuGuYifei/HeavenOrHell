@@ -5,6 +5,8 @@ using Google.Protobuf;
 using Message;
 using KcpProject;
 using System;
+using Google.Protobuf.Collections;
+using UnityEngine.Events;
 
 namespace AntMill.Liu.Scripts.networks
 {
@@ -14,6 +16,8 @@ namespace AntMill.Liu.Scripts.networks
         private string serverIp = "172.28.183.56";
 
         [SerializeField] private int serverPort = 8888;
+        public KcpRecvMessageEvent onRecvMessage;
+        
         private bool _startConnect = false;
         public int roomId = 0; // 0 to create new room, otherwise join existing
         public int playerId = 0;
@@ -172,7 +176,7 @@ namespace AntMill.Liu.Scripts.networks
                     {
                         // Try to parse received data as a MessageWrapper
                         MessageWrapper wrapper = MessageWrapper.Parser.ParseFrom(buffer);
-                        HandleMessageWrapper(wrapper);
+                        onRecvMessage?.Invoke(wrapper);
                     }
                     catch (Exception e)
                     {
@@ -181,75 +185,29 @@ namespace AntMill.Liu.Scripts.networks
                 }
             }
         }
-        
-        private void HandleMessageWrapper(MessageWrapper wrapper)
+
+        public void JoinRoom(int messageRoomId, int messagePlayerId, bool isJoin, RepeatedField<Message.Character> characters)
         {
-            switch (wrapper.PayloadCase)
+            if (isJoin)
             {
-                case MessageWrapper.PayloadOneofCase.RoomMessage:
-                    var roomMsg = wrapper.RoomMessage;
-                    Debug.Log($"[Server→Client] RoomMessage: room_id={roomMsg.RoomId}, player_id={roomMsg.PlayerId}, is_join={roomMsg.IsJoin}");
-                    
-                    if (roomMsg.IsJoin)
-                    {
-                        _roomJoined = true;
-                        playerId = roomMsg.PlayerId;
-                        roomId = roomMsg.RoomId;
-                        
-                        Debug.Log($"Successfully joined room {roomId} as player {playerId}");
-                        
-                        // Print other players in the room
-                        foreach (var character in roomMsg.Characters)
-                        {
-                            Debug.Log($"Player {character.PlayerId} is a {character.CharacterType}");
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Failed to join room {roomId}");
-                    }
-                    break;
-                    
-                case MessageWrapper.PayloadOneofCase.StringMessage:
-                    var stringMsg = wrapper.StringMessage;
-                    Debug.Log($"[Server→Client] StringMessage type={stringMsg.MessageType}");
-                    
-                    if (stringMsg.MessageType == (int)StringMessageType.MazeMap)
-                    {
-                        Debug.Log($"[Server→Client] MazeMap: {stringMsg.MessageContent}");
-                    }
-                    break;
-                    
-                case MessageWrapper.PayloadOneofCase.SoulBasicMessage:
-                    var soulMsg = wrapper.SoulBasicMessage;
-                    Debug.Log($"[Server→Client] SoulBasicMessage: player_id={soulMsg.PlayerId}, pos=({soulMsg.PositionX},{soulMsg.PositionY}), hp={soulMsg.Hp}/{soulMsg.MaxHp}");
-                    break;
-                    
-                case MessageWrapper.PayloadOneofCase.ReaperAttackMessage:
-                    var attackMsg = wrapper.ReaperAttackMessage;
-                    Debug.Log($"[Server→Client] ReaperAttackMessage: soul_player_id={attackMsg.SoulPlayerId}, skill_id={attackMsg.SkillId}");
-                    break;
-                    
-                case MessageWrapper.PayloadOneofCase.PropTryGetMessage:
-                    var propTryMsg = wrapper.PropTryGetMessage;
-                    Debug.Log($"[Server→Client] PropTryGetMessage: player_id={propTryMsg.PlayerId}, prop_id={propTryMsg.PropId}, prop_type={propTryMsg.PropType}");
-                    break;
-                    
-                case MessageWrapper.PayloadOneofCase.PropGetMessage:
-                    var propGetMsg = wrapper.PropGetMessage;
-                    Debug.Log($"[Server→Client] PropGetMessage: player_id={propGetMsg.PlayerId}, prop_id={propGetMsg.PropId}, is_get={propGetMsg.IsGet}");
-                    break;
-                    
-                case MessageWrapper.PayloadOneofCase.ReaperAttackResultMessage:
-                    var attackResultMsg = wrapper.ReaperAttackResultMessage;
-                    Debug.Log($"[Server→Client] ReaperAttackResultMessage: soul_player_id={attackResultMsg.SoulPlayerId}, is_hit={attackResultMsg.IsHit}");
-                    break;
-                    
-                default:
-                    Debug.Log($"[Server→Client] Unknown message type: {wrapper.PayloadCase}");
-                    break;
+                _roomJoined = true;
+                playerId = messagePlayerId;
+                roomId = messageRoomId;
+
+                Debug.Log($"Successfully joined room {roomId} as player {playerId}");
+
+                // Print other players in the room
+                foreach (var character in characters)
+                {
+                    Debug.Log($"Player {character.PlayerId} is a {character.CharacterType}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to join room {roomId}");
             }
         }
+        
 
         private void SendHelloMessage()
         {
@@ -346,5 +304,11 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogError($"Error sending message: {ret}");
             }
         }
+    }
+
+    [Serializable]
+    public class KcpRecvMessageEvent : UnityEvent<MessageWrapper>
+    {
+        
     }
 }
