@@ -16,6 +16,8 @@
 #include <random>
 #include <mutex>
 #include <algorithm>
+#include <thread>
+#include <atomic>
 #include "ikcp.h"
 #include "message/gen/message.pb.h" // Protobuf生成的头 / Protobuf generated headers
 #include "room/room_manager.h"      // Room管理系统 / Room management system
@@ -128,7 +130,7 @@ class KcpServer
 {
 public:
     KcpServer(uint16_t port)
-        : listenPort(port), random_engine(std::random_device{}()), prev_conv(1000)
+        : listenPort(port), random_engine(std::random_device{}()), prev_conv(1000), running(false)
     {
         initSocket();
         initEpoll();
@@ -136,6 +138,11 @@ public:
 
     ~KcpServer()
     {
+        running = false;
+        if (networkThread.joinable())
+            networkThread.join();
+        if (gameThread.joinable())
+            gameThread.join();
         close(epollFd);
         close(udpFd);
     }
@@ -143,51 +150,15 @@ public:
     // 启动主循环（阻塞） / Start main loop (blocking)
     void run()
     {
-        const int MAX_EVENTS = 10;
-        epoll_event events[MAX_EVENTS];
+        running = true;
 
-        uint32_t lastGameTick = currentMs();
-        const uint32_t GAME_TICK_INTERVAL = 16; // 60fps
+        // 启动两个线程 / Start two threads
+        networkThread = std::thread(&KcpServer::networkThreadFunc, this);
+        gameThread = std::thread(&KcpServer::gameThreadFunc, this);
 
-        while (true)
-        {
-            uint32_t now = currentMs();
-
-            // 计算到下一次游戏tick的时间 / Calculate time until next game tick
-            uint32_t nextGameTick = lastGameTick + GAME_TICK_INTERVAL;
-            uint32_t gameTickTimeout = (now < nextGameTick) ? (nextGameTick - now) : 0;
-
-            // 取KCP和游戏tick的最小timeout / Take minimum timeout between KCP and game tick
-            int kcpTimeout = calcNextTimeout();
-            int timeoutMs = std::min(kcpTimeout, (int)gameTickTimeout);
-
-            int nfds = epoll_wait(epollFd, events, MAX_EVENTS, timeoutMs);
-            now = currentMs();
-
-            // 1. Handle UDP packet reception
-            for (int i = 0; i < nfds; ++i)
-            {
-                if (events[i].data.fd == udpFd)
-                {
-                    handleUdpRead();
-                }
-            }
-
-            // 2. Update all KCP sessions
-            for (auto &kv : sessions)
-            {
-                kv.second->update(now);
-                // Read complete messages from kcp
-                kv.second->recvAll(onClientMessage);
-            }
-
-            // 3. Game logic tick (60fps)
-            if (now >= nextGameTick)
-            {
-                gameLogicTick(now);
-                lastGameTick = now;
-            }
-        }
+        // 等待线程结束 / Wait for threads to finish
+        networkThread.join();
+        gameThread.join();
     }
 
     // 用户注册回调：收到客户端消息 / User register callback: receive client message
@@ -593,4 +564,63 @@ private:
                    steady_clock::now().time_since_epoch())
             .count();
     }
+
+    // 网络处理线程 / Network handling thread
+    void networkThreadFunc()
+    {
+        const int MAX_EVENTS = 10;
+        epoll_event events[MAX_EVENTS];
+
+        while (running)
+        {
+            // 计算距离下一次kcp更新的最小超时时间 / Calculate minimum timeout until next kcp update
+            int timeoutMs = calcNextTimeout();
+
+            int nfds = epoll_wait(epollFd, events, MAX_EVENTS, timeoutMs);
+            uint32_t now = currentMs();
+
+            // 1. Handle UDP packet reception
+            for (int i = 0; i < nfds; ++i)
+            {
+                if (events[i].data.fd == udpFd)
+                {
+                    handleUdpRead();
+                }
+            }
+
+            // 2. Update all KCP sessions
+            for (auto &kv : sessions)
+            {
+                kv.second->update(now);
+                // Read complete messages from kcp
+                kv.second->recvAll(onClientMessage);
+            }
+        }
+    }
+
+    // 游戏逻辑线程 / Game logic thread
+    void gameThreadFunc()
+    {
+        uint32_t lastGameTick = currentMs();
+        const uint32_t GAME_TICK_INTERVAL = 16; // 60fps
+
+        while (running)
+        {
+            uint32_t now = currentMs();
+
+            // 3. Game logic tick (60fps)
+            if (now >= lastGameTick + GAME_TICK_INTERVAL)
+            {
+                gameLogicTick(now);
+                lastGameTick = now;
+            }
+
+            // 短暂休眠避免空转 / Short sleep to avoid busy waiting
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+    }
+
+    std::thread networkThread;
+    std::thread gameThread;
+    std::atomic<bool> running;
 };
