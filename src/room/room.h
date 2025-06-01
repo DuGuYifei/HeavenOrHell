@@ -6,6 +6,7 @@
 #include <memory>
 #include <atomic>
 #include "map/maze_map.h"
+#include "game/game.h"
 
 class Room {
 private:
@@ -14,6 +15,7 @@ private:
     std::atomic<int> next_player_id_;    // Next player ID (starts from 0)
     std::unordered_map<int, int> players_; // Map of player_id to conv (connection id)
     MazeMap maze_map = MazeMap(31, 31);
+    Game game_; // Game instance for this room
     
 public:
     explicit Room(int room_id);

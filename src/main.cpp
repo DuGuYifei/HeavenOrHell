@@ -1,6 +1,7 @@
 #include "net/kcp/kcp_server.h"
 #include "map/maze_map.h"
 
+
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -26,6 +27,7 @@ int main()
         }
         else if (desc == message::SoulBasicMessage::descriptor()) {
             printf("[conv=%u] Soul basic message received\n", conv);
+            const auto* soul_msg = static_cast<const message::SoulBasicMessage*>(&msg);
         }
         else {
             printf("[conv=%u] Unknown message type: %s\n", conv, desc->name().c_str());

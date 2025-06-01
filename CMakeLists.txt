@@ -14,6 +14,7 @@ file(GLOB PROTO_HEADERS "src/message/gen/*.h")
 # Server executable
 add_executable(${PROJECT_NAME}
     src/main.cpp
+    src/game/game.cpp
     src/net/kcp/ikcp.c
     src/map/maze_map.cpp
     src/room/room.cpp
