@@ -255,6 +255,7 @@ public:
                 std::vector<int> all_players = room->getAllPlayerIds();
 
                 // 为每个玩家广播SoulBasicMessage，跳过自己 / Broadcast each player's SoulBasicMessage, skip themselves
+                // TODO: skip reaper
                 for (int player_id : all_players)
                 {
                     // 创建该玩家的状态消息 / Create state message for this player
@@ -641,4 +642,5 @@ private:
     std::thread networkThread;
     std::thread gameThread;
     std::atomic<bool> running;
+    // TODO: Add game logic running bool, because we have waiting room later.
 };
