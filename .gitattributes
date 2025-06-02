@@ -1,0 +1,17 @@
+﻿# Set all text files to use LF
+* text=auto
+
+# Override for known text/code files to always use LF
+*.cs      text eol=lf
+*.shader  text eol=lf
+*.cginc   text eol=lf
+*.hlsl    text eol=lf
+*.txt     text eol=lf
+*.json    text eol=lf
+*.xml     text eol=lf
+*.asmdef  text eol=lf
+*.md      text eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.mat     text eol=lf
+*.asset   text eol=lf
