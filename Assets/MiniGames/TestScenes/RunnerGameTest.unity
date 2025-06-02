@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RunnerController
       objectReference: {fileID: 0}
+    - target: {fileID: 6787556920507902487, guid: 1add19a08d6383b469d21d9c16d59f67, type: 3}
+      propertyPath: ForwardSpeed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6921101895961614814, guid: 1add19a08d6383b469d21d9c16d59f67, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
