@@ -31,7 +31,7 @@ namespace MapGeneration
 
         private void Start()
         {
-            KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
+            if (KcpRecvMessageParser.Instance) KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
         }
         
         private void ParseMessage(StringMessage msg)

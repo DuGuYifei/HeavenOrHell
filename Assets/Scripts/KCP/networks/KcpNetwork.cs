@@ -49,7 +49,7 @@ namespace AntMill.Liu.Scripts.networks
             // Send Hello message if not connected
             if (!_connected)
             {
-                Debug.Log($"Waiting for connection to server {serverIp}:{serverPort}");
+                // Debug.Log($"Waiting for connection to server {serverIp}:{serverPort}");
                 if (_startConnect && Time.time - _lastHelloTime > HelloIntervalTime)
                 {
                     Debug.Log($"Sending HelloMessage to server {serverIp}:{serverPort}");
