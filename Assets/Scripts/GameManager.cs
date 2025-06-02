@@ -9,13 +9,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private KcpNetwork kcpNetwork;
+    [SerializeField] private Transform characterParent;
+    
+    [Header("Character Prefabs")]
     [SerializeField] private SoulContainer dogContainerPrefab;
     [SerializeField] private SoulContainer psyContainerPrefab;
     [SerializeField] private SoulContainer detectiveContainerPrefab;
     [SerializeField] private PlayerContainer playerContainerPrefab;
     [SerializeField] private ReaperContainer reaperContainerPrefab;
-    [SerializeField] private KcpNetwork kcpNetwork;
-    [SerializeField] private Transform characterParent;
+
 
     private Dictionary<int, CharacterContainer> _idToCharContainer = new Dictionary<int, CharacterContainer>();
     private int _playerId;
