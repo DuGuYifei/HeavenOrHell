@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,10 +29,12 @@ namespace MapGeneration
         public static char SPAWN = 'S';
         public static char TREASURE = '$';
         public static char REAPER = 'R';
+        
+        
 
         private void Start()
         {
-            KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
+            if (KcpRecvMessageParser.Instance) KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
         }
         
         private void ParseMessage(StringMessage msg)
@@ -48,7 +51,6 @@ namespace MapGeneration
             var width = 31;
             var height = 31;
             var decodedLines = DecompressRle(lines, height, width).Split('\n');
-            print(decodedLines);
            
             //create a new tilemap with the given width and height
             wallTilemap.ClearAllTiles();
@@ -56,13 +58,16 @@ namespace MapGeneration
             //tilemap is three times the size of the map
             var map = new char[3 * width][];
             for (var index = 0; index < 3 * width; index++) map[index] = new char[3 * height];
-
+            var spawnPoints = new List<Vector2>();
             for (var y = 0; y < height; y++)
             {
                 var linesArray = decodedLines[y];
-                print(linesArray.Length);
                 for (var x = 0; x < width; x++)
                 {
+                    if (linesArray[x] == SPAWN)
+                    {
+                        spawnPoints.Add(new Vector2(x, y));
+                    }
                     // if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                     // {
                     //     map[3 *x][3 * y] = 1;
@@ -105,6 +110,7 @@ namespace MapGeneration
             
                 // else
                 //     print(map[x][y]);
+            GameManager.Instance.SetSpawnPositions(spawnPoints, 3);
         }
 
 

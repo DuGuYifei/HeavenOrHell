@@ -7,15 +7,21 @@ public class PlayerCameraController : MonoBehaviour
 
     private Transform _cameraTransform;
     private Transform _playerTransform;
+    private bool _foundPlayerTransform;
 
     private void Start()
     {
-        _cameraTransform = playerCamera.transform;
-        _playerTransform = PlayerContainer.Instance.transform;
     }
 
     private void Update()
     {
+        if (!GameManager.Instance || GameManager.Instance.State == GameManager.GameState.BeforeMap) return;
+        if (!_foundPlayerTransform)
+        {
+            _cameraTransform = playerCamera.transform;
+            _playerTransform = PlayerContainer.Instance.transform;
+            _foundPlayerTransform = true;
+        }
         var cameraPosition = _cameraTransform.position;
         var playerPosition = _playerTransform.position;
         cameraPosition.x = playerPosition.x;

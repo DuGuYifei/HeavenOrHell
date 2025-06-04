@@ -13,15 +13,18 @@ namespace network
         
         private PlayerContainer _playerContainer;
         private Transform _playerTransform;
-
-        private void Start()
-        {
-            _playerContainer = PlayerContainer.Instance;
-            _playerTransform = _playerContainer.transform;
-        }
+        private bool _foundPlayerTransform;
 
         private void Update()
         {
+            if (!GameManager.Instance || GameManager.Instance.State == GameManager.GameState.BeforeMap) return;
+            
+            if (!_foundPlayerTransform)
+            {
+                _playerContainer = PlayerContainer.Instance;
+                _playerTransform = _playerContainer.transform;
+                _foundPlayerTransform = true;
+            }
             var pos = _playerTransform.position;
             kcp.SendSoulBasicMessage(pos.x, pos.y, _playerContainer.hp, _playerContainer.maxHp);
         }

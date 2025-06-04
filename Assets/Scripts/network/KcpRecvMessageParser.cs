@@ -57,7 +57,7 @@ namespace network
                     
                     if (stringMsg.MessageType == (int)StringMessageType.MazeMap)
                     {
-                        // Debug.Log($"[Server→Client] MazeMap: {stringMsg.MessageContent}");
+                        Debug.Log($"[Server→Client] MazeMap: {stringMsg.MessageContent}");
                         onMapReceived?.Invoke(stringMsg);
                     }
                     break;

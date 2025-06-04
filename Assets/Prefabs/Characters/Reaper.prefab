@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5784511134699703318}
   - component: {fileID: 4114483561293426436}
   m_Layer: 0
-  m_Name: CharacterContainer
+  m_Name: Reaper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8773487927099523897}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.74, y: 2.92, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -110,7 +110,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 1.58}
+  m_Offset: {x: 0.07, y: 0.18}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -120,7 +120,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 2.25, y: 1.98}
+  m_Size: {x: 1.41, y: 1.62}
   m_EdgeRadius: 0
 --- !u!1001 &8685338405464445917
 PrefabInstance:
@@ -140,15 +140,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6738665567832243338, guid: 7577086e2b46cb94cb9b8f1fa9ae4326, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6738665567832243338, guid: 7577086e2b46cb94cb9b8f1fa9ae4326, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6738665567832243338, guid: 7577086e2b46cb94cb9b8f1fa9ae4326, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6738665567832243338, guid: 7577086e2b46cb94cb9b8f1fa9ae4326, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.78
       objectReference: {fileID: 0}
     - target: {fileID: 6738665567832243338, guid: 7577086e2b46cb94cb9b8f1fa9ae4326, type: 3}
       propertyPath: m_LocalRotation.w
