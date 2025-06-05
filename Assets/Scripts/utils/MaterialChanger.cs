@@ -1,4 +1,6 @@
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class MaterialChanger : MonoBehaviour
@@ -14,7 +16,7 @@ public class MaterialChanger : MonoBehaviour
     }
 }
 
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(MaterialChanger))]
 public class MaterialChangerEditor : Editor
 {
@@ -26,3 +28,4 @@ public class MaterialChangerEditor : Editor
         if (GUILayout.Button("Change Material")) materialChanger.ChangeMaterial();
     }
 }
+#endif

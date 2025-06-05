@@ -1593,6 +1593,14 @@
             "Path": "Addons/Legacy/0_Unit/0_Sprite/3_Pant/Foot_4"
         },
         {
+            "Name": "Helmet_Detective",
+            "UnitType": "Unit",
+            "PartType": "Helmet",
+            "SubType": "Helmet_Detective",
+            "PartSubType": "",
+            "Path": "Addons/Legacy/0_Unit/0_Sprite/4_Helmet/ii"
+        },
+        {
             "Name": "F_SR_Helmet",
             "UnitType": "Unit",
             "PartType": "Helmet",

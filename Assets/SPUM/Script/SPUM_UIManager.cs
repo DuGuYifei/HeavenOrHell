@@ -85,9 +85,7 @@ public class SPUM_UIManager : MonoBehaviour
     public void OnStringValueChanged(string value)
     {
         Color color;
-        print(value);
         var didParse = ColorUtility.TryParseHtmlString("#" + value, out color);
-        print(didParse);
         if (!didParse) return;
         nowColor = color;
         _nowColorShow.color = color;
