@@ -34,7 +34,7 @@ void KcpServer::run()
     gameThread.join();
 }
 
-void KcpServer::sendTo(uint32_t conv, const google::protobuf::Message &msg)
+void KcpServer::sendTo(const uint32_t conv, const google::protobuf::Message &msg)
 {
     auto it = sessions.find(conv);
     if (it != sessions.end())
@@ -344,7 +344,7 @@ void KcpServer::networkThreadFunc()
 void KcpServer::gameThreadFunc()
 {
     uint32_t lastGameTick = currentMs();
-    const uint32_t GAME_TICK_INTERVAL = 16;
+    constexpr uint32_t GAME_TICK_INTERVAL = 16;
     while (running)
     {
         uint32_t now = currentMs();

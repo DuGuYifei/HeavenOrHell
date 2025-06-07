@@ -16,6 +16,14 @@ int Room::getNextPlayerId() {
     return next_player_id_++;
 }
 
+void Room::setStartGame(const bool value) {
+    start_game_ = value;
+}
+
+bool Room::getStartGame() const {
+    return start_game_;
+}
+
 bool Room::addPlayer(int player_id, int conv) {
     std::lock_guard<std::mutex> lock(player_mutex_);
     

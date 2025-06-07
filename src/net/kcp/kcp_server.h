@@ -84,5 +84,4 @@ private:
     std::thread networkThread;
     std::thread gameThread;
     std::atomic<bool> running;
-    // TODO: Add game logic running bool, because we have waiting room later.
 };
