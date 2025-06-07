@@ -39,6 +39,9 @@ add_executable(kcp_client
     src/net/kcp/kcp_client.cpp
     src/net/kcp/ikcp.c
     ${PROTO_SOURCES}
+        src/net/kcp/kcp_session.cpp
+        src/net/kcp/kcp_session.h
+        src/net/kcp/kcp_server.cpp
 )
 
 target_include_directories(kcp_client PRIVATE

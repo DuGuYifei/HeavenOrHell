@@ -5,11 +5,9 @@
 #include <random>
 #include <algorithm>
 #include <string>
-#include <set>
 #include <functional>
 #include <sstream>
 #include <climits>
-#include <fstream>
 
 #define WALL '#'
 #define FLOOR '.'

@@ -1,5 +1,7 @@
 #include "room_manager.h"
 
+#include <ranges>
+
 // Initialize static members
 RoomManager* RoomManager::instance_ = nullptr;
 std::mutex RoomManager::instance_mutex_;
@@ -11,9 +13,7 @@ RoomManager* RoomManager::getInstance() {
     // Double-checked locking pattern for thread safety
     if (instance_ == nullptr) {
         std::lock_guard<std::mutex> lock(instance_mutex_);
-        if (instance_ == nullptr) {
-            instance_ = new RoomManager();
-        }
+        instance_ = new RoomManager();
     }
     return instance_;
 }
@@ -53,9 +53,9 @@ bool RoomManager::deleteRoom(int room_id) {
     return true;
 }
 
-bool RoomManager::hasRoom(int room_id) const {
+bool RoomManager::hasRoom(const int room_id) const {
     std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(rooms_mutex_));
-    return rooms_.find(room_id) != rooms_.end();
+    return rooms_.contains(room_id);
 }
 
 std::vector<int> RoomManager::getAllRoomIds() const {
@@ -64,8 +64,8 @@ std::vector<int> RoomManager::getAllRoomIds() const {
     std::vector<int> room_ids;
     room_ids.reserve(rooms_.size());
     
-    for (const auto& pair : rooms_) {
-        room_ids.push_back(pair.first);
+    for (const auto &room_id: rooms_ | std::views::keys) {
+        room_ids.push_back(room_id);
     }
     
     return room_ids;

@@ -3,9 +3,6 @@
 #include <vector>
 #include <string>
 #include <random>
-#include <functional>
-#include <array>
-#include <set>
 
 #define WALL '#'
 #define FLOOR '.'

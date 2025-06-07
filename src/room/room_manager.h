@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <memory>
 #include <atomic>
-#include <stdexcept>
 #include "room/room.h"
 
 class RoomManager {
