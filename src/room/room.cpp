@@ -1,4 +1,5 @@
 #include "room/room.h"
+#include <stdexcept> // For std::runtime_error in getPlayer
 
 Room::Room(int room_id) : room_id_(room_id), next_player_id_(0) {
     maze_map.generate();
@@ -17,11 +18,12 @@ bool Room::addPlayer(int player_id, int conv) {
     std::lock_guard<std::mutex> lock(player_mutex_);
     
     // Check if player already exists
-    if (players_.find(player_id) != players_.end()) {
+    if (players_.count(player_id)) { // .count is fine for checking existence
         return false;
     }
     
-    players_[player_id] = conv;
+    // Create Player object using std::make_unique and emplace it
+    players_.emplace(player_id, std::make_unique<Player>(conv)); 
     return true;
 }
 
@@ -52,14 +54,14 @@ MazeMap Room::getMazeMap() {
 }
 
 int Room::getPlayerConv(int player_id) const {
-    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(player_mutex_));
+    std::lock_guard<std::mutex> lock(player_mutex_); 
     
     auto it = players_.find(player_id);
     if (it == players_.end()) {
         return -1;  // Return -1 for invalid player
     }
     
-    return it->second;
+    return it->second->conv_id; // Access conv_id via unique_ptr
 }
 
 std::vector<int> Room::getAllPlayerIds() const {
@@ -73,4 +75,22 @@ std::vector<int> Room::getAllPlayerIds() const {
     }
     
     return player_ids;
-} 
+}
+
+Player& Room::getPlayer(int player_id) {
+    std::lock_guard<std::mutex> lock(player_mutex_);
+    auto it = players_.find(player_id);
+    if (it == players_.end()) {
+        throw std::runtime_error("Player not found in getPlayer (non-const)");
+    }
+    return *(it->second); // Dereference unique_ptr to get Player&
+}
+
+const Player& Room::getPlayer(int player_id) const {
+    std::lock_guard<std::mutex> lock(player_mutex_); 
+    auto it = players_.find(player_id);
+    if (it == players_.end()) {
+        throw std::runtime_error("Player not found in getPlayer (const)");
+    }
+    return *(it->second); // Dereference unique_ptr to get const Player&
+}
