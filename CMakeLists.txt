@@ -19,6 +19,7 @@ add_executable(${PROJECT_NAME}
     src/room/room.cpp
     src/room/room_manager.cpp
     ${PROTO_SOURCES}
+        src/net/event/event_system.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
