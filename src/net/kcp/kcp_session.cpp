@@ -43,9 +43,9 @@ void KcpSession::recvAll() const {
             continue;
 
         // 解析Protobuf消息 / Parse Protobuf message
-        if (auto wrapper = std::make_unique<google::protobuf::Message>(); wrapper->ParseFromArray(buf.data(), n))
+        if (auto msg = std::make_unique<google::protobuf::Message>(); msg->ParseFromArray(buf.data(), n))
         {
-            room->client_message_queue_.enqueue(ClientMessageEvent(conv, roomId, playerId, std::move(wrapper)));
+            room->client_message_queue_.enqueue(ClientMessageEvent(conv, roomId, playerId, std::move(msg)));
         }
     }
 }

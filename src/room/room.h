@@ -60,4 +60,7 @@ public:
     
     // Get all player IDs in the room
     std::vector<int> getAllPlayerIds() const;
+
+    // Check if the game can start based on player readiness and roles
+    bool canStartGame() const;
 };

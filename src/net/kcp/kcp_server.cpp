@@ -56,6 +56,8 @@ void KcpServer::updateAllRooms(const uint32_t now)
     {
         if (const std::shared_ptr<Room> room = room_manager->getRoom(roomId))
         {
+            if (!room)
+                continue;
             if (!room->getStartGame())
                 updateLobbyLogic(room);
             else
@@ -87,7 +89,7 @@ void KcpServer::iterateBroadcastAllRooms(const uint32_t now)
             broadcastToRoom(roomId, wrapper, {player_id}, true);
         }
 
-        // TODO: other messages
+        // TODO: other messages to broadcast each frame
     }
 }
 
@@ -115,12 +117,71 @@ void KcpServer::broadcastToRoom(const int room_id, const google::protobuf::Messa
 
 void KcpServer::updateLobbyLogic(std::shared_ptr<Room> room)
 {
-    // TODO: 实现具体的游戏逻辑
+    // Process messages from the room's queue
+    ClientMessageEvent event;
+    while (room->client_message_queue_.try_dequeue(event)) // Assuming popMessage returns true if a message was popped
+    {
+        if (!event.message) {
+            continue; // Skip if message is null
+        }
+
+        // Attempt to cast the generic protobuf message to MessageWrapper
+        const message::MessageWrapper* wrapper_ptr = dynamic_cast<const message::MessageWrapper*>(event.message.get());
+
+        if (!wrapper_ptr) {
+            printf("Failed to cast message to MessageWrapper in updateLobbyLogic for room %d\n", room->getRoomId());
+            continue; // Skip if cast fails
+        }
+        
+        const message::MessageWrapper& wrapper = *wrapper_ptr;
+        const int player_id = event.player_id;
+
+        switch (wrapper.payload_case()) {
+            case message::MessageWrapper::kLobbyMessage: {
+                const message::LobbyMessage& lobbyMsg = wrapper.lobby_message();
+                if (room->hasPlayer(player_id)){
+                    Player& player = room->getPlayer(player_id);
+                    player.character_type = lobbyMsg.character_type();
+                    player.is_ready = lobbyMsg.is_ready();
+
+                    printf("Player %d in room %d updated via queue: char_type=%d, is_ready=%s\n", player_id, room->getRoomId(), static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
+
+                    // Broadcast the LobbyMessage to other players in the room
+                    // The original wrapper already contains the LobbyMessage with the correct player_id from the sender
+                    broadcastToRoom(room->getRoomId(), wrapper, {player_id}, false);
+                }
+                break;
+            }
+            case message::MessageWrapper::kStartReceiveMsgMessage: {
+                if (room->hasPlayer(player_id)) {
+                    Player& player = room->getPlayer(player_id);
+                    player.is_start_rec_game_msg = true;
+                    printf("Player %d in room %d updated via queue: is_start_rec_game_msg=%s\n", player_id, room->getRoomId(), player.is_start_rec_game_msg ? "true" : "false");
+                }
+            }
+            // TODO: other message to the lobby here
+            default: ;
+        }
+    }
+
+    // Check game start conditions
+    if (room->canStartGame())
+    {
+        room->setStartGame(true);
+        printf("Room %d: Game starting! All players ready, %zu players, 1 reaper.\n", room->getRoomId(), room->getPlayerCount());
+        // Optionally, broadcast a "GameStarting" message to all players in the room
+        // message::GameStartingMessage gameStartMsg;
+        // gameStartMsg.set_room_id(room->getRoomId());
+        // message::MessageWrapper startWrapper;
+        // startWrapper.mutable_game_starting_message()->CopyFrom(gameStartMsg);
+        // broadcastToRoom(room->getRoomId(), startWrapper, {}, false); // Broadcast to everyone, not in_game yet
+        // TODO: not use this is just because not necessary, but better. It's like everyone wait loading of other players in LOL. What we do is next step, like when someone not load in for so long time, others directly start without him/her.
+    }
 }
 
 void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
 {
-    // TODO: 实现具体的游戏逻辑
+    // TODO: Real game logic
 }
 
 uint32_t KcpServer::generateConv()

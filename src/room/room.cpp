@@ -97,3 +97,28 @@ const Player& Room::getPlayer(const int player_id) const {
     return *(it->second); // Dereference unique_ptr to get const Player&
 }
 
+bool Room::canStartGame() const
+{
+    if (players_.size() <= 1) // Need more than one player
+    {
+        return false;
+    }
+
+    bool all_ready = true;
+    int reaper_count = 0;
+    for (const auto &player: players_ | std::views::values)
+    {
+        const Player& p = *(player);
+        if (!p.is_ready)
+        {
+            all_ready = false;
+            break;
+        }
+        if (p.character_type == message::CharacterType::REAPER)
+        {
+            reaper_count++;
+        }
+    }
+
+    return all_ready && reaper_count == 1;
+}
