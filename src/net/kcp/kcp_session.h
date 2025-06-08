@@ -6,6 +6,7 @@
 #include <chrono>
 #include <mutex>
 #include "ikcp.h"
+#include "event/client_message_event.hpp"
 #include "message/gen/message.pb.h"
 
 class KcpSession
@@ -15,8 +16,10 @@ public:
     ikcpcb *kcp = nullptr;
     sockaddr_in peerAddr;
     std::mutex kcp_mutex;
+    int roomId;
+    int playerId;
 
-    KcpSession(uint32_t _conv, const sockaddr_in &addr, int udpFd);
+    KcpSession(uint32_t _conv, const sockaddr_in &addr, int udpFd, int roomId, int playerId);
     ~KcpSession();
     // 定时调用 / Called periodically
     void update(uint32_t nowMs) const;
@@ -27,49 +30,8 @@ public:
         ikcp_input(kcp, data, len);
     }
 
-    // 从kcp中读取所有完整消息并分发 / Read all complete messages from kcp and dispatch
-    template <typename F>
-    void recvAll(F &&onMessage)
-    {
-        while (true)
-        {
-            int peek = ikcp_peeksize(kcp);
-            if (peek < 0)
-                break; // 没有完整包 / No complete packet
-
-            std::vector<char> buf(peek);
-            int n = ikcp_recv(kcp, buf.data(), peek);
-            if (n <= 0)
-                continue;
-
-            // 解析Protobuf消息 / Parse Protobuf message
-            message::MessageWrapper wrapper;
-            if (wrapper.ParseFromArray(buf.data(), n))
-            {
-                // 根据oneof字段类型调用回调 / Call callback based on oneof field type
-                if (wrapper.has_string_message())
-                {
-                    onMessage(conv, wrapper.string_message());
-                }
-                else if (wrapper.has_soul_basic_message())
-                {
-                    onMessage(conv, wrapper.soul_basic_message());
-                }
-                else if (wrapper.has_reaper_attack_message())
-                {
-                    onMessage(conv, wrapper.reaper_attack_message());
-                }
-                else if (wrapper.has_prop_try_get_message())
-                {
-                    onMessage(conv, wrapper.prop_try_get_message());
-                }
-                else if (wrapper.has_prop_get_message())
-                {
-                    onMessage(conv, wrapper.prop_get_message());
-                }
-            }
-        }
-    }
+    // 从kcp中读取所有完整消息读取成event将会被放入SPSC队列 / Read all complete messages from kcp and put them into the SPSC queue
+    void recvAll() const;
 
     // 发送任意Protobuf消息 / Send any Protobuf message
     void sendMessage(const google::protobuf::Message &msg)
@@ -86,7 +48,6 @@ private:
     // ikcp_output回调：通过UDP发包 / ikcp_output callback: send packets via UDP
     static int kcpOutput(const char *buf, int len, ikcpcb *, void *user);
 };
-
 
 
 

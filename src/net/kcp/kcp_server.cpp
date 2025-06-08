@@ -6,6 +6,7 @@
 #include <sys/fcntl.h>
 #include <chrono>
 #include <algorithm>
+#include <ranges>
 
 KcpServer::KcpServer(uint16_t port)
     : listenPort(port), random_engine(std::random_device{}()), prev_conv(1000), running(false)
@@ -43,65 +44,36 @@ void KcpServer::sendTo(const uint32_t conv, const google::protobuf::Message &msg
     }
 }
 
-void KcpServer::broadcastToRoom(int room_id, const google::protobuf::Message &msg,
-                                const std::vector<int> &skip_player_ids)
-{
-    RoomManager *manager = RoomManager::getInstance();
-    std::shared_ptr<Room> room = manager->getRoom(room_id);
-    if (!room)
-        return;
-    std::vector<int> all_players = room->getAllPlayerIds();
-    for (int pid : all_players)
-    {
-        if (std::find(skip_player_ids.begin(), skip_player_ids.end(), pid) != skip_player_ids.end())
-            continue;
-        int conv = room->getPlayerConv(pid);
-        if (conv != -1)
-        {
-            auto it = sessions.find(conv);
-            if (it != sessions.end())
-            {
-                it->second->sendMessage(msg);
-            }
-        }
-    }
-}
-
-void KcpServer::gameLogicTick(uint32_t now)
+void KcpServer::gameLogicTick(const uint32_t now)
 {
     updateAllRooms(now);
     broadcastAllRooms(now);
 }
 
-void KcpServer::updateAllRooms(uint32_t now)
+void KcpServer::updateAllRooms(const uint32_t now)
 {
     RoomManager *manager = RoomManager::getInstance();
-    std::vector<int> roomIds = manager->getAllRoomIds();
-    for (int roomId : roomIds)
+    for (const std::vector<int> roomIds = manager->getAllRoomIds(); const int roomId : roomIds)
     {
-        std::shared_ptr<Room> room = manager->getRoom(roomId);
-        if (room)
+        if (const std::shared_ptr<Room> room = manager->getRoom(roomId))
         {
             updateRoomLogic(room, now);
         }
     }
 }
 
-void KcpServer::broadcastAllRooms(uint32_t now)
+void KcpServer::broadcastAllRooms(const uint32_t now)
 {
     static uint32_t lastBroadcast = 0;
-    const uint32_t BROADCAST_INTERVAL = 50;
-    if (now - lastBroadcast >= BROADCAST_INTERVAL)
+    if (constexpr uint32_t BROADCAST_INTERVAL = 50; now - lastBroadcast >= BROADCAST_INTERVAL)
     {
         RoomManager *manager = RoomManager::getInstance();
-        std::vector<int> roomIds = manager->getAllRoomIds();
-        for (int roomId : roomIds)
+        for (const std::vector<int> roomIds = manager->getAllRoomIds(); const int roomId : roomIds)
         {
-            std::shared_ptr<Room> room = manager->getRoom(roomId);
+            const std::shared_ptr<Room> room = manager->getRoom(roomId);
             if (!room)
                 continue;
-            std::vector<int> all_players = room->getAllPlayerIds();
-            for (int player_id : all_players)
+            for (std::vector<int> all_players = room->getAllPlayerIds(); int player_id : all_players)
             {
                 message::SoulBasicMessage stateMsg;
                 stateMsg.set_player_id(player_id);
@@ -136,7 +108,11 @@ void KcpServer::initSocket()
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(listenPort);
-    bind(udpFd, (sockaddr *)&addr, sizeof(addr));
+    if (const int ret = bind(udpFd, reinterpret_cast<sockaddr *>(&addr), sizeof(addr)); ret < 0)
+    {
+        perror("bind");
+        exit(1);
+    }
     fcntl(udpFd, F_SETFL, O_NONBLOCK);
 }
 
@@ -172,7 +148,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         int room_id = room->getRoomId();
         int player_id = room->getNextPlayerId();
         uint32_t conv = generateConv();
-        room->addPlayer(player_id, conv);
+        room->addPlayer(player_id, static_cast<int>(conv));
         player_room_map[conv] = std::make_pair(room_id, player_id);
         roomMsg.set_is_join(true);
         roomMsg.set_room_id(room_id);
@@ -181,7 +157,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         character->set_player_id(player_id);
         character->set_character_type(getRandomCharacterType());
         printf("New room created: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
-        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd);
+        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id);
         sessions[conv] = session;
         message::MessageWrapper wrapper_room;
         wrapper_room.mutable_room_message()->CopyFrom(roomMsg);
@@ -202,13 +178,13 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
             roomMsg.set_is_join(false);
             roomMsg.set_room_id(-1);
             uint32_t conv = generateConv();
-            auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd);
+            auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, -1, -1);
             session->sendMessage(roomMsg);
             return;
         }
         int player_id = room->getNextPlayerId();
         uint32_t conv = generateConv();
-        room->addPlayer(player_id, conv);
+        room->addPlayer(player_id, static_cast<int>(conv));
         player_room_map[conv] = std::make_pair(room_id, player_id);
         roomMsg.set_is_join(true);
         roomMsg.set_room_id(room_id);
@@ -221,7 +197,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
             character->set_character_type(getRandomCharacterType());
         }
         printf("Player joined room: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
-        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd);
+        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id);
         sessions[conv] = session;
         session->sendMessage(roomMsg);
         broadcastToRoom(room_id, roomMsg, {player_id});
@@ -231,11 +207,11 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
 void KcpServer::handleUdpRead()
 {
     char buf[4096];
-    sockaddr_in cliAddr;
+    sockaddr_in cliAddr{};
     socklen_t cliLen = sizeof(cliAddr);
     while (true)
     {
-        int n = recvfrom(udpFd, buf, sizeof(buf), 0, (sockaddr *)&cliAddr, &cliLen);
+        const int n = static_cast<int>(recvfrom(udpFd, buf, sizeof(buf), 0, reinterpret_cast<sockaddr *>(&cliAddr), &cliLen));
         if (n < 0)
         {
             if (errno == EAGAIN || errno == EWOULDBLOCK)
@@ -246,12 +222,15 @@ void KcpServer::handleUdpRead()
         if (n < 4)
             continue;
         uint32_t conv = ikcp_getconv(buf);
+        // Hello消息 / Hello message
         if (conv == 0)
         {
             handleHello(buf, n, cliAddr);
             continue;
         }
+        // 其他kcp消息 / Other kcp messages
         auto it = sessions.find(conv);
+        // 新连接 / New connection
         if (it == sessions.end())
         {
             auto map_it = player_room_map.find(conv);
@@ -263,7 +242,7 @@ void KcpServer::handleUdpRead()
                 std::shared_ptr<Room> room = manager->getRoom(room_id);
                 if (room && room->hasPlayer(player_id))
                 {
-                    auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd);
+                    const auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id);
                     sessions[conv] = session;
                     printf("Reconnected session conv=%u addr=%s:%d for player %d in room %d\n",
                            conv, inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port),
@@ -278,18 +257,18 @@ void KcpServer::handleUdpRead()
                 continue;
             }
         }
+        // 重连 / Reconnection
         else
         {
-            auto &sess = it->second;
-            if (sess->peerAddr.sin_addr.s_addr != cliAddr.sin_addr.s_addr ||
-                sess->peerAddr.sin_port != cliAddr.sin_port)
+            if (const auto &sess = it->second; sess->peerAddr.sin_addr.s_addr != cliAddr.sin_addr.s_addr ||
+                                         sess->peerAddr.sin_port != cliAddr.sin_port)
             {
                 printf("Session conv=%u reconnected, old addr %s:%d -> new addr %s:%d\n",
                        conv,
                        inet_ntoa(sess->peerAddr.sin_addr), ntohs(sess->peerAddr.sin_port),
                        inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port));
                 sessions.erase(it);
-                auto newSess = std::make_shared<KcpSession>(conv, cliAddr, udpFd);
+                auto newSess = std::make_shared<KcpSession>(conv, cliAddr, udpFd, sess->roomId, sess->playerId);
                 sessions.emplace(conv, newSess);
                 it = sessions.find(conv);
             }
@@ -298,34 +277,33 @@ void KcpServer::handleUdpRead()
     }
 }
 
-int KcpServer::calcNextTimeout()
-{
-    uint32_t now = currentMs();
+int KcpServer::calcNextTimeout() const {
+    const uint32_t now = currentMs();
     uint32_t next = 100;
-    for (auto &kv : sessions)
+    for (const auto &session: sessions | std::views::values)
     {
-        uint32_t time_stamp = ikcp_check(kv.second->kcp, now);
+        const uint32_t time_stamp = ikcp_check(session->kcp, now);
         uint32_t diff = time_stamp > now ? time_stamp - now : 0;
         next = std::min(next, diff);
     }
-    return next;
+    return static_cast<int>(next);
 }
 
 uint32_t KcpServer::currentMs()
 {
     using namespace std::chrono;
-    return (uint32_t)duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+    return static_cast<uint32_t>(duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count());
 }
 
 void KcpServer::networkThreadFunc()
 {
-    const int MAX_EVENTS = 10;
+    constexpr int MAX_EVENTS = 10;
     epoll_event events[MAX_EVENTS];
     while (running)
     {
-        int timeoutMs = calcNextTimeout();
-        int nfds = epoll_wait(epollFd, events, MAX_EVENTS, timeoutMs);
-        uint32_t now = currentMs();
+        const int timeoutMs = calcNextTimeout();
+        const int nfds = epoll_wait(epollFd, events, MAX_EVENTS, timeoutMs);
+        const uint32_t now = currentMs();
         for (int i = 0; i < nfds; ++i)
         {
             if (events[i].data.fd == udpFd)
@@ -333,10 +311,10 @@ void KcpServer::networkThreadFunc()
                 handleUdpRead();
             }
         }
-        for (auto &kv : sessions)
+        for (const auto &session: sessions | std::views::values)
         {
-            kv.second->update(now);
-            kv.second->recvAll(onClientMessage);
+            session->update(now);
+            session->recvAll();
         }
     }
 }
@@ -344,11 +322,10 @@ void KcpServer::networkThreadFunc()
 void KcpServer::gameThreadFunc()
 {
     uint32_t lastGameTick = currentMs();
-    constexpr uint32_t GAME_TICK_INTERVAL = 16;
     while (running)
     {
-        uint32_t now = currentMs();
-        if (now >= lastGameTick + GAME_TICK_INTERVAL)
+        constexpr uint32_t GAME_TICK_INTERVAL = 16;
+        if (const uint32_t now = currentMs(); now >= lastGameTick + GAME_TICK_INTERVAL)
         {
             gameLogicTick(now);
             lastGameTick = now;

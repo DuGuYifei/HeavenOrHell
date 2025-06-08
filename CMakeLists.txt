@@ -19,7 +19,9 @@ add_executable(${PROJECT_NAME}
     src/room/room.cpp
     src/room/room_manager.cpp
     ${PROTO_SOURCES}
-        src/net/event/event_system.h
+        src/event/client_message_event.hpp
+        src/event/readerwriterqueue.h
+        src/event/atomicops.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

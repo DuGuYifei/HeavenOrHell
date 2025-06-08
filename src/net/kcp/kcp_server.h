@@ -62,9 +62,6 @@ private:
     // conv -> (room_id, player_id)
     std::unordered_map<uint32_t, std::pair<int, int>> player_room_map;
 
-    // 回调：conv + protobuf消息 / Callback: conv + protobuf message
-    std::function<void(uint32_t, const google::protobuf::Message &)> onClientMessage;
-
     // 生成唯一的conv值 / Generate unique conv value
     uint32_t generateConv();
     void initSocket();
@@ -74,7 +71,7 @@ private:
     void handleHello(const char *buf, int len, const sockaddr_in &cliAddr);
     void handleUdpRead();
     // Calculate how many milliseconds until the next kcp update
-    int calcNextTimeout();
+    int calcNextTimeout() const;
     static uint32_t currentMs();
     // 网络处理线程 / Network handling thread
     void networkThreadFunc();

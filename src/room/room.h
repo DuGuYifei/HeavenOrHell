@@ -19,9 +19,9 @@ private:
     std::map<int, std::unique_ptr<Player>> players_;    // Map of player_id to unique_ptr<Player>
     MazeMap maze_map = MazeMap(31, 31);
 
-    moodycamel::ReaderWriterQueue<ClientMessageEvent> client_message_queue_;
-    
 public:
+    moodycamel::ReaderWriterQueue<ClientMessageEvent> client_message_queue_;
+
     explicit Room(int room_id);
     ~Room() = default;
 
