@@ -119,7 +119,8 @@ void KcpServer::updateLobbyLogic(std::shared_ptr<Room> room)
 {
     // Process messages from the room's queue
     ClientMessageEvent event;
-    while (room->client_message_queue_.try_dequeue(event)) // Assuming popMessage returns true if a message was popped
+    int length_to_dequeue =room->client_message_queue_.size_approx();
+    while (length_to_dequeue-- > 0 && room->client_message_queue_.try_dequeue(event)) // Assuming popMessage returns true if a message was popped
     {
         if (!event.message) {
             continue; // Skip if message is null
@@ -152,13 +153,6 @@ void KcpServer::updateLobbyLogic(std::shared_ptr<Room> room)
                 }
                 break;
             }
-            case message::MessageWrapper::kStartReceiveMsgMessage: {
-                if (room->hasPlayer(player_id)) {
-                    Player& player = room->getPlayer(player_id);
-                    player.is_start_rec_game_msg = true;
-                    printf("Player %d in room %d updated via queue: is_start_rec_game_msg=%s\n", player_id, room->getRoomId(), player.is_start_rec_game_msg ? "true" : "false");
-                }
-            }
             // TODO: other message to the lobby here
             default: ;
         }
@@ -175,30 +169,63 @@ void KcpServer::updateLobbyLogic(std::shared_ptr<Room> room)
         // message::MessageWrapper startWrapper;
         // startWrapper.mutable_game_starting_message()->CopyFrom(gameStartMsg);
         // broadcastToRoom(room->getRoomId(), startWrapper, {}, false); // Broadcast to everyone, not in_game yet
-        // TODO: not use this is just because not necessary, but better. It's like everyone wait loading of other players in LOL. What we do is next step, like when someone not load in for so long time, others directly start without him/her.
+        // TODO: not use this is just because not necessary, but better.
+        //       It's like everyone wait loading of other players in LOL.
+        //       What we do is next step, like when someone not load in for so long time,
+        //       others directly start without him/her.
     }
 }
 
 void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
 {
     // TODO: Real game logic
+    ClientMessageEvent event;
+    int length_to_dequeue =room->client_message_queue_.size_approx();
+    while (length_to_dequeue-- > 0 && room->client_message_queue_.try_dequeue(event)) // Assuming popMessage returns true if a message was popped
+    {
+        if (!event.message) {
+            continue; // Skip if message is null
+        }
+
+        // Attempt to cast the generic protobuf message to MessageWrapper
+        auto wrapper_ptr = dynamic_cast<const message::MessageWrapper*>(event.message.get());
+
+        if (!wrapper_ptr) {
+            printf("Failed to cast message to MessageWrapper in updateRoomLogic for room %d\n", room->getRoomId());
+            continue; // Skip if cast fails
+        }
+
+        const message::MessageWrapper& wrapper = *wrapper_ptr;
+        const int player_id = event.player_id;
+
+        switch (wrapper.payload_case()) {
+            case message::MessageWrapper::kStartReceiveMsgMessage: {
+                if (room->hasPlayer(player_id)) {
+                    Player &player = room->getPlayer(player_id);
+                    player.is_start_rec_game_msg = true;
+                    printf("Player %d in room %d updated via queue: is_start_rec_game_msg=%s\n", player_id, room->getRoomId(),
+                           player.is_start_rec_game_msg ? "true" : "false");
+                }
+                break;
+            }
+            // TODO: other message to the room here
+            default: ;
+        }
+    }
 }
 
-uint32_t KcpServer::generateConv()
-{
+uint32_t KcpServer::generateConv() {
     std::lock_guard<std::mutex> lock(conv_mutex_);
     return ++prev_conv;
 }
 
-void KcpServer::initSocket()
-{
+void KcpServer::initSocket() {
     udpFd = socket(AF_INET, SOCK_DGRAM, 0);
     sockaddr_in addr{};
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(listenPort);
-    if (const int ret = bind(udpFd, reinterpret_cast<sockaddr *>(&addr), sizeof(addr)); ret < 0)
-    {
+    if (const int ret = bind(udpFd, reinterpret_cast<sockaddr *>(&addr), sizeof(addr)); ret < 0) {
         perror("bind");
         exit(1);
     }
