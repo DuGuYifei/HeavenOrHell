@@ -208,7 +208,17 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                 }
                 break;
             }
-            // TODO: other message to the room here
+            case message::MessageWrapper::kPlayerBasicMessage: {
+                if (room->hasPlayer(player_id)) {
+                    Player &player = room->getPlayer(player_id);
+                    player.position.x = wrapper.player_basic_message().position_x();
+                    player.position.y = wrapper.player_basic_message().position_y();
+                    printf("Player %d in room %d updated via queue: char_type=%d, is_ready=%s\n", player_id, room->getRoomId(),
+                           static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
+                }
+                break;
+            }
+            // TODO: other message to the game here
             default: ;
         }
     }
