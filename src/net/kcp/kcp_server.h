@@ -29,17 +29,18 @@ public:
 
     void sendTo(uint32_t conv, const google::protobuf::Message &msg);
     // 向指定房间发送消息 / Broadcast message to specified room
-    void broadcastToRoom(int room_id, const google::protobuf::Message &msg,
-                         const std::vector<int> &skip_player_ids = {});
+    void broadcastToRoom(int room_id, const google::protobuf::Message &msg, const std::vector<int> &skip_player_ids, bool in_game);
     void gameLogicTick(uint32_t now);
     void updateAllRooms(uint32_t now);
-    void broadcastAllRooms(uint32_t now);
-    void updateRoomLogic(std::shared_ptr<Room> room, uint32_t now);
+    void iterateBroadcastAllRooms(uint32_t now);
+    void updateRoomLogic(std::shared_ptr<Room> room);
+    void updateLobbyLogic(std::shared_ptr<Room> room);
 
 private:
     uint16_t listenPort;
     int udpFd = -1;
     int epollFd = -1;
+    RoomManager *room_manager = RoomManager::getInstance();
 
     // 随机数生成器，用于角色分配 / Random number generator for character assignment
     std::mt19937 random_engine;

@@ -96,3 +96,4 @@ const Player& Room::getPlayer(const int player_id) const {
     }
     return *(it->second); // Dereference unique_ptr to get const Player&
 }
+

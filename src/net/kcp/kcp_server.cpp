@@ -47,50 +47,78 @@ void KcpServer::sendTo(const uint32_t conv, const google::protobuf::Message &msg
 void KcpServer::gameLogicTick(const uint32_t now)
 {
     updateAllRooms(now);
-    broadcastAllRooms(now);
+    iterateBroadcastAllRooms(now);
 }
 
 void KcpServer::updateAllRooms(const uint32_t now)
 {
-    RoomManager *manager = RoomManager::getInstance();
-    for (const std::vector<int> roomIds = manager->getAllRoomIds(); const int roomId : roomIds)
+    for (const std::vector<int> roomIds = room_manager->getAllRoomIds(); const int roomId : roomIds)
     {
-        if (const std::shared_ptr<Room> room = manager->getRoom(roomId))
+        if (const std::shared_ptr<Room> room = room_manager->getRoom(roomId))
         {
-            updateRoomLogic(room, now);
+            if (!room->getStartGame())
+                updateLobbyLogic(room);
+            else
+                updateRoomLogic(room);
         }
     }
 }
 
-void KcpServer::broadcastAllRooms(const uint32_t now)
+void KcpServer::iterateBroadcastAllRooms(const uint32_t now)
 {
-    static uint32_t lastBroadcast = 0;
-    if (constexpr uint32_t BROADCAST_INTERVAL = 50; now - lastBroadcast >= BROADCAST_INTERVAL)
+    for (const std::vector<int> roomIds = room_manager->getAllRoomIds(); const int roomId : roomIds)
     {
-        RoomManager *manager = RoomManager::getInstance();
-        for (const std::vector<int> roomIds = manager->getAllRoomIds(); const int roomId : roomIds)
+        const std::shared_ptr<Room> room = room_manager->getRoom(roomId);
+        if (!room || !room->getStartGame())
+            continue;
+
+        // PlayerBasicMessage
+        for (std::vector<int> all_players = room->getAllPlayerIds(); int player_id : all_players)
         {
-            const std::shared_ptr<Room> room = manager->getRoom(roomId);
-            if (!room)
-                continue;
-            for (std::vector<int> all_players = room->getAllPlayerIds(); int player_id : all_players)
-            {
-                message::SoulBasicMessage stateMsg;
-                stateMsg.set_player_id(player_id);
-                stateMsg.set_position_x(0.0f);
-                stateMsg.set_position_y(0.0f);
-                stateMsg.set_hp(100.0f);
-                stateMsg.set_max_hp(100.0f);
-                message::MessageWrapper wrapper;
-                wrapper.mutable_soul_basic_message()->CopyFrom(stateMsg);
-                broadcastToRoom(roomId, wrapper, {player_id});
-            }
+            message::PlayerBasicMessage playerMsg;
+            Position position = room->getPlayer(player_id).position;
+            playerMsg.set_player_id(player_id);
+            playerMsg.set_position_x(position.x);
+            playerMsg.set_position_y(position.y);
+            playerMsg.set_hp(room->getPlayer(player_id).hp);
+            playerMsg.set_max_hp(room->getPlayer(player_id).maxHp);
+            message::MessageWrapper wrapper;
+            wrapper.mutable_soul_basic_message()->CopyFrom(playerMsg);
+            broadcastToRoom(roomId, wrapper, {player_id}, true);
         }
-        lastBroadcast = now;
+
+        // TODO: other messages
     }
 }
 
-void KcpServer::updateRoomLogic(std::shared_ptr<Room> room, uint32_t now)
+// 向指定房间广播消息 / Broadcast message to specified room
+void KcpServer::broadcastToRoom(const int room_id, const google::protobuf::Message &msg, const std::vector<int> &skip_player_ids = {}, const bool in_game)
+{
+    const std::shared_ptr<Room> room = room_manager->getRoom(room_id);
+    if (!room)
+        return;
+
+    for (const std::vector<int> all_players = room->getAllPlayerIds(); int pid : all_players)
+    {
+        // 跳过指定的玩家ID / Skip specified player IDs
+        if (std::ranges::find(skip_player_ids, pid) != skip_player_ids.end())
+            continue;
+
+        if (const int conv = room->getPlayerConv(pid); conv > 0)
+        {
+            if (in_game && !room->getPlayer(pid).is_start_rec_game_msg)
+                continue;
+            sendTo(conv, msg);
+        }
+    }
+}
+
+void KcpServer::updateLobbyLogic(std::shared_ptr<Room> room)
+{
+    // TODO: 实现具体的游戏逻辑
+}
+
+void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
 {
     // TODO: 实现具体的游戏逻辑
 }
@@ -140,11 +168,10 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         return;
     }
     printf("Hello message received with room_id: %d\n", helloMsg.room_id());
-    RoomManager *manager = RoomManager::getInstance();
     message::RoomMessage roomMsg;
     if (helloMsg.room_id() == 0)
     {
-        std::shared_ptr<Room> room = manager->createRoom();
+        std::shared_ptr<Room> room = room_manager->createRoom();
         int room_id = room->getRoomId();
         int player_id = room->getNextPlayerId();
         uint32_t conv = generateConv();
@@ -172,7 +199,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
     else
     {
         int room_id = helloMsg.room_id();
-        std::shared_ptr<Room> room = manager->getRoom(room_id);
+        std::shared_ptr<Room> room = room_manager->getRoom(room_id);
         if (!room)
         {
             roomMsg.set_is_join(false);
@@ -200,7 +227,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, std::move(room));
         sessions[conv] = session;
         session->sendMessage(roomMsg);
-        broadcastToRoom(room_id, roomMsg, {player_id});
+        broadcastToRoom(room_id, roomMsg, {player_id}, false);
     }
 }
 
@@ -238,8 +265,7 @@ void KcpServer::handleUdpRead()
             {
                 int room_id = map_it->second.first;
                 int player_id = map_it->second.second;
-                RoomManager *manager = RoomManager::getInstance();
-                std::shared_ptr<Room> room = manager->getRoom(room_id);
+                std::shared_ptr<Room> room = room_manager->getRoom(room_id);
                 if (room && room->hasPlayer(player_id))
                 {
                     const auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, std::move(room));

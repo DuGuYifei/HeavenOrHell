@@ -60,4 +60,4 @@ public:
     
     // Get all player IDs in the room
     std::vector<int> getAllPlayerIds() const;
-}; 
+};
