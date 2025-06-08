@@ -243,7 +243,7 @@ namespace AntMill.Liu.Scripts.networks
             
             try
             {
-                SoulBasicMessage soulMsg = new SoulBasicMessage
+                PlayerBasicMessage soulMsg = new PlayerBasicMessage()
                 {
                     PlayerId = playerId,
                     PositionX = posX,
@@ -254,7 +254,7 @@ namespace AntMill.Liu.Scripts.networks
                 
                 MessageWrapper wrapper = new MessageWrapper
                 {
-                    SoulBasicMessage = soulMsg
+                    PlayerBasicMessage = soulMsg
                 };
                 
                 SendProtobufMessage(wrapper);
