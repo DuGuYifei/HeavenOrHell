@@ -9,16 +9,16 @@
 #include <sstream>
 #include <climits>
 
-#define WALL '#'
-#define FLOOR '.'
-#define EXIT 'E'
-#define CENTER 'C'
-#define SPAWN 'S'
-#define TREASURE '$'
-#define REAPER 'R'
+#define MAP_WALL '#'
+#define MAP_FLOOR '.'
+#define MAP_EXIT 'E'
+#define MAP_CENTER 'C'
+#define MAP_SPAWN 'S'
+#define MAP_TREASURE '$'
+#define MAP_REAPER 'R'
 
 MazeMap::MazeMap(int width, int height)
-    : width_(width), height_(height), maze_(height, std::vector<char>(width, WALL)) {}
+    : width_(width), height_(height), maze_(height, std::vector<char>(width, MAP_WALL)) {}
 
 void MazeMap::generate()
 {
@@ -64,7 +64,7 @@ std::mt19937 &MazeMap::get_rng()
 
 std::pair<std::vector<std::vector<char>>, std::pair<int, int>> MazeMap::generate_maze_char(int width, int height)
 {
-    std::vector<std::vector<char>> maze(height, std::vector<char>(width, WALL));
+    std::vector<std::vector<char>> maze(height, std::vector<char>(width, MAP_WALL));
     auto &rng = get_rng();
 
     int room_margin_x = width / 4;
@@ -85,11 +85,11 @@ std::pair<std::vector<std::vector<char>>, std::pair<int, int>> MazeMap::generate
     {
         for (int x = center_x - half_room; x <= center_x + half_room; ++x)
         {
-            maze[y][x] = FLOOR;
+            maze[y][x] = MAP_FLOOR;
         }
     }
 
-    maze[center_y][center_x] = CENTER;
+    maze[center_y][center_x] = MAP_CENTER;
 
     std::function<void(int, int)> carve = [&](int x, int y)
     {
@@ -99,10 +99,10 @@ std::pair<std::vector<std::vector<char>>, std::pair<int, int>> MazeMap::generate
         for (auto [dx, dy] : dirs)
         {
             int nx = x + dx, ny = y + dy;
-            if (1 <= nx && nx < width - 1 && 1 <= ny && ny < height - 1 && maze[ny][nx] == WALL)
+            if (1 <= nx && nx < width - 1 && 1 <= ny && ny < height - 1 && maze[ny][nx] == MAP_WALL)
             {
-                maze[ny][nx] = FLOOR;
-                maze[y + dy / 2][x + dx / 2] = FLOOR;
+                maze[ny][nx] = MAP_FLOOR;
+                maze[y + dy / 2][x + dx / 2] = MAP_FLOOR;
                 carve(nx, ny);
             }
         }
@@ -114,7 +114,7 @@ std::pair<std::vector<std::vector<char>>, std::pair<int, int>> MazeMap::generate
         std::uniform_int_distribution<int> sy_dist(1, (height - 1) / 2 - 1);
         int sx = sx_dist(rng) * 2 + 1;
         int sy = sy_dist(rng) * 2 + 1;
-        maze[sy][sx] = FLOOR;
+        maze[sy][sx] = MAP_FLOOR;
         carve(sx, sy);
     }
 
@@ -137,9 +137,9 @@ std::pair<std::vector<std::vector<char>>, std::pair<int, int>> MazeMap::generate
 
     for (auto [y, x] : possible_edges)
     {
-        if (maze[y][x] == WALL && exits.size() < 4)
+        if (maze[y][x] == MAP_WALL && exits.size() < 4)
         {
-            maze[y][x] = EXIT;
+            maze[y][x] = MAP_EXIT;
             exits.emplace_back(x, y);
         }
     }
@@ -150,9 +150,9 @@ std::pair<std::vector<std::vector<char>>, std::pair<int, int>> MazeMap::generate
         {
             if (0 <= x && x < width && 0 <= y && y < height)
             {
-                if (maze[y][x] == WALL)
+                if (maze[y][x] == MAP_WALL)
                 {
-                    maze[y][x] = FLOOR;
+                    maze[y][x] = MAP_FLOOR;
                 }
             }
         }
@@ -176,17 +176,17 @@ void MazeMap::add_loops_in_center_area(int radius, int count, int min_gap)
             {
                 if (abs(x - center_x) + abs(y - center_y) <= radius)
                 {
-                    if (maze_[y][x] == WALL)
+                    if (maze_[y][x] == MAP_WALL)
                     {
                         if ((
-                                (maze_[y][x - 1] == FLOOR || maze_[y][x - 1] == CENTER) &&
-                                (maze_[y][x + 1] == FLOOR || maze_[y][x + 1] == CENTER) &&
-                                maze_[y - 1][x] == WALL && maze_[y + 1][x] == WALL &&
-                                maze_[y - 2][x] == WALL && maze_[y + 2][x] == WALL) ||
-                            ((maze_[y - 1][x] == FLOOR || maze_[y - 1][x] == CENTER) &&
-                             (maze_[y + 1][x] == FLOOR || maze_[y + 1][x] == CENTER) &&
-                             maze_[y][x - 1] == WALL && maze_[y][x + 1] == WALL &&
-                             maze_[y][x - 2] == WALL && maze_[y][x + 2] == WALL))
+                                (maze_[y][x - 1] == MAP_FLOOR || maze_[y][x - 1] == MAP_CENTER) &&
+                                (maze_[y][x + 1] == MAP_FLOOR || maze_[y][x + 1] == MAP_CENTER) &&
+                                maze_[y - 1][x] == MAP_WALL && maze_[y + 1][x] == MAP_WALL &&
+                                maze_[y - 2][x] == MAP_WALL && maze_[y + 2][x] == MAP_WALL) ||
+                            ((maze_[y - 1][x] == MAP_FLOOR || maze_[y - 1][x] == MAP_CENTER) &&
+                             (maze_[y + 1][x] == MAP_FLOOR || maze_[y + 1][x] == MAP_CENTER) &&
+                             maze_[y][x - 1] == MAP_WALL && maze_[y][x + 1] == MAP_WALL &&
+                             maze_[y][x - 2] == MAP_WALL && maze_[y][x + 2] == MAP_WALL))
                         {
                             candidates.emplace_back(x, y);
                         }
@@ -204,7 +204,7 @@ void MazeMap::add_loops_in_center_area(int radius, int count, int min_gap)
     {
         auto [x, y] = candidates.back();
         candidates.pop_back();
-        maze_[y][x] = FLOOR;
+        maze_[y][x] = MAP_FLOOR;
         chosen.push_back({x, y});
 
         candidates.erase(
@@ -226,7 +226,7 @@ std::vector<std::pair<int, int>> MazeMap::place_treasures(int count)
     {
         for (int x = margin; x < width_ - margin; ++x)
         {
-            if (maze_[y][x] == FLOOR || maze_[y][x] == CENTER || maze_[y][x] == EXIT)
+            if (maze_[y][x] == MAP_FLOOR || maze_[y][x] == MAP_CENTER || maze_[y][x] == MAP_EXIT)
             {
                 candidates.emplace_back(x, y);
             }
@@ -244,7 +244,7 @@ std::vector<std::pair<int, int>> MazeMap::place_treasures(int count)
     std::uniform_int_distribution<int> dist(0, candidates.size() - 1);
     auto first = candidates[dist(rng)];
     selected.push_back(first);
-    maze_[first.second][first.first] = TREASURE;
+    maze_[first.second][first.first] = MAP_TREASURE;
 
     auto min_dist = [&selected](const std::pair<int, int> &pt)
     {
@@ -271,7 +271,7 @@ std::vector<std::pair<int, int>> MazeMap::place_treasures(int count)
         }
 
         selected.push_back(*farthest);
-        maze_[farthest->second][farthest->first] = TREASURE;
+        maze_[farthest->second][farthest->first] = MAP_TREASURE;
         candidates.erase(farthest);
     }
 
@@ -310,9 +310,9 @@ std::vector<std::pair<int, int>> MazeMap::mark_spawn_points()
                 int nx = cx + dx, ny = cy + dy;
                 if (0 <= nx && nx < width_ && 0 <= ny && ny < height_)
                 {
-                    if (maze_[ny][nx] == FLOOR || maze_[ny][nx] == CENTER || maze_[ny][nx] == EXIT)
+                    if (maze_[ny][nx] == MAP_FLOOR || maze_[ny][nx] == MAP_CENTER || maze_[ny][nx] == MAP_EXIT)
                     {
-                        maze_[ny][nx] = SPAWN;
+                        maze_[ny][nx] = MAP_SPAWN;
                         spawns.emplace_back(nx, ny);
                         found = true;
                     }
@@ -323,9 +323,9 @@ std::vector<std::pair<int, int>> MazeMap::mark_spawn_points()
 
     if (0 <= ax + 1 && ax + 1 < width_ && 0 <= ay && ay < height_)
     {
-        if (maze_[ay][ax + 1] == FLOOR || maze_[ay][ax + 1] == CENTER || maze_[ay][ax + 1] == EXIT)
+        if (maze_[ay][ax + 1] == MAP_FLOOR || maze_[ay][ax + 1] == MAP_CENTER || maze_[ay][ax + 1] == MAP_EXIT)
         {
-            maze_[ay][ax + 1] = REAPER;
+            maze_[ay][ax + 1] = MAP_REAPER;
             spawns.emplace_back(ax + 1, ay);
         }
     }

@@ -4,13 +4,13 @@
 #include <string>
 #include <random>
 
-#define WALL '#'
-#define FLOOR '.'
-#define EXIT 'E'
-#define CENTER 'C'
-#define SPAWN 'S'
-#define TREASURE '$'
-#define REAPER 'R'
+#define MAP_WALL '#'
+#define MAP_FLOOR '.'
+#define MAP_EXIT 'E'
+#define MAP_CENTER 'C'
+#define MAP_SPAWN 'S'
+#define MAP_TREASURE '$'
+#define MAP_REAPER 'R'
 
 class MazeMap {
 public:
