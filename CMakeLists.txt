@@ -15,13 +15,12 @@ file(GLOB PROTO_HEADERS "src/message/gen/*.h")
 add_executable(${PROJECT_NAME}
     src/main.cpp
     src/net/kcp/ikcp.c
+    src/net/kcp/kcp_server.cpp
+    src/net/kcp/kcp_session.cpp
     src/map/maze_map.cpp
     src/room/room.cpp
     src/room/room_manager.cpp
     ${PROTO_SOURCES}
-        src/event/client_message_event.hpp
-        src/event/readerwriterqueue.h
-        src/event/atomicops.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -36,33 +35,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     pthread
 )
 
-# Client executable
-add_executable(kcp_client
-    src/net/kcp/kcp_client.cpp
-    src/net/kcp/ikcp.c
-    ${PROTO_SOURCES}
-        src/net/kcp/kcp_session.cpp
-        src/net/kcp/kcp_session.h
-        src/net/kcp/kcp_server.cpp
-)
-
-target_include_directories(kcp_client PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/message/gen
-    ${Protobuf_INCLUDE_DIRS}
-)
-
-target_link_libraries(kcp_client PRIVATE
-    ${Protobuf_LIBRARIES}
-    pthread
-)
-
 # Set compiler flags
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
-    target_compile_options(kcp_client PRIVATE /W4)
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
-    target_compile_options(kcp_client PRIVATE -Wall -Wextra)
-endif() 
+endif()

@@ -29,10 +29,10 @@ public:
 
     void sendTo(uint32_t conv, const google::protobuf::Message &msg);
     // 向指定房间发送消息 / Broadcast message to specified room
-    void broadcastToRoom(int room_id, const google::protobuf::Message &msg, const std::vector<int> &skip_player_ids, bool in_game);
-    void gameLogicTick(uint32_t now);
-    void updateAllRooms(uint32_t now);
-    void iterateBroadcastAllRooms(uint32_t now);
+    void broadcastToRoom(int room_id, const google::protobuf::Message &msg, const std::vector<int> &skip_player_ids = {}, bool in_game = false);
+    void gameLogicTick();
+    void updateAllRooms();
+    void iterateBroadcastAllRooms();
     void updateRoomLogic(std::shared_ptr<Room> room);
     void updateLobbyLogic(std::shared_ptr<Room> room);
 

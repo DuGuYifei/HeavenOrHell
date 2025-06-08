@@ -44,13 +44,13 @@ void KcpServer::sendTo(const uint32_t conv, const google::protobuf::Message &msg
     }
 }
 
-void KcpServer::gameLogicTick(const uint32_t now)
+void KcpServer::gameLogicTick()
 {
-    updateAllRooms(now);
-    iterateBroadcastAllRooms(now);
+    updateAllRooms();
+    iterateBroadcastAllRooms();
 }
 
-void KcpServer::updateAllRooms(const uint32_t now)
+void KcpServer::updateAllRooms()
 {
     for (const std::vector<int> roomIds = room_manager->getAllRoomIds(); const int roomId : roomIds)
     {
@@ -66,7 +66,7 @@ void KcpServer::updateAllRooms(const uint32_t now)
     }
 }
 
-void KcpServer::iterateBroadcastAllRooms(const uint32_t now)
+void KcpServer::iterateBroadcastAllRooms()
 {
     for (const std::vector<int> roomIds = room_manager->getAllRoomIds(); const int roomId : roomIds)
     {
@@ -85,7 +85,7 @@ void KcpServer::iterateBroadcastAllRooms(const uint32_t now)
             playerMsg.set_hp(room->getPlayer(player_id).hp);
             playerMsg.set_max_hp(room->getPlayer(player_id).maxHp);
             message::MessageWrapper wrapper;
-            wrapper.mutable_soul_basic_message()->CopyFrom(playerMsg);
+            wrapper.mutable_player_basic_message()->CopyFrom(playerMsg);
             broadcastToRoom(roomId, wrapper, {player_id}, true);
         }
 
@@ -94,7 +94,7 @@ void KcpServer::iterateBroadcastAllRooms(const uint32_t now)
 }
 
 // 向指定房间广播消息 / Broadcast message to specified room
-void KcpServer::broadcastToRoom(const int room_id, const google::protobuf::Message &msg, const std::vector<int> &skip_player_ids = {}, const bool in_game)
+void KcpServer::broadcastToRoom(const int room_id, const google::protobuf::Message &msg, const std::vector<int> &skip_player_ids, const bool in_game)
 {
     const std::shared_ptr<Room> room = room_manager->getRoom(room_id);
     if (!room)
@@ -414,7 +414,7 @@ void KcpServer::gameThreadFunc()
         constexpr uint32_t GAME_TICK_INTERVAL = 16;
         if (const uint32_t now = currentMs(); now >= lastGameTick + GAME_TICK_INTERVAL)
         {
-            gameLogicTick(now);
+            gameLogicTick();
             lastGameTick = now;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
