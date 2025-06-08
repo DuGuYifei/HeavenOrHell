@@ -157,7 +157,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         character->set_player_id(player_id);
         character->set_character_type(getRandomCharacterType());
         printf("New room created: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
-        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id);
+        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, room);
         sessions[conv] = session;
         message::MessageWrapper wrapper_room;
         wrapper_room.mutable_room_message()->CopyFrom(roomMsg);
@@ -178,7 +178,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
             roomMsg.set_is_join(false);
             roomMsg.set_room_id(-1);
             uint32_t conv = generateConv();
-            auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, -1, -1);
+            auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, -1, -1, nullptr);
             session->sendMessage(roomMsg);
             return;
         }
@@ -197,7 +197,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
             character->set_character_type(getRandomCharacterType());
         }
         printf("Player joined room: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
-        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id);
+        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, std::move(room));
         sessions[conv] = session;
         session->sendMessage(roomMsg);
         broadcastToRoom(room_id, roomMsg, {player_id});
@@ -242,7 +242,7 @@ void KcpServer::handleUdpRead()
                 std::shared_ptr<Room> room = manager->getRoom(room_id);
                 if (room && room->hasPlayer(player_id))
                 {
-                    const auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id);
+                    const auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, std::move(room));
                     sessions[conv] = session;
                     printf("Reconnected session conv=%u addr=%s:%d for player %d in room %d\n",
                            conv, inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port),
@@ -268,7 +268,7 @@ void KcpServer::handleUdpRead()
                        inet_ntoa(sess->peerAddr.sin_addr), ntohs(sess->peerAddr.sin_port),
                        inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port));
                 sessions.erase(it);
-                auto newSess = std::make_shared<KcpSession>(conv, cliAddr, udpFd, sess->roomId, sess->playerId);
+                auto newSess = std::make_shared<KcpSession>(conv, cliAddr, udpFd, sess->roomId, sess->playerId, sess->room);
                 sessions.emplace(conv, newSess);
                 it = sessions.find(conv);
             }

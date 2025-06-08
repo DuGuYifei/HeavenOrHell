@@ -4,7 +4,6 @@
 
 
 #include <netinet/in.h>
-#include <functional>
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -28,15 +27,8 @@ public:
     // 启动主循环（阻塞） / Start main loop (blocking)
     void run();
 
-    // 用户注册回调：收到客户端消息 / User register callback: receive client message
-    template <typename F>
-    void setMessageCallback(F &&cb)
-    {
-        onClientMessage = std::forward<F>(cb);
-    }
-
     void sendTo(uint32_t conv, const google::protobuf::Message &msg);
-    // 向指定房间广播消息 / Broadcast message to specified room
+    // 向指定房间发送消息 / Broadcast message to specified room
     void broadcastToRoom(int room_id, const google::protobuf::Message &msg,
                          const std::vector<int> &skip_player_ids = {});
     void gameLogicTick(uint32_t now);

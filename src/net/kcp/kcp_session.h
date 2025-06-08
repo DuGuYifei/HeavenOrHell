@@ -2,12 +2,11 @@
 #define KCP_SESSION_H
 
 #include <netinet/in.h>
-#include <vector>
 #include <chrono>
-#include <mutex>
 #include "ikcp.h"
 #include "event/client_message_event.hpp"
 #include "message/gen/message.pb.h"
+#include "room/room.h"
 
 class KcpSession
 {
@@ -15,11 +14,11 @@ public:
     uint32_t conv;
     ikcpcb *kcp = nullptr;
     sockaddr_in peerAddr;
-    std::mutex kcp_mutex;
     int roomId;
     int playerId;
+    std::shared_ptr<Room> room;
 
-    KcpSession(uint32_t _conv, const sockaddr_in &addr, int udpFd, int roomId, int playerId);
+    KcpSession(uint32_t _conv, const sockaddr_in &addr, int udpFd, int roomId, int playerId, std::shared_ptr<Room> room);
     ~KcpSession();
     // 定时调用 / Called periodically
     void update(uint32_t nowMs) const;
@@ -34,11 +33,10 @@ public:
     void recvAll() const;
 
     // 发送任意Protobuf消息 / Send any Protobuf message
-    void sendMessage(const google::protobuf::Message &msg)
+    void sendMessage(const google::protobuf::Message &msg) const
     {
         std::string data;
         msg.SerializeToString(&data);
-        std::lock_guard<std::mutex> lock(kcp_mutex);
         ikcp_send(kcp, data.data(), static_cast<int>(data.size()));
     }
 
