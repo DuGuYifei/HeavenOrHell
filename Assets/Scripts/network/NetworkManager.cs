@@ -26,7 +26,7 @@ namespace network
                 _foundPlayerTransform = true;
             }
             var pos = _playerTransform.position;
-            kcp.SendSoulBasicMessage(pos.x, pos.y, _playerContainer.hp, _playerContainer.maxHp);
+            kcp.SendPlayerBasicMessage(pos.x, pos.y, _playerContainer.hp, _playerContainer.maxHp);
         }
 
         public void ConnectToServer()
