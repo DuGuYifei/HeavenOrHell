@@ -1,16 +1,23 @@
 using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
+using Character;
 using DefaultNamespace;
 using Message;
 using network;
 using Player;
-using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Network")]
     [SerializeField] private KcpNetwork kcpNetwork;
+    
+    [Header("Characters")]
     [SerializeField] private Transform characterParent;
+
+    [Header("EnvObjects")] [SerializeField]
+    private Grid gameGrid;
     
     [Header("Character Prefabs")]
     [SerializeField] private SoulContainer dogContainerPrefab;
@@ -19,17 +26,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerContainer playerContainerPrefab;
     [SerializeField] private ReaperContainer reaperContainerPrefab;
 
-    public List<Vector2> SpawnPositions = new List<Vector2>();
-
+    [FormerlySerializedAs("SpawnPositions")] public List<Vector2> spawnPositions = new();
+    private List<CharacterContainer> _characters = new();
+    
+    //Dog Path Manager
+    public DogPathManager dogPathManager;
+    public Camera mainCamera;
+    
     private Dictionary<int, CharacterContainer> _idToCharContainer = new Dictionary<int, CharacterContainer>();
     private int _playerId;
     private GameState _gameState = GameState.BeforeMap;
     private CharacterContainer _playerContainer;
-    private Camera _mainCamera;
-
+    
     #region Properties
 
     public GameState State => _gameState;
+
+    public List<CharacterContainer> Characters => _characters;
+    
+    public Vector3 GridSize => gameGrid.cellSize;
 
     #endregion
 
@@ -54,8 +69,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         KcpRecvMessageParser.Instance.onRoomMessageReceived.AddListener(OnRoomMessageReceived);
-        _mainCamera = Camera.main;
-        _mainCamera.enabled = false;
+        mainCamera.enabled = false;
     }
 
     private void OnRoomMessageReceived(RoomMessage roomMessage)
@@ -98,16 +112,17 @@ public class GameManager : MonoBehaviour
             {
                 _idToCharContainer[character.PlayerId] = charContainer;
             }
+            _characters.Add(charContainer);
         }
-
+        
         _gameState = GameState.GameGenerated;
 
     }
 
     public void SetSpawnPositions(List<Vector2> spawnPositions, float mapScale)
     {
-        SpawnPositions = spawnPositions;
-        _mainCamera.enabled = true;
+        this.spawnPositions = spawnPositions;
+        mainCamera.enabled = true;
         print(spawnPositions[0]);
         _playerContainer.transform.position = new Vector3(spawnPositions[_playerId].x * mapScale, spawnPositions[_playerId].y * mapScale, 0)
             + new Vector3(1.5f,1.5f,0);

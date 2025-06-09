@@ -6,5 +6,7 @@ namespace DefaultNamespace
     {
         public static Vector3 PlayerPrefabPosition = Vector3.zero;
         public static float CharacterMoveThreshold = 0.05f;
+
+        public static int PlayerCount = 4;
     }
 }

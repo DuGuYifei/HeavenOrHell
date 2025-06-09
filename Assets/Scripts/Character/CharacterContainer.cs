@@ -7,6 +7,7 @@ public abstract class CharacterContainer : MonoBehaviour
 {
     public int id;
     public SPUM_Prefabs prefab;
+    public bool hasSkills = false;
 
     // private Rigidbody2D _rigidbody2D;
     private Transform _transform;
@@ -23,7 +24,10 @@ public abstract class CharacterContainer : MonoBehaviour
     private void Start()
     {
         prefab.OverrideControllerInit();
+        OnInit();
     }
+
+    public abstract void OnInit();
         
     public void SetPose(Vector2 pos)
     {
@@ -33,11 +37,11 @@ public abstract class CharacterContainer : MonoBehaviour
         if (Mathf.Abs(diffX) > 0)
         {
             SetCharacterSide(diffX > 0);
-            prefab.PlayAnimation(PlayerState.MOVE, 0);
+            PlayAnimation(PlayerState.MOVE);
         }
         else
         {
-            prefab.PlayAnimation(PlayerState.IDLE, 0);
+            PlayAnimation(PlayerState.IDLE);
         }
     }
     

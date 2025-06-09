@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3064640748959484485}
-  - component: {fileID: 6540412725529722863}
   - component: {fileID: 4099133401002779404}
   - component: {fileID: 3940827278704033795}
+  - component: {fileID: 5667620373165205409}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -35,21 +35,6 @@ Transform:
   - {fileID: 6113145241933893566}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6540412725529722863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 603167792098151698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 434950128b574716b99ff4a97eaab27f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  prefab: {fileID: 5151028189371949621}
-  soulType: 0
 --- !u!50 &4099133401002779404
 Rigidbody2D:
   serializedVersion: 5
@@ -123,6 +108,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.56, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &5667620373165205409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603167792098151698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef511ac9bde2493a84e757dfc98f266d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  prefab: {fileID: 5151028189371949621}
+  hasSkills: 0
+  soulType: 0
 --- !u!1001 &39511384228933336
 PrefabInstance:
   m_ObjectHideFlags: 0
