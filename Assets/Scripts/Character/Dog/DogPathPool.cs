@@ -10,7 +10,7 @@ public class DogPathPool : MonoBehaviour
 
     private readonly Queue<DogPathContainer> _pool = new();
 
-    void Start()
+    private void Start()
     {
         for (int i = 0; i < initialPoolSize; i++)
         {

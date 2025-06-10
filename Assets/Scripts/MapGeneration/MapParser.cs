@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using DefaultNamespace;
 using Message;
 using network;
 using UnityEngine;
@@ -59,6 +60,7 @@ namespace MapGeneration
             var map = new char[3 * width][];
             for (var index = 0; index < 3 * width; index++) map[index] = new char[3 * height];
             var spawnPoints = new List<Vector2>();
+            var scale = Consts.MapScale;
             for (var y = 0; y < height; y++)
             {
                 var linesArray = decodedLines[y];
@@ -68,35 +70,19 @@ namespace MapGeneration
                     {
                         spawnPoints.Add(new Vector2(x, y));
                     }
-                    // if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
-                    // {
-                    //     map[3 *x][3 * y] = 1;
-                    //     map[3 *x][3 * y + 1] = 1;
-                    //     map[3 *x][3 * y + 2] = 1;
-                    //     map[3 *x + 1][3 * y] = 1;
-                    //     map[3 *x + 1][3 * y + 1] = 1;
-                    //     map[3 *x + 1][3 * y + 2] = 1;
-                    //     map[3 *x + 2][3 * y] = 1;
-                    //     map[3 *x + 2][3 * y + 1] = 1;
-                    //     map[3 *x + 2][3 * y + 2] = 1;
-                    // }
-                    // else
-                    // {
-                    map[3 * x][3 * y] = linesArray[x];
-                    map[3 * x][3 * y + 1] = linesArray[x];
-                    map[3 * x][3 * y + 2] = linesArray[x];
-                    map[3 * x + 1][3 * y] = linesArray[x];
-                    map[3 * x + 1][3 * y + 1] = linesArray[x];
-                    map[3 * x + 1][3 * y + 2] = linesArray[x];
-                    map[3 * x + 2][3 * y] = linesArray[x];
-                    map[3 * x + 2][3 * y + 1] = linesArray[x];
-                    map[3 * x + 2][3 * y + 2] = linesArray[x];
-                    // }
+
+                    for (var i = scale * x ; i < scale * (x + 1); i++)
+                    {
+                        for (var j = scale * y; j < scale * (y + 1); j++)
+                        {
+                            map[i][j] = linesArray[x];
+                        }
+                    }
                 }
             }
             
-            for (var x = 0; x < 3 * width; x++)
-            for (var y = 0; y < 3 * height; y++)
+            for (var x = 0; x < scale * width; x++)
+            for (var y = 0; y < scale * height; y++)
                 if (map[x][y] == WALL)
                     wallTilemap.SetTile(new Vector3Int(x, y, 0), tileset.wallTile);
                 else if (map[x][y] == FLOOR)
@@ -110,7 +96,7 @@ namespace MapGeneration
             
                 // else
                 //     print(map[x][y]);
-            GameManager.Instance.SetSpawnPositions(spawnPoints, 3);
+            GameManager.Instance.SetSpawnPositions(spawnPoints, scale);
         }
 
 

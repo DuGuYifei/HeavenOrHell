@@ -6,6 +6,7 @@ using Message;
 using network;
 using Player;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -26,12 +27,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerContainer playerContainerPrefab;
     [SerializeField] private ReaperContainer reaperContainerPrefab;
 
-    [FormerlySerializedAs("SpawnPositions")] public List<Vector2> spawnPositions = new();
+    public List<Vector2> spawnPositions = new();
     private List<CharacterContainer> _characters = new();
     
-    //Dog Path Manager
+    
+    
+    [Header("Dog Path Manager")]
     public DogPathManager dogPathManager;
     public Camera mainCamera;
+    
+    [Header("Game Events")]
+    public UnityEvent OnGameInitializeFinished;
     
     private Dictionary<int, CharacterContainer> _idToCharContainer = new Dictionary<int, CharacterContainer>();
     private int _playerId;
@@ -119,6 +125,15 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (_gameState == GameState.GameGenerated)
+        {
+            OnGameInitializeFinished?.Invoke();
+            _gameState = GameState.GameInitialized;
+        }
+    }
+
     public void SetSpawnPositions(List<Vector2> spawnPositions, float mapScale)
     {
         this.spawnPositions = spawnPositions;
@@ -132,5 +147,6 @@ public class GameManager : MonoBehaviour
     {
         BeforeMap,
         GameGenerated,
+        GameInitialized
     }
 }

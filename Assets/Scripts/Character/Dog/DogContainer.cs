@@ -6,7 +6,7 @@ namespace Character
     {
         public override void OnInit()
         {
-            throw new System.NotImplementedException();
+            GameManager.Instance.dogPathManager.TurnOnPathChecking();
         }
 
         public override void SkillPerformed()
