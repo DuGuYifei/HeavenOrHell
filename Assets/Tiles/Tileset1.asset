@@ -16,3 +16,7 @@ MonoBehaviour:
   floor: {fileID: 11400000, guid: 47a18e91e3ef34160af93353a252fd97, type: 2}
   centerTile: {fileID: 11400000, guid: 66b1061405fe54fd888f5a2287cac16b, type: 2}
   spawnTile: {fileID: 11400000, guid: c7dd4825915d9480c8e8488291e26b43, type: 2}
+  detectiveTrail: {fileID: 11400000, guid: f4b6210e4e789431993af7c22a948b2d, type: 2}
+  psychologistTrail: {fileID: 11400000, guid: e120fd4544d7b4e4e9dd15dc790dad5d, type: 2}
+  dogTrail: {fileID: 11400000, guid: 6c871b51e05a34803935a4ffff5ee141, type: 2}
+  reaperTrail: {fileID: 11400000, guid: 681d67afd7d644fa69be13613ea91af7, type: 2}
