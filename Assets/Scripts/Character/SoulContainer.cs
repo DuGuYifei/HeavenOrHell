@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SoulContainer : CharacterContainer
+public abstract class SoulContainer : CharacterContainer
 {
     [SerializeField] private SoulType soulType;
 

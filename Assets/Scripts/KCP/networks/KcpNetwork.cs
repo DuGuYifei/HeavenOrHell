@@ -237,13 +237,13 @@ namespace AntMill.Liu.Scripts.networks
         }
         
         // Send SoulBasicMessage (position, HP)
-        public void SendSoulBasicMessage(float posX, float posY, float hp, float maxHp)
+        public void SendPlayerBasicMessage(float posX, float posY, float hp, float maxHp)
         {
             if (!_connected || !_roomJoined) return;
             
             try
             {
-                SoulBasicMessage soulMsg = new SoulBasicMessage
+                PlayerBasicMessage soulMsg = new PlayerBasicMessage()
                 {
                     PlayerId = playerId,
                     PositionX = posX,
@@ -254,7 +254,7 @@ namespace AntMill.Liu.Scripts.networks
                 
                 MessageWrapper wrapper = new MessageWrapper
                 {
-                    SoulBasicMessage = soulMsg
+                    PlayerBasicMessage = soulMsg
                 };
                 
                 SendProtobufMessage(wrapper);

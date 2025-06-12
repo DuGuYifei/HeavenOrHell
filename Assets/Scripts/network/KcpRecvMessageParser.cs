@@ -62,8 +62,8 @@ namespace network
                     }
                     break;
                     
-                case MessageWrapper.PayloadOneofCase.SoulBasicMessage:
-                    var soulMsg = wrapper.SoulBasicMessage;
+                case MessageWrapper.PayloadOneofCase.PlayerBasicMessage:
+                    var soulMsg = wrapper.PlayerBasicMessage;
                     Debug.Log($"[Server→Client] SoulBasicMessage: player_id={soulMsg.PlayerId}, pos=({soulMsg.PositionX},{soulMsg.PositionY}), hp={soulMsg.Hp}/{soulMsg.MaxHp}");
                     onSoulBasicReceived?.Invoke(soulMsg);
                     break;
@@ -111,7 +111,7 @@ namespace network
     }
     
     [Serializable]
-    public class SoulBasicMessageEvent : UnityEngine.Events.UnityEvent<SoulBasicMessage>
+    public class SoulBasicMessageEvent : UnityEngine.Events.UnityEvent<PlayerBasicMessage>
     {
     }
     

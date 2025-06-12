@@ -10,6 +10,11 @@ namespace MapGeneration
         public Tile floor;
         public Tile centerTile;
         public Tile spawnTile;
-        
+
+        [Header("Dog Trails")] public Tile detectiveTrail;
+        public Tile psychologistTrail;
+        public Tile dogTrail;
+        public Tile reaperTrail;
+
     }
 }
