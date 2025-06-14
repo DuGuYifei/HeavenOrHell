@@ -15,7 +15,7 @@ public class PlayerCameraController : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance || GameManager.Instance.State == GameManager.GameState.BeforeMap) return;
+        // if (!GameManager.Instance || GameManager.Instance.State == GameManager.GameState.BeforeMap) return;
         if (!_foundPlayerTransform)
         {
             _cameraTransform = playerCamera.transform;

@@ -10,18 +10,18 @@ public abstract class CharacterContainer : MonoBehaviour
     public bool hasSkills = false;
 
     // private Rigidbody2D _rigidbody2D;
-    private Transform _transform;
+    protected Transform ContainerTransform;
     private Transform _charTransform;
     private Vector3 _initialCharScale;
     private void Awake()
     {
-        _transform = transform;
+        ContainerTransform = transform;
         _charTransform = prefab.transform;
         _initialCharScale = _charTransform.localScale;
         // _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         prefab.OverrideControllerInit();
         OnInit();
@@ -31,8 +31,8 @@ public abstract class CharacterContainer : MonoBehaviour
         
     public void SetPose(Vector2 pos)
     {
-        var lastPos = _transform.position;
-        _transform.position = pos;
+        var lastPos = ContainerTransform.position;
+        ContainerTransform.position = pos;
         var diffX = lastPos.x - pos.x;
         if (Mathf.Abs(diffX) > 0)
         {

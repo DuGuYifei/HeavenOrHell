@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
 using Character;
 using DefaultNamespace;
+using MapGeneration;
 using Message;
 using network;
 using Player;
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerContainer playerContainerPrefab;
     [SerializeField] private ReaperContainer reaperContainerPrefab;
 
-    public List<Vector2> spawnPositions = new();
+    public MapInfoContainer mapInfoContainer;
     private List<CharacterContainer> _characters = new();
     
     
@@ -136,7 +137,10 @@ public class GameManager : MonoBehaviour
 
     public void SetSpawnPositions(List<Vector2> spawnPositions, float mapScale)
     {
-        this.spawnPositions = spawnPositions;
+        foreach (var position in spawnPositions)
+        {
+            mapInfoContainer.AddSpawnPosition(position * mapScale);
+        }
         mainCamera.enabled = true;
         print(spawnPositions[0]);
         _playerContainer.transform.position = new Vector3(spawnPositions[_playerId].x * mapScale, spawnPositions[_playerId].y * mapScale, 0)

@@ -15,7 +15,7 @@ namespace Player
         private CharacterContainer _characterContainer;
 
 
-        private void Start()
+        private void Awake()
         {
             var actionMap = playerActionAsset.FindActionMap("Player", true);
             _moveAction = actionMap.FindAction("Move", true);
@@ -39,6 +39,7 @@ namespace Player
 
         private void OnSkillActionPerformed(InputAction.CallbackContext obj)
         {
+            print("skillPerformed");
             _characterContainer.SkillPerformed();
         }
 

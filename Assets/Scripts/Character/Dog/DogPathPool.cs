@@ -12,12 +12,12 @@ public class DogPathPool : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < initialPoolSize; i++)
-        {
-            var obj = Instantiate(prefab, transform);
-            obj.gameObject.SetActive(false);
-            _pool.Enqueue(obj);
-        }
+        // for (int i = 0; i < initialPoolSize; i++)
+        // {
+        //     var obj = Instantiate(prefab, transform);
+        //     obj.gameObject.SetActive(false);
+        //     _pool.Enqueue(obj);
+        // }
     }
 
     public DogPathContainer GetFromPool(int charId)

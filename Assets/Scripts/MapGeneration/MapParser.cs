@@ -64,11 +64,15 @@ namespace MapGeneration
             for (var y = 0; y < height; y++)
             {
                 var linesArray = decodedLines[y];
+                print(linesArray.Length);
                 for (var x = 0; x < width; x++)
                 {
                     if (linesArray[x] == SPAWN)
                     {
                         spawnPoints.Add(new Vector2(x, y));
+                    } else if (linesArray[x] == EXIT)
+                    {
+                        GameManager.Instance?.mapInfoContainer.AddGatePosition(new Vector2(x, y) * scale, false);
                     }
 
                     for (var i = scale * x ; i < scale * (x + 1); i++)
@@ -93,10 +97,11 @@ namespace MapGeneration
                     floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.spawnTile);
                 else 
                     floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.floor);
+                
             
                 // else
                 //     print(map[x][y]);
-            GameManager.Instance.SetSpawnPositions(spawnPoints, scale);
+            GameManager.Instance?.SetSpawnPositions(spawnPoints, scale);
         }
 
 
