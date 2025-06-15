@@ -7,7 +7,6 @@ namespace Character.Detective
     public class DetectiveArrowContainer : MonoBehaviour
     {
         [SerializeField] private Vector3 targetPosition;
-        [SerializeField] private Transform playerTransform;
         [SerializeField] private float distanceToPlayer = 0.3f;
 
         private RectTransform _arrowRectTransform;
@@ -34,9 +33,8 @@ namespace Character.Detective
             _arrowRectTransform.position = screenMid + direction * _distanceToPlayerPixels;
         }
         
-        public void SetArrowTransform(Transform playerTransform, Vector3 targetPosition)
+        public void SetArrowTransform(Vector3 targetPosition)
         {
-            this.playerTransform = playerTransform;
             this.targetPosition = targetPosition;
         }
     }

@@ -18,10 +18,8 @@ namespace Character.Detective
         //
         public override void OnInit()
         {
-            // for( var i = 0 ; i < 4 ; i++ )
-            // {
-            //     var arrow = Instantiate(arrowPrefab, arrowCanvas.transform);
-            // }
+           arrowCanvas.gameObject.SetActive(true);
+           //TODO: iterate over all gates. Instantiate arrow for each gate, set target position
         }
 
         public override void SkillPerformed()
