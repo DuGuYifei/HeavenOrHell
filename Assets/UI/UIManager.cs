@@ -14,6 +14,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using network;
+using UnityEngine.UIElements;
 
 
 namespace UI
@@ -153,11 +154,6 @@ namespace UI
                 kcpNetwork.StartConnect();
                 IsHost = true;
                 PlayerLobbyState.PlayerId = 0;
-                kcpNetwork.SendLobbyMessage(
-                    PlayerLobbyState.PlayerId,
-                    PlayerLobbyState.IsReady,
-                    PlayerLobbyState.CharacterType
-                );
 
                 MainMenu.SetActive(false);
                 Lobby.SetActive(true);
@@ -183,12 +179,6 @@ namespace UI
                 kcpNetwork.StartConnect(roomId);
                 LobbyId.GetComponent<TMP_Text>().text = $"room: {roomId}";
                 IsHost = false;
-                PlayerLobbyState.PlayerId = 1;
-                kcpNetwork.SendLobbyMessage(
-                    PlayerLobbyState.PlayerId,
-                    PlayerLobbyState.IsReady,
-                    PlayerLobbyState.CharacterType
-                );
 
                 Connection.SetActive(false);
                 Lobby.SetActive(true);
@@ -210,23 +200,53 @@ namespace UI
         public void OnReceivingRoomMessage(RoomMessage roomMsg)
         {
             Debug.Log($"Room Message is received: {roomMsg}");
+            Debug.Log($"user 1 playerid {roomMsg.Characters[0].PlayerId}");
             LobbyId.GetComponent<TMP_Text>().text = $"room: {roomMsg.RoomId}";
-            if (roomMsg.IsJoin && !IsHost && PlayerLobbyState.PlayerId == 0)
+            if (roomMsg.IsJoin && PlayerLobbyState.PlayerId == -1)
             {
                 PlayerLobbyState.PlayerId = roomMsg.PlayerId;
             }
-            else if (roomMsg.IsJoin)
+            Debug.Log("Setting up players");
+            // TODO
+            for (int i = 0; i < roomMsg.Characters.Count; i++)
             {
-                Debug.Log("Adding new player to the team");
-                int newPlIndex = 0;
-                for (int i = 0; i < 3; i++)
+                if (i == PlayerLobbyState.PlayerId)
                 {
-                    if (OtherPlayers[i].PlayerId == -1)
+                    continue;
+                }
+                else
+                {
+                    bool existingPlayer = false;
+                    for (int j = 0; j < 3; j++)
                     {
-                        newPlIndex = i;
+                        if (OtherPlayers[j].PlayerId == i)
+                        {
+                            OtherPlayers[j].CharacterType = roomMsg.Characters[i].CharacterType;
+                            existingPlayer = true;
+                            break;
+                        }
+                    }
+                    if (!existingPlayer)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            if (OtherPlayers[j].PlayerId == -1)
+                            {
+                                OtherPlayers[j].PlayerId = roomMsg.Characters[i].PlayerId;
+                                OtherPlayers[j].CharacterType = roomMsg.Characters[i].CharacterType;
+                                break;
+                            }
+                        }
                     }
                 }
+                // if (OtherPlayers[i].PlayerId == -1)
+                // {
+                //     newPlIndex = i;
+                // }
+                // roomMsg.Characters[i];
             }
+
+            Debug.Log($" {OtherPlayers[0]} {OtherPlayers[1]} {OtherPlayers[2]}");
         }
 
         public void OnReceivingLobbyMessage(LobbyMessage lobbyMsg)
@@ -250,6 +270,8 @@ namespace UI
                     }
                 }
             }
+
+            Debug.Log($" {OtherPlayers[0].PlayerId} {OtherPlayers[1].PlayerId} {OtherPlayers[2].PlayerId}");
         }
 
         public void SetReadyFlag()
