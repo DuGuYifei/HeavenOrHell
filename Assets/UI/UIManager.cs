@@ -64,8 +64,13 @@ namespace UI
         public GameObject PlayerRoleDropdown;
 
         private MenuState state = MenuState.MainMenu;
+
+        public float StartTimer = 2.0f;
+        public float ActualTimer;
         void Start()
         {
+            ActualTimer = StartTimer;
+
             state = MenuState.MainMenu;
             MainMenu.SetActive(true);
             Connection.SetActive(false);
@@ -87,27 +92,39 @@ namespace UI
 
         void Update()
         {
-            for (int i = 0; i < 3; i++)
+            if (IsGameStartable())
             {
-                if (OtherPlayers[i].PlayerId == -1)
-                {
-                    PlayerIcons[i].SetActive(false);
-                }
-                else
-                {
-                    PlayerIcons[i].SetActive(true);
-                    try
-                    {
-                        LobbyOtherPlayerController ct = PlayerIcons[i].GetComponent<LobbyOtherPlayerController>();
-                        ct.SetReady(OtherPlayers[i].IsReady);
-                        ct.UpdateRole(OtherPlayers[i].CharacterType);
-                    }
-                    catch
-                    {
-                        Debug.Log("Could not properly change UI elements for other players");
-                    }
-                }
+                ActualTimer -= Time.deltaTime;
             }
+            else
+            {
+                ActualTimer = StartTimer;
+            }
+            if (ActualTimer <= 0.0f)
+            {
+                StartTheGame();
+            }
+            for (int i = 0; i < 3; i++)
+                {
+                    if (OtherPlayers[i].PlayerId == -1)
+                    {
+                        PlayerIcons[i].SetActive(false);
+                    }
+                    else
+                    {
+                        PlayerIcons[i].SetActive(true);
+                        try
+                        {
+                            LobbyOtherPlayerController ct = PlayerIcons[i].GetComponent<LobbyOtherPlayerController>();
+                            ct.SetReady(OtherPlayers[i].IsReady);
+                            ct.UpdateRole(OtherPlayers[i].CharacterType);
+                        }
+                        catch
+                        {
+                            Debug.Log("Could not properly change UI elements for other players");
+                        }
+                    }
+                }
         }
 
         public void GoBack()
@@ -338,6 +355,29 @@ namespace UI
 
             KcpNetworkEntity.GetComponent<KcpRecvMessageParser>().onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
             KcpNetworkEntity.GetComponent<KcpRecvMessageParser>().onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
+        }
+
+        public bool IsGameStartable()
+        {
+            int player_count = 1;
+            int ready_count = PlayerLobbyState.IsReady ? 1 : 0;
+            int reaper_count = PlayerLobbyState.CharacterType == CharacterType.Reaper ? 1 : 0;
+            for (int i = 0; i < 3; i++)
+            {
+                player_count += OtherPlayers[i].PlayerId != -1 ? 1 : 0;
+                ready_count += OtherPlayers[i].IsReady ? 1 : 0;
+                reaper_count += OtherPlayers[i].CharacterType == CharacterType.Reaper ? 1 : 0;
+            }
+            if (player_count > 1 && player_count == ready_count && reaper_count == 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void StartTheGame()
+        {
+            Debug.Log("THE GAME BEGINS YAY");
         }
 
         public void CloseGame()
