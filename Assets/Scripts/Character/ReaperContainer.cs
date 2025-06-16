@@ -9,4 +9,9 @@ public class ReaperContainer : CharacterContainer
     {
         // No skills
     }
+
+    public override void DashPerformed()
+    {
+        // No Dash
+    }
 }

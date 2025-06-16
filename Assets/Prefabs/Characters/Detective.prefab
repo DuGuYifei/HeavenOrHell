@@ -226,8 +226,10 @@ MonoBehaviour:
   prefab: {fileID: 6734050633382325982}
   hasSkills: 0
   soulType: 2
-  arrowPrefab: {fileID: 0}
-  arrowCanvas: {fileID: 0}
+  dashCooldown: 4
+  dashSpeedMultiplier: 2
+  arrowPrefab: {fileID: 7943480623102040769, guid: c964fd5ada744ea43b7628a5ce78b4b7, type: 3}
+  arrowCanvas: {fileID: 1979804085323334539}
 --- !u!1001 &6731730513046944189
 PrefabInstance:
   m_ObjectHideFlags: 0

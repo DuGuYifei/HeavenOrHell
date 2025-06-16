@@ -13,7 +13,7 @@ public abstract class CharacterContainer : MonoBehaviour
     protected Transform ContainerTransform;
     private Transform _charTransform;
     private Vector3 _initialCharScale;
-    private void Awake()
+    protected virtual void Awake()
     {
         ContainerTransform = transform;
         _charTransform = prefab.transform;
@@ -65,5 +65,7 @@ public abstract class CharacterContainer : MonoBehaviour
     }
     
     public abstract void SkillPerformed();
-    
+
+    public abstract void DashPerformed();
+
 }

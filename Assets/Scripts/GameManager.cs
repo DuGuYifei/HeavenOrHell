@@ -66,8 +66,13 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance) return;
+        if (_instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
         _instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     #endregion
