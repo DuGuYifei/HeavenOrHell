@@ -119,42 +119,47 @@ void KcpServer::updateLobbyLogic(std::shared_ptr<Room> room)
 {
     // Process messages from the room's queue
     ClientMessageEvent event;
-    int length_to_dequeue =room->client_message_queue_.size_approx();
+    int length_to_dequeue = room->client_message_queue_.size_approx();
     while (length_to_dequeue-- > 0 && room->client_message_queue_.try_dequeue(event)) // Assuming popMessage returns true if a message was popped
     {
-        if (!event.message) {
+        if (!event.message)
+        {
             continue; // Skip if message is null
         }
 
         // Attempt to cast the generic protobuf message to MessageWrapper
-        const message::MessageWrapper* wrapper_ptr = dynamic_cast<const message::MessageWrapper*>(event.message.get());
+        const message::MessageWrapper *wrapper_ptr = dynamic_cast<const message::MessageWrapper *>(event.message.get());
 
-        if (!wrapper_ptr) {
+        if (!wrapper_ptr)
+        {
             printf("Failed to cast message to MessageWrapper in updateLobbyLogic for room %d\n", room->getRoomId());
             continue; // Skip if cast fails
         }
-        
-        const message::MessageWrapper& wrapper = *wrapper_ptr;
+
+        const message::MessageWrapper &wrapper = *wrapper_ptr;
         const int player_id = event.player_id;
 
-        switch (wrapper.payload_case()) {
-            case message::MessageWrapper::kLobbyMessage: {
-                const message::LobbyMessage& lobbyMsg = wrapper.lobby_message();
-                if (room->hasPlayer(player_id)){
-                    Player& player = room->getPlayer(player_id);
-                    player.character_type = lobbyMsg.character_type();
-                    player.is_ready = lobbyMsg.is_ready();
+        switch (wrapper.payload_case())
+        {
+        case message::MessageWrapper::kLobbyMessage:
+        {
+            const message::LobbyMessage &lobbyMsg = wrapper.lobby_message();
+            if (room->hasPlayer(player_id))
+            {
+                Player &player = room->getPlayer(player_id);
+                player.character_type = lobbyMsg.character_type();
+                player.is_ready = lobbyMsg.is_ready();
 
-                    printf("Player %d in room %d updated via queue: char_type=%d, is_ready=%s\n", player_id, room->getRoomId(), static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
+                printf("Player %d in room %d updated via queue: char_type=%d, is_ready=%s\n", player_id, room->getRoomId(), static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
 
-                    // Broadcast the LobbyMessage to other players in the room
-                    // The original wrapper already contains the LobbyMessage with the correct player_id from the sender
-                    broadcastToRoom(room->getRoomId(), wrapper, {player_id}, false);
-                }
-                break;
+                // Broadcast the LobbyMessage to other players in the room
+                // The original wrapper already contains the LobbyMessage with the correct player_id from the sender
+                broadcastToRoom(room->getRoomId(), wrapper, {player_id}, false);
             }
-            // TODO: other message to the lobby here
-            default: ;
+            break;
+        }
+        // TODO: other message to the lobby here
+        default:;
         }
     }
 
@@ -180,62 +185,72 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
 {
     // TODO: Real game logic
     ClientMessageEvent event;
-    int length_to_dequeue =room->client_message_queue_.size_approx();
+    int length_to_dequeue = room->client_message_queue_.size_approx();
     while (length_to_dequeue-- > 0 && room->client_message_queue_.try_dequeue(event)) // Assuming popMessage returns true if a message was popped
     {
-        if (!event.message) {
+        if (!event.message)
+        {
             continue; // Skip if message is null
         }
 
         // Attempt to cast the generic protobuf message to MessageWrapper
-        auto wrapper_ptr = dynamic_cast<const message::MessageWrapper*>(event.message.get());
+        auto wrapper_ptr = dynamic_cast<const message::MessageWrapper *>(event.message.get());
 
-        if (!wrapper_ptr) {
+        if (!wrapper_ptr)
+        {
             printf("Failed to cast message to MessageWrapper in updateRoomLogic for room %d\n", room->getRoomId());
             continue; // Skip if cast fails
         }
 
-        const message::MessageWrapper& wrapper = *wrapper_ptr;
+        const message::MessageWrapper &wrapper = *wrapper_ptr;
         const int player_id = event.player_id;
 
-        switch (wrapper.payload_case()) {
-            case message::MessageWrapper::kStartReceiveMsgMessage: {
-                if (room->hasPlayer(player_id)) {
-                    Player &player = room->getPlayer(player_id);
-                    player.is_start_rec_game_msg = true;
-                    printf("Player %d in room %d updated via queue: is_start_rec_game_msg=%s\n", player_id, room->getRoomId(),
-                           player.is_start_rec_game_msg ? "true" : "false");
-                }
-                break;
+        switch (wrapper.payload_case())
+        {
+        case message::MessageWrapper::kStartReceiveMsgMessage:
+        {
+            if (room->hasPlayer(player_id))
+            {
+                Player &player = room->getPlayer(player_id);
+                player.is_start_rec_game_msg = true;
+                printf("Player %d in room %d updated via queue: is_start_rec_game_msg=%s\n", player_id, room->getRoomId(),
+                       player.is_start_rec_game_msg ? "true" : "false");
             }
-            case message::MessageWrapper::kPlayerBasicMessage: {
-                if (room->hasPlayer(player_id)) {
-                    Player &player = room->getPlayer(player_id);
-                    player.position.x = wrapper.player_basic_message().position_x();
-                    player.position.y = wrapper.player_basic_message().position_y();
-                    printf("Player %d in room %d updated via queue: char_type=%d, is_ready=%s\n", player_id, room->getRoomId(),
-                           static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
-                }
-                break;
+            break;
+        }
+        case message::MessageWrapper::kPlayerBasicMessage:
+        {
+            if (room->hasPlayer(player_id))
+            {
+                Player &player = room->getPlayer(player_id);
+                player.position.x = wrapper.player_basic_message().position_x();
+                player.position.y = wrapper.player_basic_message().position_y();
+                printf("Player %d in room %d updated via queue: char_type=%d, is_ready=%s\n", player_id, room->getRoomId(),
+                       static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
             }
-            // TODO: other message to the game here
-            default: ;
+            break;
+        }
+        // TODO: other message to the game here
+        default:;
         }
     }
 }
 
-uint32_t KcpServer::generateConv() {
+uint32_t KcpServer::generateConv()
+{
     std::lock_guard<std::mutex> lock(conv_mutex_);
     return ++prev_conv;
 }
 
-void KcpServer::initSocket() {
+void KcpServer::initSocket()
+{
     udpFd = socket(AF_INET, SOCK_DGRAM, 0);
     sockaddr_in addr{};
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(listenPort);
-    if (const int ret = bind(udpFd, reinterpret_cast<sockaddr *>(&addr), sizeof(addr)); ret < 0) {
+    if (const int ret = bind(udpFd, reinterpret_cast<sockaddr *>(&addr), sizeof(addr)); ret < 0)
+    {
         perror("bind");
         exit(1);
     }
@@ -319,13 +334,18 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         {
             message::Character *character = roomMsg.add_characters();
             character->set_player_id(pid);
-            character->set_character_type(getRandomCharacterType());
+            if (pid != player_id)
+                character->set_character_type(room->getPlayer(pid).character_type);
+            else
+                character->set_character_type(getRandomCharacterType());
         }
         printf("Player joined room: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
         auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, std::move(room));
         sessions[conv] = session;
-        session->sendMessage(roomMsg);
-        broadcastToRoom(room_id, roomMsg, {player_id}, false);
+        message::MessageWrapper wrapper_room;
+        wrapper_room.mutable_room_message()->CopyFrom(roomMsg);
+        session->sendMessage(wrapper_room);
+        broadcastToRoom(room_id, wrapper_room, {player_id}, false);
     }
 }
 
@@ -385,7 +405,7 @@ void KcpServer::handleUdpRead()
         else
         {
             if (const auto &sess = it->second; sess->peerAddr.sin_addr.s_addr != cliAddr.sin_addr.s_addr ||
-                                         sess->peerAddr.sin_port != cliAddr.sin_port)
+                                               sess->peerAddr.sin_port != cliAddr.sin_port)
             {
                 printf("Session conv=%u reconnected, old addr %s:%d -> new addr %s:%d\n",
                        conv,
@@ -401,10 +421,11 @@ void KcpServer::handleUdpRead()
     }
 }
 
-int KcpServer::calcNextTimeout() const {
+int KcpServer::calcNextTimeout() const
+{
     const uint32_t now = currentMs();
     uint32_t next = 100;
-    for (const auto &session: sessions | std::views::values)
+    for (const auto &session : sessions | std::views::values)
     {
         const uint32_t time_stamp = ikcp_check(session->kcp, now);
         uint32_t diff = time_stamp > now ? time_stamp - now : 0;
@@ -435,7 +456,7 @@ void KcpServer::networkThreadFunc()
                 handleUdpRead();
             }
         }
-        for (const auto &session: sessions | std::views::values)
+        for (const auto &session : sessions | std::views::values)
         {
             session->update(now);
             session->recvAll();
