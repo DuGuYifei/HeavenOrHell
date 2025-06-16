@@ -12,12 +12,15 @@ namespace AntMill.Liu.Scripts.networks
 {
     public class KcpNetwork : MonoBehaviour
     {
-        [Header("Server Settings")] [SerializeField]
-        private string serverIp = "172.28.183.56";
+        [Header("Server Settings")]
+        [SerializeField]
+        // private string serverIp = "172.28.183.56";
+        public string serverIp = "172.28.183.56";
 
-        [SerializeField] private int serverPort = 8888;
+        // [SerializeField] private int serverPort = 8888;
+        [SerializeField] public int serverPort = 8888;
         public KcpRecvMessageEvent onRecvMessage;
-        
+
         private bool _startConnect = false;
         public int roomId = 0; // 0 to create new room, otherwise join existing
         public int playerId = 0;
@@ -38,12 +41,12 @@ namespace AntMill.Liu.Scripts.networks
             _udpClient = new UdpClient(0);
             _serverEndPoint = new IPEndPoint(IPAddress.Parse(serverIp), serverPort);
             _udpClient.Connect(_serverEndPoint);
-            
+
             // Start receiving UDP packets
             StartReceiving();
         }
-        
-        
+
+
         private void Update()
         {
             // Send Hello message if not connected
@@ -69,7 +72,7 @@ namespace AntMill.Liu.Scripts.networks
                 }
             }
         }
-        
+
         private void OnDestroy()
         {
             try
@@ -79,7 +82,7 @@ namespace AntMill.Liu.Scripts.networks
                     // Send any pending data before closing
                     _kcp.Flush(false);
                 }
-        
+
                 _udpClient?.Close();
                 _udpClient?.Dispose();
                 _udpClient = null;
@@ -108,9 +111,9 @@ namespace AntMill.Liu.Scripts.networks
             {
                 IPEndPoint remoteEp = null;
                 byte[] data = _udpClient.EndReceive(result, ref remoteEp);
-                
+
                 ProcessReceivedData(data);
-                
+
                 // Continue receiving
                 StartReceiving();
             }
@@ -125,20 +128,20 @@ namespace AntMill.Liu.Scripts.networks
             if (data.Length >= 4)
             {
                 uint conv = BitConverter.ToUInt32(data, 0);
-                
+
                 if (!_connected && conv != 0)
                 {
                     // Initial connection setup with conv from server
                     Debug.Log($"Received conv={conv} from server, establishing KCP session");
                     _conv = conv;
-                    
+
                     // Setup KCP
                     _kcp = new KCP(conv, OnKcpOutput);
                     _kcp.NoDelay(1, 1, 2, 1);  // Fast mode
                     _kcp.WndSize(32 * 4, 32 * 4);     // Set window size
-                    
+
                     _connected = true;
-                    
+
                     // Process this initial packet
                     _kcp.Input(data, 0, data.Length, true, true);
                 }
@@ -163,7 +166,7 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogError($"UDP send error: {e.Message}");
             }
         }
-        
+
         private void ReceiveKcpMessages()
         {
             int msgSize = 0;
@@ -207,25 +210,25 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogWarning($"Failed to join room {roomId}");
             }
         }
-        
+
 
         private void SendHelloMessage()
         {
             try
             {
                 // Create the HelloMessage
-                HelloMessage hello = new HelloMessage 
-                { 
-                    RoomId = roomId 
+                HelloMessage hello = new HelloMessage
+                {
+                    RoomId = roomId
                 };
-                
+
                 byte[] msgData = hello.ToByteArray();
-                
+
                 // Prepare the packet with conv=0 header (4 bytes) + serialized message
                 byte[] packet = new byte[msgData.Length + 4];
                 BitConverter.GetBytes((uint)0).CopyTo(packet, 0);
                 msgData.CopyTo(packet, 4);
-                
+
                 // Send the raw packet
                 _udpClient.Send(packet, packet.Length);
                 Debug.Log($"[Client→Server] Sent HelloMessage with room_id={roomId}");
@@ -235,12 +238,12 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogError($"Error sending hello message: {e.Message}");
             }
         }
-        
+
         // Send SoulBasicMessage (position, HP)
         public void SendPlayerBasicMessage(float posX, float posY, float hp, float maxHp)
         {
             if (!_connected || !_roomJoined) return;
-            
+
             try
             {
                 PlayerBasicMessage soulMsg = new PlayerBasicMessage()
@@ -251,12 +254,12 @@ namespace AntMill.Liu.Scripts.networks
                     Hp = hp,
                     MaxHp = maxHp
                 };
-                
+
                 MessageWrapper wrapper = new MessageWrapper
                 {
                     PlayerBasicMessage = soulMsg
                 };
-                
+
                 SendProtobufMessage(wrapper);
                 Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}");
             }
@@ -265,12 +268,12 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogError($"Error sending soul basic message: {e.Message}");
             }
         }
-        
+
         // Send ReaperAttackMessage
         public void SendReaperAttackMessage(int targetSoulPlayerId, int skillId)
         {
             if (!_connected || !_roomJoined) return;
-            
+
             try
             {
                 ReaperAttackMessage attackMsg = new ReaperAttackMessage
@@ -278,12 +281,12 @@ namespace AntMill.Liu.Scripts.networks
                     SoulPlayerId = targetSoulPlayerId,
                     SkillId = skillId
                 };
-                
+
                 MessageWrapper wrapper = new MessageWrapper
                 {
                     ReaperAttackMessage = attackMsg
                 };
-                
+
                 SendProtobufMessage(wrapper);
                 Debug.Log($"[Client→Server] Sent ReaperAttackMessage: target={targetSoulPlayerId}, skill={skillId}");
             }
@@ -292,11 +295,38 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogError($"Error sending reaper attack message: {e.Message}");
             }
         }
-        
+
+        public void SendLobbyMessage(int player_id, bool is_ready, CharacterType character_type)
+        {
+            if (!_connected || !_roomJoined) return;
+
+            try
+            {
+                LobbyMessage lobbyMsg = new LobbyMessage
+                {
+                    PlayerId = player_id,
+                    IsReady = is_ready,
+                    CharacterType = character_type,
+                };
+
+                MessageWrapper wrapper = new MessageWrapper
+                {
+                    LobbyMessage = lobbyMsg
+                };
+
+                SendProtobufMessage(wrapper);
+                Debug.Log($"[Client→Server] Sent LobbyMessage: PlayerId={player_id}, IsReady={is_ready}, CharacterType={character_type}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error sending reaper attack message: {e.Message}");
+            }
+        }
+
         private void SendProtobufMessage(IMessage message)
         {
             if (_kcp == null) return;
-            
+
             byte[] data = message.ToByteArray();
             int ret = _kcp.Send(data);
             if (ret < 0)
