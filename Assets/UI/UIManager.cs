@@ -1,0 +1,327 @@
+using UnityEditor;
+using UnityEngine;
+
+using Message;
+using AntMill.Liu.Scripts.networks;
+using System.Net;
+using System.Net.Sockets;
+using Google.Protobuf;
+using KcpProject;
+using System;
+using Google.Protobuf.Collections;
+using UnityEngine.Events;
+using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting;
+using network;
+
+
+namespace UI
+{
+
+    enum MenuState
+    {
+        MainMenu,
+        Connection,
+        Lobby
+    }
+
+    public struct LobbyPlayerInfo
+    {
+        public bool IsReady;
+        public int PlayerId;
+        public CharacterType CharacterType;
+
+    }
+
+    public class UIManager : MonoBehaviour
+    {
+        public string ServerIP;
+        public int ServerPort;
+
+        public GameObject KcpNetworkPrefab;
+        private GameObject KcpNetworkEntity;
+        public GameObject MainMenu;
+
+        public GameObject Connection;
+
+        public GameObject Lobby;
+
+        public GameObject LobbyId;
+
+        public GameObject LobbyEntryField;
+
+        public GameObject ReadyFlag;
+
+        public KcpNetwork kcpNetwork;
+
+        LobbyPlayerInfo PlayerLobbyState;
+        bool IsHost = false;
+
+        public LobbyPlayerInfo[] OtherPlayers = new LobbyPlayerInfo[3];
+        public GameObject[] PlayerIcons;
+        public GameObject PlayerRoleDropdown;
+
+        private MenuState state = MenuState.MainMenu;
+        void Start()
+        {
+            state = MenuState.MainMenu;
+            MainMenu.SetActive(true);
+            Connection.SetActive(false);
+            Lobby.SetActive(false);
+            ReadyFlag.SetActive(false);
+
+            for (int i = 0; i < 3; i++)
+            {
+                OtherPlayers[i].IsReady = false;
+                OtherPlayers[i].PlayerId = -1;
+                OtherPlayers[i].CharacterType = CharacterType.SoulDog;
+            }
+            PlayerLobbyState.IsReady = false;
+            PlayerLobbyState.PlayerId = -1;
+            PlayerLobbyState.CharacterType = CharacterType.SoulDog;
+
+            SetUpKcp();
+        }
+
+        void Update()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (OtherPlayers[i].PlayerId == -1)
+                {
+                    PlayerIcons[i].SetActive(false);
+                }
+                else
+                {
+                    PlayerIcons[i].SetActive(true);
+                    try
+                    {
+                        LobbyOtherPlayerController ct = PlayerIcons[i].GetComponent<LobbyOtherPlayerController>();
+                        ct.SetReady(OtherPlayers[i].IsReady);
+                        ct.UpdateRole(OtherPlayers[i].CharacterType);
+                    }
+                    catch
+                    {
+                        Debug.Log("Could not properly change UI elements for other players");
+                    }
+                }
+            }
+        }
+
+        public void GoBack()
+        {
+            switch (state)
+            {
+                case MenuState.Connection:
+                    {
+                        Connection.SetActive(false);
+                        MainMenu.SetActive(true);
+                        state = MenuState.MainMenu;
+                        break;
+                    }
+                case MenuState.Lobby:
+                    {
+                        DisconnectFromLobby();
+                        Lobby.SetActive(false);
+                        MainMenu.SetActive(true);
+                        state = MenuState.MainMenu;
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+
+        public void DisconnectFromLobby()
+        {
+            Debug.Log("Disconnect from Lobby");
+            Destroy(KcpNetworkEntity);
+            IsHost = false;
+        }
+
+        public void CreateLobby()
+        {
+            try
+            {
+                Debug.Log("Creating a lobby");
+
+                SetUpKcp();
+
+                kcpNetwork.StartConnect();
+                IsHost = true;
+                PlayerLobbyState.PlayerId = 0;
+                kcpNetwork.SendLobbyMessage(
+                    PlayerLobbyState.PlayerId,
+                    PlayerLobbyState.IsReady,
+                    PlayerLobbyState.CharacterType
+                );
+
+                MainMenu.SetActive(false);
+                Lobby.SetActive(true);
+                state = MenuState.Lobby;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Could not create a lobby: {e}");
+            }
+
+        }
+
+        public void ConnectToLobby()
+        {
+            try
+            {
+                SetUpKcp();
+
+                int roomId = int.Parse(LobbyEntryField.GetComponent<TMP_InputField>().text);
+
+                Debug.Log($"Connecting to the lobby with a code '{roomId}'");
+
+                kcpNetwork.StartConnect(roomId);
+                LobbyId.GetComponent<TMP_Text>().text = $"room: {roomId}";
+                IsHost = false;
+                PlayerLobbyState.PlayerId = 1;
+                kcpNetwork.SendLobbyMessage(
+                    PlayerLobbyState.PlayerId,
+                    PlayerLobbyState.IsReady,
+                    PlayerLobbyState.CharacterType
+                );
+
+                Connection.SetActive(false);
+                Lobby.SetActive(true);
+                state = MenuState.Lobby;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Could not connect: {e}");
+            }
+        }
+
+        public void GoToConnection()
+        {
+            Connection.SetActive(true);
+            MainMenu.SetActive(false);
+            state = MenuState.Connection;
+        }
+
+        public void OnReceivingRoomMessage(RoomMessage roomMsg)
+        {
+            Debug.Log($"Room Message is received: {roomMsg}");
+            LobbyId.GetComponent<TMP_Text>().text = $"room: {roomMsg.RoomId}";
+            if (roomMsg.IsJoin && !IsHost && PlayerLobbyState.PlayerId == 0)
+            {
+                PlayerLobbyState.PlayerId = roomMsg.PlayerId;
+            }
+            else if (roomMsg.IsJoin)
+            {
+                Debug.Log("Adding new player to the team");
+                int newPlIndex = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (OtherPlayers[i].PlayerId == -1)
+                    {
+                        newPlIndex = i;
+                    }
+                }
+            }
+        }
+
+        public void OnReceivingLobbyMessage(LobbyMessage lobbyMsg)
+        {
+            Debug.Log("LOBBY MESSAGE TRIGGERED");
+            int playerID = lobbyMsg.PlayerId;
+            if (PlayerLobbyState.PlayerId == playerID)
+            {
+                Debug.LogWarning("Should user get their own lobby messages?");
+            }
+            else
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (OtherPlayers[i].PlayerId == playerID)
+                    {
+                        Debug.Log($"Updating other players info: PlayerId={playerID}, IsReady={lobbyMsg.IsReady}, CharType={lobbyMsg.CharacterType}");
+                        OtherPlayers[i].IsReady = lobbyMsg.IsReady;
+                        OtherPlayers[i].CharacterType = lobbyMsg.CharacterType;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void SetReadyFlag()
+        {
+            if (ReadyFlag.activeSelf)
+            {
+                PlayerLobbyState.IsReady = false;
+            }
+            else
+            {
+                PlayerLobbyState.IsReady = true;
+            }
+            ReadyFlag.SetActive(PlayerLobbyState.IsReady);
+            kcpNetwork.SendLobbyMessage(
+                PlayerLobbyState.PlayerId,
+                PlayerLobbyState.IsReady,
+                PlayerLobbyState.CharacterType
+            );
+        }
+
+        public void ChangeRole(GameObject dpObj)
+        {
+            TMP_Dropdown change = dpObj.GetComponent<TMP_Dropdown>();
+            switch (change.value.ToString())
+            {
+                case "0":
+                    {
+                        PlayerLobbyState.CharacterType = CharacterType.SoulDog;
+                        break;
+                    }
+                case "1":
+                    {
+                        PlayerLobbyState.CharacterType = CharacterType.SoulPsychologist;
+                        break;
+                    }
+                case "2":
+                    {
+                        PlayerLobbyState.CharacterType = CharacterType.SoulDetective;
+                        break;
+                    }
+                case "3":
+                    {
+                        PlayerLobbyState.CharacterType = CharacterType.Reaper;
+                        break;
+                    }
+                default:
+                    break;
+            }
+            kcpNetwork.SendLobbyMessage(
+                PlayerLobbyState.PlayerId,
+                PlayerLobbyState.IsReady,
+                PlayerLobbyState.CharacterType
+            );
+            Debug.Log($"Player - Role change - {PlayerLobbyState.CharacterType} ({change.value.ToString()})");
+        }
+
+        public void SetUpKcp()
+        {
+            if (KcpNetworkEntity == null)
+            {
+                KcpNetworkEntity = Instantiate(KcpNetworkPrefab);
+                kcpNetwork = KcpNetworkEntity.GetComponent<KcpNetwork>();
+            }
+
+            KcpNetworkEntity.GetComponent<KcpRecvMessageParser>().onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
+            KcpNetworkEntity.GetComponent<KcpRecvMessageParser>().onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
+        }
+
+        public void CloseGame()
+        {
+            Debug.Log("Closing the game");
+            Application.Quit();
+        }
+    }
+}
