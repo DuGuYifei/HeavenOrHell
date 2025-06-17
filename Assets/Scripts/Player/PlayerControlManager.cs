@@ -15,8 +15,7 @@ namespace Player
         private InputAction _dashAction;
         private Rigidbody2D _rigidbody2D;
         private CharacterContainer _characterContainer;
-
-
+        
         private void Awake()
         {
             var actionMap = playerActionAsset.FindActionMap("Player", true);

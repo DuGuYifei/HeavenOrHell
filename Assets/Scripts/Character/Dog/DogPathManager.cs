@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using Character.Detective;
-using DefaultNamespace;
-using DefaultNamespace.Character.Psychologist;
+using Character.Psychologist;
 using MapGeneration;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
-using utils;
 
 namespace Character
 {
