@@ -168,6 +168,32 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -734,7 +760,32 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      AltarMoving_0: 3572474502245134945
+      AltarMoving_1: -1790397521648572987
+      AltarMoving_10: -8131867411489892146
+      AltarMoving_11: 7847865163988773140
+      AltarMoving_12: 7217456689174726487
+      AltarMoving_13: 4816296295448934989
+      AltarMoving_14: -7864217632544136974
+      AltarMoving_15: 541993224936275137
+      AltarMoving_16: -8217968070473120253
+      AltarMoving_17: 3222844609510372088
+      AltarMoving_18: 880478078217496214
+      AltarMoving_19: -7306229179405756369
+      AltarMoving_2: 7612665088715628771
+      AltarMoving_20: 2514450225482076881
+      AltarMoving_21: 5817390367533111118
+      AltarMoving_22: -4355426319103095201
+      AltarMoving_23: -6131217717635926979
+      AltarMoving_24: -6647211037691894675
+      AltarMoving_3: 9068784054287933368
+      AltarMoving_4: 8742609456193737123
+      AltarMoving_5: 3581872185948238053
+      AltarMoving_6: 8106559541734886280
+      AltarMoving_7: 7053191601377800056
+      AltarMoving_8: -2010734216682610856
+      AltarMoving_9: -2626762178148482668
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

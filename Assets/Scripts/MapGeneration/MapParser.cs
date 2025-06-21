@@ -35,7 +35,12 @@ namespace MapGeneration
 
         private void Start()
         {
-            if (KcpRecvMessageParser.Instance) KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
+            if (KcpRecvMessageParser.Instance && !GameStartData.Instance) 
+                KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
+            else if (GameStartData.Instance)
+            {
+                ParseMap(GameStartData.Instance.mapInfoContainer.mapString);
+            }
         }
         
         private void ParseMessage(StringMessage msg)

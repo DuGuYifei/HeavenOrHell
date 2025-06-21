@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MapGeneration
 {
-    public class MapInfoContainer : MonoBehaviour
+    [Serializable]
+    public class MapInfoContainer
     {
         public List<Vector3> spawnPositions;
         public List<Vector3> gatePositions;
         public int heavenGateIndex = 1;
+        public string mapString;
         
         // TODO: add function calls to GameManager
         public void AddSpawnPosition(Vector3 position)
@@ -24,6 +27,5 @@ namespace MapGeneration
                 heavenGateIndex = gatePositions.Count - 1;
             }
         }
-
     }
 }

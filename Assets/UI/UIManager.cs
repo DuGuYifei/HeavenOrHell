@@ -8,12 +8,16 @@ using System.Net.Sockets;
 using Google.Protobuf;
 using KcpProject;
 using System;
+using System.Collections.Generic;
+using DefaultNamespace;
 using Google.Protobuf.Collections;
+using MapGeneration;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using network;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 
@@ -67,6 +71,8 @@ namespace UI
 
         public float StartTimer = 2.0f;
         public float ActualTimer;
+
+        private string mapString = "";
         void Start()
         {
             ActualTimer = StartTimer;
@@ -352,9 +358,16 @@ namespace UI
                 KcpNetworkEntity = Instantiate(KcpNetworkPrefab);
                 kcpNetwork = KcpNetworkEntity.GetComponent<KcpNetwork>();
             }
+            
+            var kcpRecvMessageParser = KcpNetworkEntity.GetComponent<KcpRecvMessageParser>();
+            kcpRecvMessageParser.onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
+            kcpRecvMessageParser.onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
+            kcpRecvMessageParser.onMapReceived.AddListener(OnMapReceived);
+        }
 
-            KcpNetworkEntity.GetComponent<KcpRecvMessageParser>().onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
-            KcpNetworkEntity.GetComponent<KcpRecvMessageParser>().onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
+        private void OnMapReceived(StringMessage message)
+        {
+            mapString = message.MessageContent;
         }
 
         public bool IsGameStartable()
@@ -377,7 +390,43 @@ namespace UI
 
         public void StartTheGame()
         {
-            Debug.Log("THE GAME BEGINS YAY");
+            // Populate GameStartData
+            var gameStartData = GameStartData.Instance;
+            gameStartData.characters.Clear();
+            for (int i = 0; i < 3; i++)
+            {
+                if (OtherPlayers[i].PlayerId != -1)
+                {
+                    gameStartData.characters.Add(new CharacterData
+                    {
+                        id = OtherPlayers[i].PlayerId,
+                        type = OtherPlayers[i].CharacterType,
+                        isPlayer = false,
+                        spawnPosition = Vector3.zero // TODO: Set proper spawn position
+                    });
+                }
+            }
+            gameStartData.characters.Add(new CharacterData
+            {
+                id = PlayerLobbyState.PlayerId,
+                type = PlayerLobbyState.CharacterType,
+                isPlayer = true,
+                spawnPosition = Vector3.zero // TODO: Set proper spawn position
+            });
+
+            gameStartData.mapInfoContainer = new MapInfoContainer
+            {
+                spawnPositions = new List<Vector3>(),
+                gatePositions = new List<Vector3>(),
+                heavenGateIndex = 0,
+                mapString = mapString,
+            };
+            
+            gameStartData.playerId = PlayerLobbyState.PlayerId;
+            
+            // change scene
+            Debug.Log("Starting the game");
+            SceneManager.LoadScene(Consts.GameScene);
         }
 
         public void CloseGame()

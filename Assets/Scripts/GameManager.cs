@@ -80,7 +80,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        KcpRecvMessageParser.Instance.onRoomMessageReceived.AddListener(OnRoomMessageReceived);
+        if (!GameStartData.Instance)
+        {
+            KcpRecvMessageParser.Instance.onRoomMessageReceived.AddListener(OnRoomMessageReceived);
+        }
+        else
+        {
+            PopulateGame();
+        }
         mainCamera.enabled = false;
     }
 
@@ -127,6 +134,54 @@ public class GameManager : MonoBehaviour
             _characters.Add(charContainer);
         }
         
+        _gameState = GameState.GameGenerated;
+
+    }
+
+    private void PopulateGame()
+    {
+        var gameStartData = GameStartData.Instance;
+        _playerId = gameStartData.playerId;
+        var i = 0;
+        foreach (var character in gameStartData.characters)
+        {
+            CharacterContainer selectedContainer = null;
+            switch (character.type)
+            {
+                case CharacterType.SoulDog:
+                    selectedContainer = dogContainerPrefab;
+                    break;
+                case CharacterType.SoulPsychologist:
+                    selectedContainer = psyContainerPrefab;
+                    break;
+                case CharacterType.SoulDetective:
+                    selectedContainer = detectiveContainerPrefab;
+                    break;
+                case CharacterType.Reaper:
+                    selectedContainer = reaperContainerPrefab;
+                    break;
+                default:
+                    Debug.LogWarning($"Unknown character type: {character.type}");
+                    break;
+            }
+            //TODO: character message should have a position and rotation
+            var position = new Vector3(TestValues.CharacterPositions[i].x, TestValues.CharacterPositions[i].y, 0);
+            i++;
+            var charContainer = Instantiate(selectedContainer, position, Quaternion.identity, characterParent);
+            if (kcpNetwork.playerId == character.id)
+            {
+                // instantiate player container, add as child of character parent
+                _playerId = character.id;
+                var playerContainer = Instantiate(playerContainerPrefab, Consts.PlayerPrefabPosition, Quaternion.identity, charContainer.transform);
+                playerContainer.transform.localPosition = Vector3.zero;
+                _playerContainer = charContainer;
+            }
+            else
+            {
+                _idToCharContainer[character.id] = charContainer;
+            }
+            _characters.Add(charContainer);
+        }
         _gameState = GameState.GameGenerated;
 
     }

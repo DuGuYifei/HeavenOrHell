@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f202764197d74893b37365f7248a244a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverIp: 0.0.0.0
+  serverIp: 91.99.133.254
   serverPort: 8888
   onRecvMessage:
     m_PersistentCalls:

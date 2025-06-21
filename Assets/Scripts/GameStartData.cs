@@ -5,8 +5,29 @@ using Message;
 using UnityEngine;
 
 [Serializable]
-public class GameStartData
+public class GameStartData: MonoBehaviour
 {
+    #region Singleton
+    
+    private static GameStartData instance;
+
+    public static GameStartData Instance
+    {
+        get => instance;
+    }
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(this);
+    }
+    
+    #endregion
+    
     public List<CharacterData> characters = new ();
     public MapInfoContainer mapInfoContainer;
     public int playerId;
