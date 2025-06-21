@@ -23,6 +23,7 @@ public class GameStartData: MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        instance = this;
         DontDestroyOnLoad(this);
     }
     

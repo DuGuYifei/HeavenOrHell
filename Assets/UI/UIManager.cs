@@ -392,7 +392,7 @@ namespace UI
         {
             // Populate GameStartData
             var gameStartData = GameStartData.Instance;
-            gameStartData.characters.Clear();
+            gameStartData.characters = new List<CharacterData>();
             for (int i = 0; i < 3; i++)
             {
                 if (OtherPlayers[i].PlayerId != -1)
