@@ -97,6 +97,7 @@ namespace MiniGames.Altar
             }
             if (currentButton == buttonSequenceLength) {
                 Debug.Log("Sequence entered correctly! You saved a soul");
+                GetComponentInParent<AltarController>().RegenSoul(4);
                 readyForInput = false;
             }
         }
