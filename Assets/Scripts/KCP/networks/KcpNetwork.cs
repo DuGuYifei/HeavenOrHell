@@ -35,7 +35,30 @@ namespace AntMill.Liu.Scripts.networks
         private KCP _kcp;
         private uint _conv = 0;
 
-        void Start()
+
+        #region DontDestroyOnLoad
+        
+        private static KcpNetwork _instance;
+
+        public static KcpNetwork Instance
+        {
+            get => _instance;
+        }
+
+        private void Awake()
+        {
+            if (_instance)
+                Destroy(gameObject);
+            else 
+            {
+                _instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+
+        #endregion
+        
+        public void StartClient()
         {
             // 初始化 UDP 与 KCP 会话
             _udpClient = new UdpClient(0);

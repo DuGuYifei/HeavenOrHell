@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerContainer playerContainerPrefab;
     [SerializeField] private ReaperContainer reaperContainerPrefab;
 
+    [Header("Map")] 
+    [SerializeField] private MapParser mapParser;
     public MapInfoContainer mapInfoContainer;
     private List<CharacterContainer> _characters = new();
     
@@ -88,7 +90,7 @@ public class GameManager : MonoBehaviour
         {
             PopulateGame();
         }
-        mainCamera.enabled = false;
+        // mainCamera.enabled = false;
     }
 
     private void OnRoomMessageReceived(RoomMessage roomMessage)
@@ -182,6 +184,10 @@ public class GameManager : MonoBehaviour
             }
             _characters.Add(charContainer);
         }
+        mapInfoContainer = gameStartData.mapInfoContainer;
+        mapParser.ParseMap(gameStartData.mapInfoContainer.mapString);
+
+        
         _gameState = GameState.GameGenerated;
 
     }
@@ -201,8 +207,10 @@ public class GameManager : MonoBehaviour
         {
             mapInfoContainer.AddSpawnPosition(position * mapScale);
         }
+        foreach (var position in spawnPositions)
+        {
+        }
         mainCamera.enabled = true;
-        print(spawnPositions[0]);
         _playerContainer.transform.position = new Vector3(spawnPositions[_playerId].x * mapScale, spawnPositions[_playerId].y * mapScale, 0)
             + new Vector3(1.5f,1.5f,0);
     }

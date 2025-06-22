@@ -37,10 +37,6 @@ namespace MapGeneration
         {
             if (KcpRecvMessageParser.Instance && !GameStartData.Instance) 
                 KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
-            else if (GameStartData.Instance)
-            {
-                ParseMap(GameStartData.Instance.mapInfoContainer.mapString);
-            }
         }
         
         private void ParseMessage(StringMessage msg)
@@ -69,7 +65,6 @@ namespace MapGeneration
             for (var y = 0; y < height; y++)
             {
                 var linesArray = decodedLines[y];
-                print(linesArray.Length);
                 for (var x = 0; x < width; x++)
                 {
                     if (linesArray[x] == SPAWN)

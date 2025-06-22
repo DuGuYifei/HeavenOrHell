@@ -3832,7 +3832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967b84c7d889a9c1594688f0f87ce131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerIP: 91.99.133.254
+  ServerIP: 131.159.199.80
   ServerPort: 8888
   KcpNetworkPrefab: {fileID: 7328974326388565053, guid: 86d185cf3f1557bf78f351d8c6028533, type: 3}
   MainMenu: {fileID: 1607284400}
@@ -3841,7 +3841,7 @@ MonoBehaviour:
   LobbyId: {fileID: 1684762252}
   LobbyEntryField: {fileID: 1698326302}
   ReadyFlag: {fileID: 1417584619}
-  kcpNetwork: {fileID: 0}
+  kcpNetwork: {fileID: 7927864619869120319}
   PlayerIcons:
   - {fileID: 1177249886}
   - {fileID: 1735052744}
@@ -6247,6 +6247,113 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1179315143853826728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5524128742275959629}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3174369420892272751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5524128742275959629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703784d745354b518fe9b09a62181a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kcpNetwork: {fileID: 7927864619869120319}
+  onRoomMessageReceived:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UI.UIManager, Assembly-CSharp
+        m_MethodName: OnReceivingRoomMessage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onMapReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  onSoulBasicReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  onReaperAttackResultReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  onPropGetReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  onLobbyMessageReceived:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UI.UIManager, Assembly-CSharp
+        m_MethodName: OnReceivingLobbyMessage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &5524128742275959629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1179315143853826728}
+  - component: {fileID: 7927864619869120319}
+  - component: {fileID: 3174369420892272751}
+  m_Layer: 0
+  m_Name: KcpNetwork
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &7927864619869120319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5524128742275959629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f202764197d74893b37365f7248a244a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverIp: 91.99.133.254
+  serverPort: 8888
+  onRecvMessage:
+    m_PersistentCalls:
+      m_Calls: []
+  roomId: 0
+  playerId: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6255,3 +6362,4 @@ SceneRoots:
   - {fileID: 1369739426}
   - {fileID: 2125935600}
   - {fileID: 1345312850}
+  - {fileID: 1179315143853826728}

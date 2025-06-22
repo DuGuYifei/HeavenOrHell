@@ -355,11 +355,12 @@ namespace UI
         {
             if (KcpNetworkEntity == null)
             {
-                KcpNetworkEntity = Instantiate(KcpNetworkPrefab);
-                kcpNetwork = KcpNetworkEntity.GetComponent<KcpNetwork>();
+                kcpNetwork.serverIp = ServerIP;
+                kcpNetwork.serverPort = ServerPort;
+                kcpNetwork.StartClient();
             }
             
-            var kcpRecvMessageParser = KcpNetworkEntity.GetComponent<KcpRecvMessageParser>();
+            var kcpRecvMessageParser = kcpNetwork.GetComponent<KcpRecvMessageParser>();
             kcpRecvMessageParser.onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
             kcpRecvMessageParser.onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
             kcpRecvMessageParser.onMapReceived.AddListener(OnMapReceived);
