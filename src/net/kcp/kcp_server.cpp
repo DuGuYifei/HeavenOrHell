@@ -340,7 +340,7 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
                 character->set_character_type(getRandomCharacterType());
         }
         printf("Player joined room: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
-        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, std::move(room));
+        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, room);
         sessions[conv] = session;
         message::MessageWrapper wrapper_room;
         wrapper_room.mutable_room_message()->CopyFrom(roomMsg);
