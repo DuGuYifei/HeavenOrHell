@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     
     public Vector3 GridSize => gameGrid.cellSize;
 
+    public int PlayerID => _playerId;
+
     #endregion
 
     #region Singleton
