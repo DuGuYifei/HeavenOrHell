@@ -56,6 +56,6 @@ public class ReaperContainer : CharacterContainer
     public void RegisterTheAttack(int victimID)
     {
         Debug.Log($"[Client→Server] Sent ReaperAttackMessage: VictimID={victimID}");
-        KcpNetwork.Instance.SendReaperAttackMessage(victimID, 0);
+        KcpNetwork.Instance.SendReaperAttackMessage(victimID);
     }
 }
