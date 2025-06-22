@@ -98,9 +98,11 @@ public abstract class CharacterContainer : MonoBehaviour
     {
         prefab.PlayAnimation(state, 0);
     }
-    
+
     public abstract void SkillPerformed();
 
     public abstract void DashPerformed();
+
+    public abstract void AttackPerformed();
 
 }

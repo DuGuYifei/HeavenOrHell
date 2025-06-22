@@ -365,7 +365,32 @@ namespace AntMill.Liu.Scripts.networks
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error sending reaper attack message: {e.Message}");
+                Debug.LogError($"Error sending reaper lobby message: {e.Message}");
+            }
+        }
+
+        public void SendAltarSuccessMessage(int weak_soul_id)
+        {
+            if (!_connected || !_roomJoined) return;
+
+            try
+            {
+                IntegerMessage msg = new IntegerMessage
+                {
+                    Value = weak_soul_id,
+                };
+
+                MessageWrapper wrapper = new MessageWrapper
+                {
+                    IntegerMessage = msg,
+                };
+
+                SendProtobufMessage(wrapper);
+                Debug.Log($"[Client→Server] Sent AltarSuccessMessage: WeakSoulId={weak_soul_id}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error sending reaper altar minigame success message: {e.Message}");
             }
         }
 

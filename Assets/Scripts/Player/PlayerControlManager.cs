@@ -12,10 +12,15 @@ namespace Player
         [SerializeField] private float moveSpeed;
         public float speedMultiplier = 1f;
 
+        public float speedDebuff = 0.5f;
+        public float debuffLength = 5.0f;
+        public float debuffTimer = 0.0f;
+
         private InputAction _moveAction;
         private InputAction _skillAction;
         private InputAction _dashAction;
         private InputAction _mapAction;
+        private InputAction _attackAction;
         private Rigidbody2D _rigidbody2D;
         private CharacterContainer _characterContainer;
         private bool _isSoul = false;
@@ -27,6 +32,7 @@ namespace Player
             _skillAction = actionMap.FindAction("Skill", true);
             _dashAction = actionMap.FindAction("Dash", true);
             _mapAction = actionMap.FindAction("Map", true);
+            _attackAction = actionMap.FindAction("Attack", true);
             _rigidbody2D = transform.parent.GetComponent<Rigidbody2D>();
             _characterContainer = transform.parent.GetComponent<CharacterContainer>();
             // check if the character is a soul
@@ -43,6 +49,8 @@ namespace Player
             _mapAction.Enable();
             _mapAction.started += OnMapStarted;
             _mapAction.canceled += OnMapEnded;
+            _attackAction.Enable();
+            _attackAction.performed += OnAttackPerformed;
         }
 
         private void OnDisable()
@@ -80,6 +88,16 @@ namespace Player
             _characterContainer.DashPerformed();
         }
 
+        private void OnAttackPerformed(InputAction.CallbackContext obj)
+        {
+            print("attackPerformed");
+            if (_characterContainer is ReaperContainer)
+            {
+                _characterContainer.AttackPerformed();
+            }
+            debuffTimer = debuffLength;
+        }
+
         private void FixedUpdate()
         {
             Move();
@@ -89,6 +107,10 @@ namespace Player
         {
             Vector2 moveInput = _moveAction.ReadValue<Vector2>();
             moveInput *= moveSpeed * speedMultiplier;
+            if (debuffTimer > 0.0f)
+            {
+                moveInput *= speedDebuff;
+            }
             _rigidbody2D.linearVelocity = moveInput;
             var position = transform.position;
             if (moveInput.x != 0 || moveInput.y != 0)
