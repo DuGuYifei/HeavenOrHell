@@ -346,6 +346,12 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         wrapper_room.mutable_room_message()->CopyFrom(roomMsg);
         session->sendMessage(wrapper_room);
         broadcastToRoom(room_id, wrapper_room, {player_id}, false);
+        message::StringMessage maze_map_msg;
+        maze_map_msg.set_message_type(message::StringMessageType::MAZE_MAP);
+        maze_map_msg.set_message_content(room->getMazeMap().get_rle_compressed_maze());
+        message::MessageWrapper wrapper_maze_map;
+        wrapper_maze_map.mutable_string_message()->CopyFrom(maze_map_msg);
+        session->sendMessage(wrapper_maze_map);
     }
 }
 
