@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class ReaperContainer : CharacterContainer
 {
-
+    [SerializeField] private CircleCollider2D collider2d;
+    
     private float attackDistance = 0.5f;
     private float collisionRadius = 0.25f;
+    
+    private CollisionChecker _collisionChecker;
+    
     public override void OnInit()
     {
         base.OnInit();
+        _collisionChecker = collider2d.GetComponent<CollisionChecker>();
     }
 
     public override void SkillPerformed()
@@ -43,12 +48,12 @@ public class ReaperContainer : CharacterContainer
             transform.position.y + hitDir.y,
             transform.position.z
         );
-        CircleCollider2D collider = Instantiate<CircleCollider2D>(new CircleCollider2D());
-        collider.transform.position = collisionSpawn;
-        collider.transform.parent = transform;
-        collider.radius = collisionRadius;
-        collider.AddComponent<CollisionChecker>();
-
+        // CircleCollider2D collider = Instantiate<CircleCollider2D>(new CircleCollider2D());
+        collider2d.transform.position = collisionSpawn;
+        collider2d.transform.parent = transform;
+        collider2d.radius = collisionRadius;
+        // collider.AddComponent<CollisionChecker>();
+        PlayAnimation(PlayerState.ATTACK);
         // mb check for collisions and if there's a poor soul, DAMAGE it
 
     }

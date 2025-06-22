@@ -7,10 +7,7 @@ public class CollisionChecker : MonoBehaviour
     public float lifeLength = 0.5f;
     private float lifeTime = 0f;
     private List<GameObject> currentCollisions = new List<GameObject>();
-    void Start()
-    {
-
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -19,18 +16,21 @@ public class CollisionChecker : MonoBehaviour
 
         if (lifeTime >= activationTime)
         {
+            var hasHit = false;
             foreach (GameObject gObject in currentCollisions)
             {
                 SoulContainer soulCon = gObject.GetComponent<SoulContainer>();
                 if (soulCon != null && !soulCon._isWeak)
                 {
                     transform.parent.GetComponent<ReaperContainer>().RegisterTheAttack(soulCon.id);
+                    hasHit = true;
                 }
             }
+            if (hasHit) enabled = false;
         }
         else if (lifeTime >= lifeLength)
         {
-            Destroy(this);
+            enabled = false;
         }
 
     }

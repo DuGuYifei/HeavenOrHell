@@ -13,10 +13,10 @@ namespace network
         public RoomMessageReceivedEvent onRoomMessageReceived;
         public MapMessageEvent onMapReceived;
         public SoulBasicMessageEvent onSoulBasicReceived;
-        public ReaperAttackResultMessageEvent onReaperAttackResultReceived;
         public PropGetMessageEvent onPropGetReceived;
         public LobbyMessageEvent onLobbyMessageReceived;
 
+        private bool _debugBasicMessage = false;
         #region Singleton
 
         private static KcpRecvMessageParser _instance;
@@ -65,13 +65,8 @@ namespace network
 
                 case MessageWrapper.PayloadOneofCase.PlayerBasicMessage:
                     var soulMsg = wrapper.PlayerBasicMessage;
-                    Debug.Log($"[Server→Client] SoulBasicMessage: player_id={soulMsg.PlayerId}, pos=({soulMsg.PositionX},{soulMsg.PositionY}), hp={soulMsg.Hp}/{soulMsg.MaxHp}, animation_type={soulMsg.AnimationType}");
+                    if (_debugBasicMessage) Debug.Log($"[Server→Client] SoulBasicMessage: player_id={soulMsg.PlayerId}, pos=({soulMsg.PositionX},{soulMsg.PositionY}), hp={soulMsg.Hp}/{soulMsg.MaxHp}, animation_type={soulMsg.AnimationType}");
                     onSoulBasicReceived?.Invoke(soulMsg);
-                    break;
-
-                case MessageWrapper.PayloadOneofCase.ReaperAttackMessage:
-                    var attackMsg = wrapper.ReaperAttackMessage;
-                    Debug.Log($"[Server→Client] ReaperAttackMessage: soul_player_id={attackMsg.SoulPlayerId}, skill_id={attackMsg.SkillId}");
                     break;
 
                 case MessageWrapper.PayloadOneofCase.PropTryGetMessage:
@@ -83,12 +78,6 @@ namespace network
                     var propGetMsg = wrapper.PropGetMessage;
                     Debug.Log($"[Server→Client] PropGetMessage: player_id={propGetMsg.PlayerId}, prop_id={propGetMsg.PropId}, is_get={propGetMsg.IsGet}");
                     onPropGetReceived?.Invoke(propGetMsg);
-                    break;
-
-                case MessageWrapper.PayloadOneofCase.ReaperAttackResultMessage:
-                    var attackResultMsg = wrapper.ReaperAttackResultMessage;
-                    Debug.Log($"[Server→Client] ReaperAttackResultMessage: soul_player_id={attackResultMsg.SoulPlayerId}, is_hit={attackResultMsg.IsHit}");
-                    onReaperAttackResultReceived?.Invoke(attackResultMsg);
                     break;
                 case MessageWrapper.PayloadOneofCase.LobbyMessage:
                     var lobbyResultMsg = wrapper.LobbyMessage;
@@ -118,11 +107,6 @@ namespace network
 
     [Serializable]
     public class SoulBasicMessageEvent : UnityEngine.Events.UnityEvent<PlayerBasicMessage>
-    {
-    }
-
-    [Serializable]
-    public class ReaperAttackResultMessageEvent : UnityEngine.Events.UnityEvent<ReaperAttackResultMessage>
     {
     }
 

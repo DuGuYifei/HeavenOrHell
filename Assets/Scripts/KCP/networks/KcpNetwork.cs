@@ -30,7 +30,8 @@ namespace AntMill.Liu.Scripts.networks
         private const float HelloIntervalTime = 10f;
         private const float KcpSendIntervalTime = 0.02f;
         
-
+        
+        private bool _debugBasicMessage = false; // Debug flag for basic message sending
         private UdpClient _udpClient;
         private IPEndPoint _serverEndPoint;
         private KCP _kcp;
@@ -286,7 +287,7 @@ namespace AntMill.Liu.Scripts.networks
                 };
 
                 SendProtobufMessage(wrapper);
-                Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}, animation={animationType}");
+                if (_debugBasicMessage) Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}, animation={animationType}");
             }
             catch (Exception e)
             {
