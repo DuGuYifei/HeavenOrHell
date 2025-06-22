@@ -264,6 +264,35 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
             }
             default:;
             }
+            break;
+        }
+        case message::MessageWrapper::kEnterGateMessage:
+        {
+            if (room->hasPlayer(player_id))
+            {
+                Player &player = room->getPlayer(player_id);
+                message::GateType gate_type = room->getGateTypes().at(wrapper.enter_gate_message().gate_direction());
+                printf("Player %d in room %d entered gate %d, gate type: %d\n", player_id, room->getRoomId(), wrapper.enter_gate_message().gate_direction(), static_cast<int>(gate_type));
+                if (gate_type == message::GateType::GATE_HEAVEN)
+                {
+                    player.player_result = PlayerResult::HEAVEN;
+                }
+                else if (gate_type == message::GateType::GATE_HELL)
+                {
+                    player.hp = 0;
+                    player.character_state = message::CharacterState::Character_STATE_DIE;
+                    player.animation_type = message::PlayerAnimationType::DIE;
+                    player.player_result = PlayerResult::HELL;
+                }
+                message::Gate gate;
+                gate.set_gate_direction(wrapper.enter_gate_message().gate_direction());
+                gate.set_gate_type(gate_type);
+                message::EnterGateResultMessage enter_gate_result_message;
+                enter_gate_result_message.set_player_id(player_id);
+                enter_gate_result_message.set_allocated_gate(&gate);
+                broadcastToRoom(room->getRoomId(), wrapper, {}, true);
+            }
+            break;
         }
         // TODO: other message to the game here
         default:;

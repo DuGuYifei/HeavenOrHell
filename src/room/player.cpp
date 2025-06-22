@@ -12,6 +12,7 @@ void Player::weak_update(float delta_time)
         if (weak_timer >= 60.0f)
         {
             character_state = message::CharacterState::Character_STATE_DIE;
+            player_result = PlayerResult::DIE_BY_HIT;
             weak_timer = 0.0f; // 重置计时器
         }
     }
