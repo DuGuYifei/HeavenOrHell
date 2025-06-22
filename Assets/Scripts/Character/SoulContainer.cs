@@ -15,7 +15,7 @@ public abstract class SoulContainer : CharacterContainer
     private float _initialSpeedMultiplier;
 
     public bool _isWeak = false;
-    public int _health = 3;
+    public float _hp = 100.0f;
 
     protected override void Awake()
     {
@@ -32,7 +32,11 @@ public abstract class SoulContainer : CharacterContainer
         _inDash = false;
         _dashTime = 0f;
         _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
-        if (_health == 0) _isWeak = false;
+        if (_hp <= 0)
+        {
+            _isWeak = false;
+            _hp = 0.0f;
+        }
     }
 
     public override void DashPerformed()
