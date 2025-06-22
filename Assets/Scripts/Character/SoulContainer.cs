@@ -51,6 +51,11 @@ public abstract class SoulContainer : CharacterContainer
         _playerControlManager.speedMultiplier = dashSpeedMultiplier;
     }
 
+    public override void AttackPerformed()
+    {
+        // no attack ... YET
+    }
+
     #region Properties
 
     public SoulType SoulType => soulType;
