@@ -1,4 +1,5 @@
 ﻿using System;
+using AntMill.Liu.Scripts.networks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,7 @@ namespace Player
         private InputAction _dashAction;
         private Rigidbody2D _rigidbody2D;
         private CharacterContainer _characterContainer;
+        private PlayerContainer _playerContainer;
         
         private void Awake()
         {
@@ -25,6 +27,7 @@ namespace Player
             _rigidbody2D = transform.parent.GetComponent<Rigidbody2D>();
             _characterContainer = transform.parent.GetComponent<CharacterContainer>();
             transform.parent.GetComponent<Collider2D>().enabled = true;
+            _playerContainer = GetComponent<PlayerContainer>();
         }
 
         private void OnEnable()
@@ -69,6 +72,8 @@ namespace Player
             {
                 _characterContainer.prefab.PlayAnimation(PlayerState.MOVE, 0);
                 _characterContainer.SetCharacterSide(moveInput.x > 0);
+                var position = transform.position;
+                KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, _playerContainer.hp, _playerContainer.maxHp);
             }
             else
             {
