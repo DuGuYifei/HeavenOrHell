@@ -88,7 +88,7 @@ void KcpServer::iterateBroadcastAllRooms()
             playerMsg.set_animation_type(room->getPlayer(player_id).animation_type);
             message::MessageWrapper wrapper;
             wrapper.mutable_player_basic_message()->CopyFrom(playerMsg);
-            broadcastToRoom(roomId, wrapper, {player_id}, true);
+            broadcastToRoom(roomId, wrapper, {}, true);
         }
 
         // TODO: other messages to broadcast each frame

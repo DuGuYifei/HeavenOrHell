@@ -119,28 +119,46 @@ std::pair<std::vector<std::vector<char>>, std::pair<int, int>> MazeMap::generate
     }
 
     std::vector<std::pair<int, int>> exits;
-    std::vector<std::pair<int, int>> possible_edges;
 
+    // 为每条边分别生成候选位置并选择一个出口
+    std::vector<std::vector<std::pair<int, int>>> edge_candidates(4);
+
+    // 上边候选位置
     for (int i = 1; i < width; i += 2)
     {
-        possible_edges.emplace_back(0, i);
-        possible_edges.emplace_back(height - 1, i);
+        edge_candidates[0].emplace_back(0, i);
     }
 
+    // 下边候选位置
+    for (int i = 1; i < width; i += 2)
+    {
+        edge_candidates[1].emplace_back(height - 1, i);
+    }
+
+    // 左边候选位置
     for (int i = 1; i < height; i += 2)
     {
-        possible_edges.emplace_back(i, 0);
-        possible_edges.emplace_back(i, width - 1);
+        edge_candidates[2].emplace_back(i, 0);
     }
 
-    std::shuffle(possible_edges.begin(), possible_edges.end(), rng);
-
-    for (auto [y, x] : possible_edges)
+    // 右边候选位置
+    for (int i = 1; i < height; i += 2)
     {
-        if (maze[y][x] == MAP_WALL && exits.size() < 4)
+        edge_candidates[3].emplace_back(i, width - 1);
+    }
+
+    // 为每条边随机选择一个出口
+    for (int edge = 0; edge < 4; ++edge)
+    {
+        if (!edge_candidates[edge].empty())
         {
-            maze[y][x] = MAP_EXIT;
-            exits.emplace_back(x, y);
+            std::uniform_int_distribution<int> dist(0, edge_candidates[edge].size() - 1);
+            auto [y, x] = edge_candidates[edge][dist(rng)];
+            if (maze[y][x] == MAP_WALL)
+            {
+                maze[y][x] = MAP_EXIT;
+                exits.emplace_back(x, y);
+            }
         }
     }
 
