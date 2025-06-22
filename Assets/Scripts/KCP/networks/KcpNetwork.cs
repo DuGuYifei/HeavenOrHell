@@ -295,30 +295,52 @@ namespace AntMill.Liu.Scripts.networks
         }
 
         // Send ReaperAttackMessage
-        public void SendReaperAttackMessage(int targetSoulPlayerId, int skillId)
+        public void SendReaperAttackMessage(int target_player_id)
         {
             if (!_connected || !_roomJoined) return;
 
             try
             {
-                ReaperAttackMessage attackMsg = new ReaperAttackMessage
+                IntegerMessage msg = new IntegerMessage
                 {
-                    SoulPlayerId = targetSoulPlayerId,
-                    SkillId = skillId
+                    Value = target_player_id,
+                    MessageType = IntegerMessageType.ReaperAttackResult
                 };
 
                 MessageWrapper wrapper = new MessageWrapper
                 {
-                    ReaperAttackMessage = attackMsg
+                    IntegerMessage = msg,
                 };
 
                 SendProtobufMessage(wrapper);
-                Debug.Log($"[Client→Server] Sent ReaperAttackMessage: target={targetSoulPlayerId}, skill={skillId}");
+                Debug.Log($"[Client→Server] Sent AttackMessage: TargetMessage={target_player_id}");
             }
             catch (Exception e)
             {
-                Debug.LogError($"Error sending reaper attack message: {e.Message}");
+                Debug.LogError($"Error sending reaper altar minigame success message: {e.Message}");
             }
+            // if (!_connected || !_roomJoined) return;
+
+            // try
+            // {
+            //     ReaperAttackMessage attackMsg = new ReaperAttackMessage
+            //     {
+            //         SoulPlayerId = targetSoulPlayerId,
+            //         SkillId = skillId
+            //     };
+
+            //     MessageWrapper wrapper = new MessageWrapper
+            //     {
+            //         ReaperAttackMessage = attackMsg
+            //     };
+
+            //     SendProtobufMessage(wrapper);
+            //     Debug.Log($"[Client→Server] Sent ReaperAttackMessage: target={targetSoulPlayerId}, skill={skillId}");
+            // }
+            // catch (Exception e)
+            // {
+            //     Debug.LogError($"Error sending reaper attack message: {e.Message}");
+            // }
         }
 
         public void SendStartReceiveMessage(int playerId)
@@ -378,6 +400,7 @@ namespace AntMill.Liu.Scripts.networks
                 IntegerMessage msg = new IntegerMessage
                 {
                     Value = weak_soul_id,
+                    MessageType = IntegerMessageType.AltarMiniGameSuccess,
                 };
 
                 MessageWrapper wrapper = new MessageWrapper
