@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using DefaultNamespace;
 using Message;
+using Minimap;
 using network;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -51,7 +52,7 @@ namespace MapGeneration
         // TODO: update only for test, so delete it
         private void Update()
         {
-            if (!_testFlag)
+            if (_testFlag)
             {
                 _testFlag = true;
                 StreamReader sr = new StreamReader("D:\\Project\\Game\\Unity\\HeavenOrHell\\heaven-or-heal-client\\Assets\\Scripts\\sample_map.txt");
@@ -153,7 +154,6 @@ namespace MapGeneration
             _minimapTexture.Apply();
             _minimapTexture.filterMode = FilterMode.Point;
             minimapRawImage.texture = _minimapTexture;
-            
                 // else
                 //     print(map[x][y]);
         }

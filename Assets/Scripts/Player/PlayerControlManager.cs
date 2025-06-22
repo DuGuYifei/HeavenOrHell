@@ -15,6 +15,7 @@ namespace Player
         private InputAction _moveAction;
         private InputAction _skillAction;
         private InputAction _dashAction;
+        private InputAction _mapAction;
         private Rigidbody2D _rigidbody2D;
         private CharacterContainer _characterContainer;
         private bool _isSoul = false;
@@ -25,6 +26,7 @@ namespace Player
             _moveAction = actionMap.FindAction("Move", true);
             _skillAction = actionMap.FindAction("Skill", true);
             _dashAction = actionMap.FindAction("Dash", true);
+            _mapAction = actionMap.FindAction("Map", true);
             _rigidbody2D = transform.parent.GetComponent<Rigidbody2D>();
             _characterContainer = transform.parent.GetComponent<CharacterContainer>();
             // check if the character is a soul
@@ -38,6 +40,9 @@ namespace Player
             _skillAction.performed += OnSkillActionPerformed;
             _dashAction.Enable();
             _dashAction.performed += OnDashActionPerformed;
+            _mapAction.Enable();
+            _mapAction.started += OnMapStarted;
+            _mapAction.canceled += OnMapEnded;
         }
 
         private void OnDisable()
@@ -46,7 +51,22 @@ namespace Player
             _skillAction.performed -= OnSkillActionPerformed;
             _dashAction.Disable();
             _dashAction.performed -= OnDashActionPerformed;
+            _mapAction.Disable();
+            _mapAction.performed -= OnMapStarted;
+            _mapAction.canceled -= OnMapEnded;
         }
+
+        private void OnMapStarted(InputAction.CallbackContext obj)
+        {
+            GameManager.Instance?.MiniMapController?.SetVisibility(true);
+        }
+        
+        private void OnMapEnded(InputAction.CallbackContext obj)
+        {
+            GameManager.Instance?.MiniMapController?.SetVisibility(false);
+        }
+        
+        
 
         private void OnSkillActionPerformed(InputAction.CallbackContext obj)
         {

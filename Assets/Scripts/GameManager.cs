@@ -4,6 +4,7 @@ using Character;
 using DefaultNamespace;
 using MapGeneration;
 using Message;
+using Minimap;
 using network;
 using Player;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Map")] 
     [SerializeField] private MapParser mapParser;
+    [SerializeField] private MiniMapController miniMapController;
     public MapInfoContainer mapInfoContainer;
     private List<CharacterContainer> _characters = new();
     
@@ -56,6 +58,12 @@ public class GameManager : MonoBehaviour
     public Vector3 GridSize => gameGrid.cellSize;
 
     public int PlayerId => _playerId;
+
+    public MiniMapController MiniMapController
+    {
+        get => miniMapController;
+        set => miniMapController = value;
+    }
 
     #endregion
 
@@ -94,54 +102,6 @@ public class GameManager : MonoBehaviour
         }
         // mainCamera.enabled = false;
     }
-
-    // private void OnRoomMessageReceived(RoomMessage roomMessage)
-    // {
-    //     var i = 0;
-    //     foreach (var character in roomMessage.Characters)
-    //     {
-    //         CharacterContainer selectedContainer = null;
-    //         switch (character.CharacterType)
-    //         {
-    //             case CharacterType.SoulDog:
-    //                 selectedContainer = dogContainerPrefab;
-    //                 break;
-    //             case CharacterType.SoulPsychologist:
-    //                 selectedContainer = psyContainerPrefab;
-    //                 break;
-    //             case CharacterType.SoulDetective:
-    //                 selectedContainer = detectiveContainerPrefab;
-    //                 break;
-    //             case CharacterType.Reaper:
-    //                 selectedContainer = reaperContainerPrefab;
-    //                 break;
-    //             default:
-    //                 Debug.LogWarning($"Unknown character type: {character.CharacterType}");
-    //                 break;
-    //         }
-    //         //TODO: character message should have a position and rotation
-    //         var position = new Vector3(TestValues.CharacterPositions[i].x, TestValues.CharacterPositions[i].y, 0);
-    //         i++;
-    //         var charContainer = Instantiate(selectedContainer, position, Quaternion.identity, characterParent);
-    //         if (kcpNetwork.playerId == character.PlayerId)
-    //         {
-    //             // instantiate player container, add as child of character parent
-    //             _playerId = character.PlayerId;
-    //             var playerContainer = Instantiate(playerContainerPrefab, Consts.PlayerPrefabPosition, Quaternion.identity, charContainer.transform);
-    //             playerContainer.transform.localPosition = Vector3.zero;
-    //             _playerContainer = charContainer;
-    //         }
-    //         else
-    //         {
-    //             _idToCharContainer[character.PlayerId] = charContainer;
-    //         }
-    //         _characters.Add(charContainer);
-    //     }
-    //     
-    //     _gameState = GameState.GameGenerated;
-    //     KcpNetwork.Instance.SendStartReceiveMessage(_playerId);
-    //
-    // }
 
     private void PopulateGame()
     {
@@ -200,7 +160,7 @@ public class GameManager : MonoBehaviour
             _characters.Add(charContainer);
         }
 
-        
+        miniMapController.InitializeMinimap(_playerContainer);
         _gameState = GameState.GameGenerated;
         KcpNetwork.Instance.SendStartReceiveMessage(_playerId);
     }

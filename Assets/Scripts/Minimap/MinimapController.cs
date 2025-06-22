@@ -8,18 +8,20 @@ namespace Minimap
     {
         [SerializeField] private RawImage minimapPlayerPositionRawImage;
         [SerializeField] private RawImage minimapDarkMaskRawImage;
-        [SerializeField] private CharacterContainer player;
         [SerializeField] private int width = 31;
         [SerializeField] private int height = 31;
         [SerializeField] private float mapScale = 3f;
         
         private Texture2D _minimapPlayerPositionTexture;
         private Texture2D _minimapDarkMaskTexture;
+        private CharacterContainer _player;
+        private GameObject _minimapParent;
         
-        private readonly Color _playerColor = new Color(163 / 255f, 110 / 255f, 52 / 255f);
+        private readonly Color _playerColor = new (163 / 255f, 110 / 255f, 52 / 255f);
 
-        private void Start()
+        public void InitializeMinimap(CharacterContainer player)
         {
+            _player = player;
             // 将 _minimapPlayerPositionTexture 设为全透明 
             _minimapPlayerPositionTexture = new Texture2D(width, height);
             for (int x = 0; x < width; x++)
@@ -66,14 +68,15 @@ namespace Minimap
             }
             _minimapDarkMaskTexture.Apply();
             minimapDarkMaskRawImage.texture = _minimapDarkMaskTexture;
+            _minimapParent = transform.parent.gameObject;
         }
         
         private void Update()
         {
-            if (!player) return;
+            if (!_player) return;
             // 更新 player 在小地图上的位置
-            int playerX = Mathf.FloorToInt(player.transform.position.x / mapScale);
-            int playerY = Mathf.FloorToInt(player.transform.position.y / mapScale);
+            int playerX = Mathf.FloorToInt(_player.transform.position.x / mapScale);
+            int playerY = Mathf.FloorToInt(_player.transform.position.y / mapScale);
             
             // 清除之前的玩家位置
             for (int x = 0; x < width; x++)
@@ -98,6 +101,11 @@ namespace Minimap
                 }
             }
             _minimapDarkMaskTexture.Apply();
+        }
+
+        public void SetVisibility(bool visible)
+        {
+            _minimapParent.SetActive(visible);
         }
     }
 }
