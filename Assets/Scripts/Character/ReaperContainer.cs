@@ -58,6 +58,11 @@ public class ReaperContainer : CharacterContainer
 
     }
 
+    public override void GateActionPerformed()
+    {
+        // No Gate Action
+    }
+
     public void RegisterTheAttack(int victimID)
     {
         Debug.Log($"[Client→Server] Sent ReaperAttackMessage: VictimID={victimID}");

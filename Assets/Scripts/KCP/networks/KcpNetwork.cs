@@ -343,6 +343,31 @@ namespace AntMill.Liu.Scripts.networks
             //     Debug.LogError($"Error sending reaper attack message: {e.Message}");
             // }
         }
+        
+        public void SendEnterGateMessage(int playerId, GateDirection gateDirection)
+        {
+            if (!_connected || !_roomJoined) return;
+
+            try
+            {
+                EnterGateMessage gateMsg = new EnterGateMessage
+                {
+                    GateDirection = gateDirection
+                };
+
+                MessageWrapper wrapper = new MessageWrapper
+                {
+                    EnterGateMessage = gateMsg
+                };
+
+                SendProtobufMessage(wrapper);
+                Debug.Log($"[Client→Server] Sent GateMessage: PlayerId={playerId}, GateDirection={gateDirection}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error sending gate message: {e.Message}");
+            }
+        }
 
         public void SendStartReceiveMessage(int playerId)
         {

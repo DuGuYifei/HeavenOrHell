@@ -100,7 +100,7 @@ namespace MapGeneration
                             + new Vector3(scale/2.0f, scale/2.0f,0));
                     } else if (linesArray[x] == EXIT)
                     {
-                        GameManager.Instance?.mapInfoContainer.AddGatePosition(new Vector3(x * scale, y * scale, 0) + new Vector3(x * scale, y * scale, 0), false);
+                        GameManager.Instance?.mapInfoContainer.AddGatePosition(new Vector3(x * scale, y * scale, 0) + new Vector3(scale/2f,scale/2f, 0), false);
                     } else if (linesArray[x] == REAPER)
                     {
                         var manager = GameManager.Instance;

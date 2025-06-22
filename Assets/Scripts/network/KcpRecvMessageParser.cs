@@ -16,6 +16,7 @@ namespace network
         public PropGetMessageEvent onPropGetReceived;
         public LobbyMessageEvent onLobbyMessageReceived;
         public GateMessageEvent onGateMessageReceived;
+        public GateResultMessageEvent onGateResultReceived;
 
         private bool _debugBasicMessage = true;
         #region Singleton
@@ -90,6 +91,10 @@ namespace network
                     Debug.Log($"[Server→Client] GateMessage");
                     onGateMessageReceived?.Invoke(gateMsg);
                     break;
+                case MessageWrapper.PayloadOneofCase.EnterGateResultMessage:
+                    var enterGateResultMsg = wrapper.EnterGateResultMessage;
+                    Debug.Log($"[Server→Client] EnterGateResultMessage: player_id={enterGateResultMsg.PlayerId}, is_success={enterGateResultMsg.Gate.GateType}");
+                    break;
                 default:
                     Debug.Log($"[Server→Client] Unknown message type: {wrapper.PayloadCase}");
                     break;
@@ -129,5 +134,11 @@ namespace network
     public class LobbyMessageEvent : UnityEngine.Events.UnityEvent<LobbyMessage>
     {
     }
+
+    [Serializable]
+    public class GateResultMessageEvent : UnityEngine.Events.UnityEvent<EnterGateResultMessage>
+    {
+    }
     
+
 }

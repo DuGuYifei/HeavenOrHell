@@ -21,6 +21,7 @@ namespace Player
         private InputAction _dashAction;
         private InputAction _mapAction;
         private InputAction _attackAction;
+        private InputAction _gateAction;
         private Rigidbody2D _rigidbody2D;
         private CharacterContainer _characterContainer;
         private bool _isSoul = false;
@@ -32,6 +33,7 @@ namespace Player
             _skillAction = actionMap.FindAction("Skill", true);
             _dashAction = actionMap.FindAction("Dash", true);
             _mapAction = actionMap.FindAction("Map", true);
+            _gateAction = actionMap.FindAction("Gate", true);
             _attackAction = actionMap.FindAction("Attack", true);
             _rigidbody2D = transform.parent.GetComponent<Rigidbody2D>();
             _characterContainer = transform.parent.GetComponent<CharacterContainer>();
@@ -51,6 +53,8 @@ namespace Player
             _mapAction.canceled += OnMapEnded;
             _attackAction.Enable();
             _attackAction.performed += OnAttackPerformed;
+            _gateAction.Enable();
+            _gateAction.performed += OnGateActionPerformed;
         }
 
         private void OnDisable()
@@ -62,6 +66,10 @@ namespace Player
             _mapAction.Disable();
             _mapAction.performed -= OnMapStarted;
             _mapAction.canceled -= OnMapEnded;
+            _attackAction.Disable();
+            _attackAction.performed -= OnAttackPerformed;
+            _gateAction.Disable();
+            _gateAction.performed -= OnGateActionPerformed;
         }
 
         private void OnMapStarted(InputAction.CallbackContext obj)
@@ -73,8 +81,11 @@ namespace Player
         {
             GameManager.Instance?.MiniMapController?.SetVisibility(false);
         }
-        
-        
+
+        private void OnGateActionPerformed(InputAction.CallbackContext obj)
+        {
+            _characterContainer.GateActionPerformed();
+        }
 
         private void OnSkillActionPerformed(InputAction.CallbackContext obj)
         {
@@ -101,6 +112,11 @@ namespace Player
         private void FixedUpdate()
         {
             Move();
+        }
+
+        private void Update()
+        {
+            
         }
 
         private void Move()

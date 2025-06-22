@@ -64,22 +64,6 @@ public abstract class CharacterContainer : MonoBehaviour
         //     PlayAnimation(PlayerState.IDLE);
         // }
     }
-
-    // public void SetPose(Vector2 pos)
-    // {
-    //     var lastPos = ContainerTransform.position;
-    //     ContainerTransform.position = pos;
-    //     var diffX = lastPos.x - pos.x;
-    //     if (Mathf.Abs(diffX) > 0)
-    //     {
-    //         SetCharacterSide(diffX > 0);
-    //         PlayAnimation(PlayerState.MOVE);
-    //     }
-    //     else
-    //     {
-    //         PlayAnimation(PlayerState.IDLE);
-    //     }
-    // }
     
     public void SetCharacterSide(bool isRight)
     {
@@ -105,5 +89,7 @@ public abstract class CharacterContainer : MonoBehaviour
     public abstract void DashPerformed();
 
     public abstract void AttackPerformed();
+
+    public abstract void GateActionPerformed();
 
 }

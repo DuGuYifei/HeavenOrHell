@@ -163,6 +163,12 @@ public class GameManager : MonoBehaviour
         miniMapController.InitializeMinimap(_playerContainer);
         _gameState = GameState.GameGenerated;
         KcpNetwork.Instance.SendStartReceiveMessage(_playerId);
+        KcpRecvMessageParser.Instance?.onGateResultReceived.AddListener(OnGateResultReceived);
+    }
+
+    private void OnGateResultReceived(EnterGateResultMessage arg0)
+    {
+        
     }
 
     private void Update()
