@@ -94,8 +94,8 @@ namespace Player
             if (_characterContainer is ReaperContainer)
             {
                 _characterContainer.AttackPerformed();
+                debuffTimer = debuffLength;
             }
-            debuffTimer = debuffLength;
         }
 
         private void FixedUpdate()
@@ -110,6 +110,7 @@ namespace Player
             if (debuffTimer > 0.0f)
             {
                 moveInput *= speedDebuff;
+                debuffTimer -= Time.deltaTime;
             }
             _rigidbody2D.linearVelocity = moveInput;
             var position = transform.position;
