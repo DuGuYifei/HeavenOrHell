@@ -84,6 +84,8 @@ void KcpServer::iterateBroadcastAllRooms()
             playerMsg.set_position_y(position.y);
             playerMsg.set_hp(room->getPlayer(player_id).hp);
             playerMsg.set_max_hp(room->getPlayer(player_id).maxHp);
+            playerMsg.set_character_state(room->getPlayer(player_id).character_state);
+            playerMsg.set_animation_type(room->getPlayer(player_id).animation_type);
             message::MessageWrapper wrapper;
             wrapper.mutable_player_basic_message()->CopyFrom(playerMsg);
             broadcastToRoom(roomId, wrapper, {player_id}, true);
@@ -230,6 +232,24 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                        static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
             }
             break;
+        }
+        case message::MessageWrapper::kIntegerMessage:
+        {
+            switch (wrapper.integer_message().message_type())
+            {
+            case message::IntegerMessageType::ALTAR_MINI_GAME_SUCCESS:
+            {
+                if (room->hasPlayer(player_id))
+                {
+                    Player &player = room->getPlayer(player_id);
+                    player.recoverHp(player.maxHp * 0.5f);
+                    printf("Player %d in room %d recovered %f hp by altar mini game success\n", player_id, room->getRoomId(), player.maxHp * 0.5f);
+                    // send this msg to all players
+                    broadcastToRoom(room->getRoomId(), wrapper, {}, true);
+                }
+            }
+            default:;
+            }
         }
         // TODO: other message to the game here
         default:;
