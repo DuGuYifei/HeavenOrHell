@@ -319,6 +319,27 @@ namespace AntMill.Liu.Scripts.networks
             }
         }
 
+        public void SendStartReceiveMessage(int playerId)
+        {
+            if (!_connected || !_roomJoined) return;
+            try
+            {
+                StartReceiveMsgMessage msg = new StartReceiveMsgMessage
+                {
+                    PlayerId = playerId
+                };
+                MessageWrapper wrapper = new MessageWrapper
+                {
+                    StartReceiveMsgMessage = msg
+                };
+                SendProtobufMessage(wrapper);
+                Debug.Log($"[Client→Server] Sent StartReceiveMsgMessage: PlayerId={playerId}");
+            } catch (Exception e)
+            {
+                Debug.LogError($"Error sending reaper attack message: {e.Message}");
+            }
+        }
+
         public void SendLobbyMessage(int player_id, bool is_ready, CharacterType character_type)
         {
             if (!_connected || !_roomJoined) return;

@@ -139,6 +139,7 @@ public class GameManager : MonoBehaviour
         }
         
         _gameState = GameState.GameGenerated;
+        KcpNetwork.Instance.SendStartReceiveMessage(_playerId);
 
     }
 
