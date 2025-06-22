@@ -2,7 +2,7 @@ public class ReaperContainer : CharacterContainer
 {
     public override void OnInit()
     {
-        // Find DogPathManager and turn it On
+        base.OnInit();
     }
 
     public override void SkillPerformed()

@@ -8,6 +8,7 @@ namespace Character.Psychologist
         private bool _usedSkill = false;
         public override void OnInit()
         {
+            base.OnInit();
             throw new System.NotImplementedException();
         }
 

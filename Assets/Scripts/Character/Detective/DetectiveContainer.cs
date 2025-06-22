@@ -9,8 +9,6 @@ namespace Character.Detective
         [SerializeField] private Canvas arrowCanvas;
 
 
-        
-
         // private void Update()
         // {
         //     
@@ -18,8 +16,9 @@ namespace Character.Detective
         //
         public override void OnInit()
         {
-           arrowCanvas.gameObject.SetActive(true);
-           //TODO: iterate over all gates. Instantiate arrow for each gate, set target position
+            base.OnInit();
+            arrowCanvas.gameObject.SetActive(true);
+            //TODO: iterate over all gates. Instantiate arrow for each gate, set target position
         }
 
         public override void SkillPerformed()
