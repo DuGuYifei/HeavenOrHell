@@ -15,6 +15,7 @@ namespace network
         public SoulBasicMessageEvent onSoulBasicReceived;
         public PropGetMessageEvent onPropGetReceived;
         public LobbyMessageEvent onLobbyMessageReceived;
+        public GateMessageEvent onGateMessageReceived;
 
         private bool _debugBasicMessage = false;
         #region Singleton
@@ -84,7 +85,11 @@ namespace network
                     Debug.Log($"[Server→Client] LobbyMessage: player_id={lobbyResultMsg.PlayerId}, is_ready={lobbyResultMsg.IsReady}, character_type={lobbyResultMsg.CharacterType}");
                     onLobbyMessageReceived?.Invoke(lobbyResultMsg);
                     break;
-
+                case MessageWrapper.PayloadOneofCase.GateMessage:
+                    var gateMsg = wrapper.GateMessage;
+                    Debug.Log($"[Server→Client] GateMessage");
+                    onGateMessageReceived?.Invoke(gateMsg);
+                    break;
                 default:
                     Debug.Log($"[Server→Client] Unknown message type: {wrapper.PayloadCase}");
                     break;
@@ -97,6 +102,11 @@ namespace network
     // Message Events have to be declared separately
     [Serializable]
     public class MapMessageEvent : UnityEngine.Events.UnityEvent<StringMessage>
+    {
+    }
+    
+    [Serializable]
+    public class GateMessageEvent : UnityEngine.Events.UnityEvent<GateMessage>
     {
     }
 

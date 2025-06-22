@@ -12,7 +12,8 @@ namespace Character.Detective
         public override void OnInit()
         {
             base.OnInit();
-            // arrowCanvas.gameObject.SetActive(true);
+            if (GameManager.Instance.PlayerId != id) return;
+            arrowCanvas.gameObject.SetActive(true);
             foreach(var gatePosition in GameManager.Instance.mapInfoContainer.gatePositions)
             {
                 // Instantiate arrow for each gate

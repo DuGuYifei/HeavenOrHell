@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Message;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,6 +12,8 @@ namespace MapGeneration
         [FormerlySerializedAs("spawnPositions")] public List<Vector3> soulSpawnPositions;
         public Vector3 reaperPosition;
         public List<Vector3> gatePositions;
+        public List<GateDirection> gateDirections;
+        public Vector3 altarPosition;
         public int heavenGateIndex = 1;
         public string mapString;
         

@@ -74,6 +74,8 @@ namespace UI
         public float ActualTimer;
 
         private string mapString = "";
+        public List<GateDirection> gateDirections;
+        public int heavenGateIndex = 1; 
         void Start()
         {
             ActualTimer = StartTimer;
@@ -94,7 +96,7 @@ namespace UI
             PlayerLobbyState.PlayerId = -1;
             PlayerLobbyState.CharacterType = CharacterType.SoulDog;
 
-            SetUpKcp();
+            // SetUpKcp();
         }
 
         void Update()
@@ -383,6 +385,22 @@ namespace UI
             kcpRecvMessageParser.onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
             kcpRecvMessageParser.onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
             kcpRecvMessageParser.onMapReceived.AddListener(OnMapReceived);
+            kcpRecvMessageParser.onGateMessageReceived.AddListener(OnGateMessageReceived);
+        }
+
+        private void OnGateMessageReceived(GateMessage message)
+        {
+            var i = 0;
+            foreach (var gate in message.Gates)
+            {
+                print($"Gate {i}: Type={gate.GateType}, Direction={gate.GateDirection}");
+                gateDirections.Add(gate.GateDirection);
+                if (gate.GateType == GateType.GateHeaven)
+                {
+                    heavenGateIndex = i;
+                }
+                i++;
+            }
         }
 
         private void OnMapReceived(StringMessage message)
@@ -438,8 +456,9 @@ namespace UI
             {
                 soulSpawnPositions = new List<Vector3>(),
                 gatePositions = new List<Vector3>(),
-                heavenGateIndex = 0,
+                heavenGateIndex = heavenGateIndex,
                 mapString = mapString,
+                gateDirections = gateDirections,
             };
             
             gameStartData.playerId = PlayerLobbyState.PlayerId;
