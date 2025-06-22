@@ -60,7 +60,7 @@ public class AltarController : MonoBehaviour
                 {
                     defaultSoulCount += 1;
 
-                    if (soulCont.id == GameManager.Instance.PlayerID)
+                    if (soulCont.id == GameManager.Instance.PlayerId)
                     {
                         isPlayerDefaultSoulInside = true;
                     }
