@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME}
     src/map/maze_map.cpp
     src/room/room.cpp
     src/room/room_manager.cpp
+    src/room/player.cpp
     ${PROTO_SOURCES}
 )
 
