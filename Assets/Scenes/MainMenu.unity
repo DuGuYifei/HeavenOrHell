@@ -3842,6 +3842,16 @@ MonoBehaviour:
   LobbyEntryField: {fileID: 1698326302}
   ReadyFlag: {fileID: 1417584619}
   kcpNetwork: {fileID: 7927864619869120319}
+  OtherPlayers:
+  - IsReady: 0
+    PlayerId: 0
+    CharacterType: 0
+  - IsReady: 0
+    PlayerId: 0
+    CharacterType: 0
+  - IsReady: 0
+    PlayerId: 0
+    CharacterType: 0
   PlayerIcons:
   - {fileID: 1177249886}
   - {fileID: 1735052744}
@@ -6304,19 +6314,7 @@ MonoBehaviour:
       m_Calls: []
   onLobbyMessageReceived:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI.UIManager, Assembly-CSharp
-        m_MethodName: OnReceivingLobbyMessage
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5524128742275959629
 GameObject:
   m_ObjectHideFlags: 0
