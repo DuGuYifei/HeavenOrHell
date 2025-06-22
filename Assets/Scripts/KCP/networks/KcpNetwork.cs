@@ -29,6 +29,7 @@ namespace AntMill.Liu.Scripts.networks
         private float _lastHelloTime = -10;
         private const float HelloIntervalTime = 10f;
         private const float KcpSendIntervalTime = 0.02f;
+        
 
         private UdpClient _udpClient;
         private IPEndPoint _serverEndPoint;
@@ -263,7 +264,7 @@ namespace AntMill.Liu.Scripts.networks
         }
 
         // Send SoulBasicMessage (position, HP)
-        public void SendPlayerBasicMessage(float posX, float posY, float hp, float maxHp)
+        public void SendPlayerBasicMessage(float posX, float posY, float hp, float maxHp, PlayerAnimationType animationType)
         {
             if (!_connected || !_roomJoined) return;
 
@@ -275,7 +276,8 @@ namespace AntMill.Liu.Scripts.networks
                     PositionX = posX,
                     PositionY = posY,
                     Hp = hp,
-                    MaxHp = maxHp
+                    MaxHp = maxHp,
+                    AnimationType = animationType
                 };
 
                 MessageWrapper wrapper = new MessageWrapper
@@ -284,7 +286,7 @@ namespace AntMill.Liu.Scripts.networks
                 };
 
                 SendProtobufMessage(wrapper);
-                Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}");
+                Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}, animation={animationType}");
             }
             catch (Exception e)
             {

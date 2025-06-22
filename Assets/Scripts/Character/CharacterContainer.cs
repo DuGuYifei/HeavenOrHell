@@ -16,7 +16,6 @@ public abstract class CharacterContainer : MonoBehaviour
     protected Transform ContainerTransform;
     private Transform _charTransform;
     private Vector3 _initialCharScale;
-    private Vector3 _lastPosition;
     protected virtual void Awake()
     {
         ContainerTransform = transform;
@@ -42,33 +41,44 @@ public abstract class CharacterContainer : MonoBehaviour
     protected virtual void HandleBasicMessage(PlayerBasicMessage basicMessage)
     {
         ContainerTransform.position = new Vector3(basicMessage.PositionX, basicMessage.PositionY, 0);
-        if (_lastPosition != ContainerTransform.position)
-        {
-            SetCharacterSide(ContainerTransform.position.x - _lastPosition.x > 0);
-            PlayAnimation(PlayerState.MOVE);
-        }
-        else
+        if (basicMessage.AnimationType == PlayerAnimationType.Idle)
         {
             PlayAnimation(PlayerState.IDLE);
+        } else if (basicMessage.AnimationType == PlayerAnimationType.WalkLeft)
+        {
+            SetCharacterSide(false);
+            PlayAnimation(PlayerState.MOVE);
+        } else if (basicMessage.AnimationType == PlayerAnimationType.WalkRight)
+        {
+            SetCharacterSide(true);
+            PlayAnimation(PlayerState.MOVE);
         }
-        _lastPosition = ContainerTransform.position;
+        // if (_lastPosition != ContainerTransform.position)
+        // {
+        //     SetCharacterSide(ContainerTransform.position.x - _lastPosition.x > 0);
+        //     PlayAnimation(PlayerState.MOVE);
+        // }
+        // else
+        // {
+        //     PlayAnimation(PlayerState.IDLE);
+        // }
     }
 
-    public void SetPose(Vector2 pos)
-    {
-        var lastPos = ContainerTransform.position;
-        ContainerTransform.position = pos;
-        var diffX = lastPos.x - pos.x;
-        if (Mathf.Abs(diffX) > 0)
-        {
-            SetCharacterSide(diffX > 0);
-            PlayAnimation(PlayerState.MOVE);
-        }
-        else
-        {
-            PlayAnimation(PlayerState.IDLE);
-        }
-    }
+    // public void SetPose(Vector2 pos)
+    // {
+    //     var lastPos = ContainerTransform.position;
+    //     ContainerTransform.position = pos;
+    //     var diffX = lastPos.x - pos.x;
+    //     if (Mathf.Abs(diffX) > 0)
+    //     {
+    //         SetCharacterSide(diffX > 0);
+    //         PlayAnimation(PlayerState.MOVE);
+    //     }
+    //     else
+    //     {
+    //         PlayAnimation(PlayerState.IDLE);
+    //     }
+    // }
     
     public void SetCharacterSide(bool isRight)
     {

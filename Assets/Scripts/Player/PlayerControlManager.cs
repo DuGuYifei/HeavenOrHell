@@ -1,5 +1,6 @@
 ﻿using System;
 using AntMill.Liu.Scripts.networks;
+using Message;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,7 +17,7 @@ namespace Player
         private InputAction _dashAction;
         private Rigidbody2D _rigidbody2D;
         private CharacterContainer _characterContainer;
-        private PlayerContainer _playerContainer;
+        private bool _isSoul = false;
         
         private void Awake()
         {
@@ -26,8 +27,9 @@ namespace Player
             _dashAction = actionMap.FindAction("Dash", true);
             _rigidbody2D = transform.parent.GetComponent<Rigidbody2D>();
             _characterContainer = transform.parent.GetComponent<CharacterContainer>();
+            // check if the character is a soul
+            _isSoul = _characterContainer is SoulContainer;
             transform.parent.GetComponent<Collider2D>().enabled = true;
-            _playerContainer = GetComponent<PlayerContainer>();
         }
 
         private void OnEnable()
@@ -68,16 +70,23 @@ namespace Player
             Vector2 moveInput = _moveAction.ReadValue<Vector2>();
             moveInput *= moveSpeed * speedMultiplier;
             _rigidbody2D.linearVelocity = moveInput;
+            var position = transform.position;
             if (moveInput.x != 0 || moveInput.y != 0)
             {
                 _characterContainer.prefab.PlayAnimation(PlayerState.MOVE, 0);
                 _characterContainer.SetCharacterSide(moveInput.x > 0);
-                var position = transform.position;
-                KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, _playerContainer.hp, _playerContainer.maxHp);
+                KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, 
+                    _isSoul? ((SoulContainer) _characterContainer)._hp : 100.0f, 
+                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f
+                    , moveInput.x > 0 ? PlayerAnimationType.WalkRight: PlayerAnimationType.WalkLeft);
             }
             else
             {
                 _characterContainer.prefab.PlayAnimation(PlayerState.IDLE, 0);
+                KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, 
+                    _isSoul? ((SoulContainer) _characterContainer)._hp : 100.0f, 
+                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f
+                    , PlayerAnimationType.Idle);
             }
         }
     }

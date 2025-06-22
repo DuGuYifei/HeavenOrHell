@@ -65,7 +65,7 @@ namespace network
 
                 case MessageWrapper.PayloadOneofCase.PlayerBasicMessage:
                     var soulMsg = wrapper.PlayerBasicMessage;
-                    Debug.Log($"[Server→Client] SoulBasicMessage: player_id={soulMsg.PlayerId}, pos=({soulMsg.PositionX},{soulMsg.PositionY}), hp={soulMsg.Hp}/{soulMsg.MaxHp}");
+                    Debug.Log($"[Server→Client] SoulBasicMessage: player_id={soulMsg.PlayerId}, pos=({soulMsg.PositionX},{soulMsg.PositionY}), hp={soulMsg.Hp}/{soulMsg.MaxHp}, animation_type={soulMsg.AnimationType}");
                     onSoulBasicReceived?.Invoke(soulMsg);
                     break;
 

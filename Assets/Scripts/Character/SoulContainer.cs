@@ -17,6 +17,7 @@ public abstract class SoulContainer : CharacterContainer
     public bool _isWeak = false;
     public float _hp = 100.0f;
     public float _weakHP = 120.0f;
+    public float _maxHp = 100.0f;
 
     protected override void Awake()
     {
