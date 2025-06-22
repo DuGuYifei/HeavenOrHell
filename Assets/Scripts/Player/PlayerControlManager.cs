@@ -91,7 +91,7 @@ namespace Player
         private void OnAttackPerformed(InputAction.CallbackContext obj)
         {
             print("attackPerformed");
-            if (_characterContainer is ReaperContainer)
+            if (_characterContainer is ReaperContainer && debuffTimer <= 0.0f)
             {
                 _characterContainer.AttackPerformed();
                 debuffTimer = debuffLength;
