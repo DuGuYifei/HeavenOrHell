@@ -44,21 +44,27 @@ namespace MiniGames.Altar
         {
             minigameInputMap = inputAction.FindActionMap("Main");
             minigameInputMap.Enable();
-
-            Generatebuttonsequence();
-            PlaceButtons();
         }
 
-        // Update is called once per frame
+        public void BeginTheMiniGame()
+        {
+            Generatebuttonsequence();
+            PlaceButtons();
+            currentButton = 0;
+            minigameInputMap = inputAction.FindActionMap("Main");
+            minigameInputMap.Enable();
+        }
+
         void Update()
         {
-            if (minigameInputMap.FindAction("Stop").triggered)
-            {
-                DeleteButtons();
-                currentButton = 0;
-                readyForInput = false;
-            }
-            else if (readyForInput)
+            // if (minigameInputMap.FindAction("Stop").triggered)
+            // {
+            //     DeleteButtons();
+            //     currentButton = 0;
+            //     readyForInput = false;
+            // }
+
+            if (readyForInput)
             {
                 // bool isMistaken = false;
                 int chosenButton = -1;
@@ -97,9 +103,16 @@ namespace MiniGames.Altar
             }
             if (currentButton == buttonSequenceLength) {
                 Debug.Log("Sequence entered correctly! You saved a soul");
-                GetComponentInParent<AltarController>().RegenSoul(4);
+                GetComponentInParent<AltarController>().RegenSoul();
                 readyForInput = false;
             }
+        }
+
+        public void StopTheMiniGame()
+        {
+            DeleteButtons();
+            currentButton = 0;
+            readyForInput = false;
         }
 
         void Generatebuttonsequence()

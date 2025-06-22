@@ -13,13 +13,16 @@ public abstract class SoulContainer : CharacterContainer
     private float _dashTime = 0f;
     private float _timeSinceLastDash = 0f;
     private float _initialSpeedMultiplier;
-    
+
+    public bool _isWeak = false;
+    public int _health = 3;
+
     protected override void Awake()
     {
         base.Awake();
         _playerControlManager = GetComponentInChildren<PlayerControlManager>();
     }
-    
+
     private void Update()
     {
         _timeSinceLastDash += Time.deltaTime;
@@ -29,6 +32,7 @@ public abstract class SoulContainer : CharacterContainer
         _inDash = false;
         _dashTime = 0f;
         _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
+        if (_health == 0) _isWeak = false;
     }
 
     public override void DashPerformed()
@@ -44,6 +48,7 @@ public abstract class SoulContainer : CharacterContainer
     #region Properties
 
     public SoulType SoulType => soulType;
+    public bool IsWeak => _isWeak;
 
     #endregion
 }

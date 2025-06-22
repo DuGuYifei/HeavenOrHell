@@ -1,19 +1,31 @@
 using MiniGames.Altar;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
+using System.Diagnostics.Eventing.Reader;
 
 public class AltarController : MonoBehaviour
 {
     private AltarMiniGame miniGame;
     public GameObject miniGameController;
 
-    private int WeakSoulCount = 0;
-    private int DefaultSoulCount = 0;
+    private int weakSoulCount = 0;
+    private int defaultSoulCount = 0;
 
     private Animator animator;
 
+    private List<GameObject> currentCollisions = new List<GameObject> ();
+    public InputActionAsset inputAction;
+    InputActionMap minigameActivationMap;
+
+    private bool isPlayerDefaultSoulInside = false;
 
     void Start()
     {
+        minigameActivationMap = inputAction.FindActionMap("Main");
+        minigameActivationMap.Disable();
+
         animator = GetComponent<Animator>();
 
         miniGame = miniGameController.GetComponent<AltarMiniGame>();
@@ -22,47 +34,78 @@ public class AltarController : MonoBehaviour
 
     void Update()
     {
-        // TODO DELETE AFTER DONE IMPLEMENTING
-        if (Input.GetKey("e"))
+        if (minigameActivationMap.FindAction("Activate").triggered)
         {
             StartMiniGame();
+        }
+        else if (minigameActivationMap.FindAction("Stop").triggered)
+        {
+            miniGame.StopTheMiniGame();
+        }
+
+        weakSoulCount = 0;
+        defaultSoulCount = 0;
+        foreach (GameObject gObject in currentCollisions)
+        {
+            SoulContainer soulCont = gObject.GetComponent<SoulContainer>();
+            if (soulCont != null)
+            {
+                // TODO check if it is weak soul
+                if (soulCont._isWeak)
+                {
+                    weakSoulCount += 1;
+                }
+                // TODO check if it is regular soul
+                else
+                {
+                    defaultSoulCount += 1;
+
+                    if (soulCont.id == GameManager.Instance.PlayerID)
+                    {
+                        isPlayerDefaultSoulInside = true;
+                    }
+                }
+
+            }
+        }
+        if (weakSoulCount > 0 && defaultSoulCount > 0 && isPlayerDefaultSoulInside)
+        {
+            SwitchToActive();
+            minigameActivationMap.Enable();
+        }
+        else
+        {
+            SwitchToIdle();
+            minigameActivationMap.Disable();
         }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        // TODO: soul is weak
-        if (true)
+        currentCollisions.Add (collision.gameObject);
+        
+		foreach (GameObject gObject in currentCollisions)
         {
-            WeakSoulCount += 1;
+            print(gObject.name);
+        }
 
-        }
-        // TODO: soul is ok
-        if (true)
-        {
-            DefaultSoulCount += 1;
-        }
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        // TODO: soul is weak
-        if (true)
-        {
-            WeakSoulCount += 1;
+        currentCollisions.Remove (collision.gameObject);
 
-        }
-        // TODO: soul is ok
-        if (true)
+		foreach (GameObject gObject in currentCollisions)
         {
-            DefaultSoulCount += 1;
-        }
+			print (gObject.name);
+		}
     }
 
     public void StartMiniGame()
     {
         miniGameController.SetActive(true);
         miniGame.enabled = true;
+        miniGame.BeginTheMiniGame();
     }
 
     public void SwitchToIdle()
@@ -75,9 +118,24 @@ public class AltarController : MonoBehaviour
         animator.SetBool("isAltarActive", true);
     }
 
-    public void RegenSoul(int id)
+    public void RegenSoul()
     {
-        Debug.Log("change a soul back to its good state");
+        // TODO
+        foreach (GameObject gObject in currentCollisions)
+        {
+            SoulContainer soulCont = gObject.GetComponent<SoulContainer>();
+            if (soulCont != null)
+            {
+                if (soulCont._isWeak)
+                {
+                    weakSoulCount += 1;
+                    soulCont._isWeak = false;
+                    // TODO send message that the soul is free!!!
+                }
+
+            }
+        }
+
         miniGameController.SetActive(false);
         miniGame.enabled = false;
     }
