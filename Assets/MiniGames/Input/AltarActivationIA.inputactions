@@ -1,0 +1,54 @@
+{
+    "name": "AltarActivationIA",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "ffaa278a-d506-4e86-b989-816100fde7a4",
+            "actions": [
+                {
+                    "name": "Activate",
+                    "type": "Button",
+                    "id": "2a830d0d-218b-4a53-a893-aa5e5a4dfa67",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Stop",
+                    "type": "Button",
+                    "id": "04a3c5c8-ea92-4919-880c-5c867dcfe9b6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0430c891-7da6-4c7d-a7bf-39742fedec92",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf4f9596-a057-44d0-93f4-5cb97a78ab46",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
