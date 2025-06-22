@@ -6,6 +6,7 @@ namespace Character
     {
         public override void OnInit()
         {
+            if (GameManager.Instance.PlayerId != id) return;
             GameManager.Instance.dogPathManager.TurnOnPathChecking();
         }
 

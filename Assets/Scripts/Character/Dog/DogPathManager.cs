@@ -14,7 +14,7 @@ namespace Character
         [SerializeField] private Tileset tileset;
         private readonly Dictionary<int, HashSet<Vector3Int>> _characterPaths = new ();
 
-        private bool _checkPaths = true;
+        private bool _checkPaths = false;
         
         // private readonly Dictionary<int, HashSet<Vector2Int>> _currentPath = new();
         // private readonly Dictionary<int, List<DogPathContainer>> _activePaths = new();

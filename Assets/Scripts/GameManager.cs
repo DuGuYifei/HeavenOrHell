@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     
     public Vector3 GridSize => gameGrid.cellSize;
 
+    public int PlayerId => _playerId;
+
     #endregion
 
     #region Singleton
@@ -170,10 +172,10 @@ public class GameManager : MonoBehaviour
             var position = new Vector3(TestValues.CharacterPositions[i].x, TestValues.CharacterPositions[i].y, 0);
             i++;
             var charContainer = Instantiate(selectedContainer, position, Quaternion.identity, characterParent);
-            if (kcpNetwork.playerId == character.id)
+            charContainer.id = character.id;
+            if (_playerId == character.id)
             {
                 // instantiate player container, add as child of character parent
-                _playerId = character.id;
                 var playerContainer = Instantiate(playerContainerPrefab, Consts.PlayerPrefabPosition, Quaternion.identity, charContainer.transform);
                 playerContainer.transform.localPosition = Vector3.zero;
                 _playerContainer = charContainer;

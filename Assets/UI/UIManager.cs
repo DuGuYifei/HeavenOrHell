@@ -31,6 +31,7 @@ namespace UI
         Lobby
     }
 
+    [Serializable]
     public struct LobbyPlayerInfo
     {
         public bool IsReady;
