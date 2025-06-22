@@ -66,7 +66,7 @@ namespace UI
 
         public LobbyPlayerInfo[] OtherPlayers = new LobbyPlayerInfo[3];
         public GameObject[] PlayerIcons;
-        public GameObject PlayerRoleDropdown;
+        public TMP_Dropdown PlayerRoleDropdown;
 
         private MenuState state = MenuState.MainMenu;
 
@@ -230,13 +230,31 @@ namespace UI
             {
                 PlayerLobbyState.PlayerId = roomMsg.PlayerId;
             }
-            Debug.Log("Setting up players");
+            Debug.Log("Setting up players " + PlayerLobbyState.PlayerId);
             // TODO
+            
             for (int i = 0; i < roomMsg.Characters.Count; i++)
             {
                 if (i == PlayerLobbyState.PlayerId)
                 {
-                    continue;
+                    switch(roomMsg.Characters[i].CharacterType)
+                    {
+                        case CharacterType.SoulDog:
+                            PlayerRoleDropdown.SetValueWithoutNotify(0);
+                            break;
+                        case CharacterType.SoulPsychologist:
+                            PlayerRoleDropdown.SetValueWithoutNotify(1);
+                            break;
+                        case CharacterType.SoulDetective:
+                            PlayerRoleDropdown.SetValueWithoutNotify(2);
+                            break;
+                        case CharacterType.Reaper:
+                            PlayerRoleDropdown.SetValueWithoutNotify(3);
+                            break;
+                        default:
+                            Debug.LogError("Unknown character type");
+                            break;
+                    }
                 }
                 else
                 {
