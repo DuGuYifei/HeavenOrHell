@@ -68,6 +68,7 @@ void KcpServer::updateAllRooms()
 
 void KcpServer::iterateBroadcastAllRooms()
 {
+    std::vector<int> finishedRoomIds;
     for (const std::vector<int> roomIds = room_manager->getAllRoomIds(); const int roomId : roomIds)
     {
         const std::shared_ptr<Room> room = room_manager->getRoom(roomId);
@@ -92,7 +93,141 @@ void KcpServer::iterateBroadcastAllRooms()
         }
 
         // TODO: other messages to broadcast each frame
+        if (checkGameResult(room))
+            finishedRoomIds.push_back(roomId);
     }
+
+    for (const int roomId : finishedRoomIds)
+        room_manager->deleteRoom(roomId);
+}
+
+bool KcpServer::checkGameResult(std::shared_ptr<Room> room)
+{
+    // 统计各种状态的玩家数量
+    int in_game_count = 0;
+    int heaven_count = 0;
+    int total_players = 0;
+
+    for (const auto &playerId : room->getAllPlayerIds())
+    {
+        const Player &player = room->getPlayer(playerId);
+        total_players++;
+
+        switch (player.player_result)
+        {
+        case PlayerResult::IN_GAME:
+            in_game_count++;
+            break;
+        case PlayerResult::HEAVEN:
+            heaven_count++;
+            break;
+        case PlayerResult::DIE_BY_HIT:
+        case PlayerResult::HELL:
+            // 这些状态不需要特殊处理
+            break;
+        }
+    }
+
+    // 游戏结束条件：只剩一个人IN_GAME
+    if (in_game_count <= 1)
+    {
+        message::GameResultMessage game_result_message;
+        message::GameResult game_result;
+
+        // 根据总玩家数和HEAVEN玩家数判断胜负
+        if (total_players == 2)
+        {
+            // 两人游戏：一个人HEAVEN就soul win，其他reaper win
+            if (heaven_count >= 1)
+            {
+                game_result = message::GameResult::GAME_RESULT_SOUL_WIN;
+            }
+            else
+            {
+                game_result = message::GameResult::GAME_RESULT_REAPER_WIN;
+            }
+        }
+        else if (total_players == 3)
+        {
+            // 三人游戏：两个人HEAVEN就soul win，其他reaper win
+            if (heaven_count >= 2)
+            {
+                game_result = message::GameResult::GAME_RESULT_SOUL_WIN;
+            }
+            else
+            {
+                game_result = message::GameResult::GAME_RESULT_REAPER_WIN;
+            }
+        }
+        else if (total_players == 4)
+        {
+            // 四人游戏：0-1个HEAVEN = reaper win，2个HEAVEN = tie，3个HEAVEN = soul win
+            if (heaven_count <= 1)
+            {
+                game_result = message::GameResult::GAME_RESULT_REAPER_WIN;
+            }
+            else if (heaven_count == 2)
+            {
+                game_result = message::GameResult::GAME_RESULT_TIE;
+            }
+            else // heaven_count >= 3
+            {
+                game_result = message::GameResult::GAME_RESULT_SOUL_WIN;
+            }
+        }
+        else
+        {
+            // 其他玩家数量，默认reaper win
+            game_result = message::GameResult::GAME_RESULT_REAPER_WIN;
+        }
+
+        game_result_message.set_game_result(game_result);
+
+        // 添加所有玩家的结果信息
+        for (const auto &playerId : room->getAllPlayerIds())
+        {
+            const Player &player = room->getPlayer(playerId);
+            message::PlayerResultMessage *player_result_msg = game_result_message.add_player_result_messages();
+            player_result_msg->set_player_id(playerId);
+
+            // 转换PlayerResult到message::PlayerResult
+            switch (player.player_result)
+            {
+            case PlayerResult::DIE_BY_HIT:
+                player_result_msg->set_player_result(message::PlayerResult::PLAYER_RESULT_DIE_BY_HIT);
+                break;
+            case PlayerResult::HELL:
+                player_result_msg->set_player_result(message::PlayerResult::PLAYER_RESULT_HELL);
+                break;
+            case PlayerResult::HEAVEN:
+                player_result_msg->set_player_result(message::PlayerResult::PLAYER_RESULT_HEAVEN);
+                break;
+            case PlayerResult::IN_GAME:
+                // IN_GAME的玩家在游戏结束时可能是最后的幸存者，根据角色类型判断
+                if (player.character_type == message::CharacterType::REAPER)
+                {
+                    // 判断结果是reper win还是其他
+                    if (game_result == message::GameResult::GAME_RESULT_REAPER_WIN)
+                    {
+                        player_result_msg->set_player_result(message::PlayerResult::PLAYER_RESULT_REAPER_HAPPY);
+                    }
+                    else
+                    {
+                        player_result_msg->set_player_result(message::PlayerResult::PLAYER_RESULT_REAPER_SAD);
+                    }
+                }
+            }
+        }
+
+        message::MessageWrapper wrapper;
+        wrapper.mutable_game_result_message()->CopyFrom(game_result_message);
+        broadcastToRoom(room->getRoomId(), wrapper, {}, true);
+
+        printf("Room %d: Game ended! Result: %d, Total players: %d, Heaven count: %d, In-game count: %d\n",
+               room->getRoomId(), static_cast<int>(game_result), total_players, heaven_count, in_game_count);
+        return true;
+    }
+    return false;
 }
 
 // 向指定房间广播消息 / Broadcast message to specified room

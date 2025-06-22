@@ -2,7 +2,6 @@
 
 #pragma once
 
-
 #include <netinet/in.h>
 #include <unordered_map>
 #include <vector>
@@ -17,7 +16,6 @@
 
 // 定义KCP相关常量 / Define KCP related constants
 #define KCP_HEADER_SIZE 24 // KCP头部大小 / KCP header size
-
 
 class KcpServer
 {
@@ -35,6 +33,7 @@ public:
     void iterateBroadcastAllRooms();
     void updateRoomLogic(std::shared_ptr<Room> room);
     void updateLobbyLogic(std::shared_ptr<Room> room);
+    bool checkGameResult(std::shared_ptr<Room> room); // true if game result is finished
 
 private:
     uint16_t listenPort;
