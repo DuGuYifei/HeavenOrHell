@@ -33,7 +33,7 @@ namespace Character.Detective
             _arrowRectTransform.position = screenMid + direction * _distanceToPlayerPixels;
         }
         
-        public void SetArrowTransform(Vector3 targetPosition)
+        public void SetArrowTarget(Vector3 targetPosition)
         {
             this.targetPosition = targetPosition;
         }

@@ -8,17 +8,17 @@ namespace Character.Detective
         [SerializeField] private DetectiveArrowContainer arrowPrefab;
         [SerializeField] private Canvas arrowCanvas;
 
-
-        // private void Update()
-        // {
-        //     
-        // }
-        //
+        
         public override void OnInit()
         {
             base.OnInit();
-            arrowCanvas.gameObject.SetActive(true);
-            //TODO: iterate over all gates. Instantiate arrow for each gate, set target position
+            // arrowCanvas.gameObject.SetActive(true);
+            foreach(var gatePosition in GameManager.Instance.mapInfoContainer.gatePositions)
+            {
+                // Instantiate arrow for each gate
+                var arrow = Instantiate(arrowPrefab, arrowCanvas.transform);
+                arrow.SetArrowTarget(gatePosition);
+            }
         }
 
         public override void SkillPerformed()

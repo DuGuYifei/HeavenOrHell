@@ -9,7 +9,6 @@ namespace Character.Psychologist
         public override void OnInit()
         {
             base.OnInit();
-            throw new System.NotImplementedException();
         }
 
         public override void SkillPerformed()
