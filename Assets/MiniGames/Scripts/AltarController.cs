@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using System.Diagnostics.Eventing.Reader;
+using AntMill.Liu.Scripts.networks;
 
 public class AltarController : MonoBehaviour
 {
@@ -131,6 +132,7 @@ public class AltarController : MonoBehaviour
                     weakSoulCount += 1;
                     soulCont._isWeak = false;
                     // TODO send message that the soul is free!!!
+                    KcpNetwork.Instance.SendAltarSuccessMessage(soulCont.id);
                 }
 
             }
