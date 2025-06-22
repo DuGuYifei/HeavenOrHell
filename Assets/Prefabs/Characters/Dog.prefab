@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4099133401002779404}
   - component: {fileID: 3940827278704033795}
   - component: {fileID: 5667620373165205409}
+  - component: {fileID: 6992263213649076421}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -123,7 +124,61 @@ MonoBehaviour:
   id: 0
   prefab: {fileID: 5151028189371949621}
   hasSkills: 0
+  isPlayer: 0
   soulType: 0
+  dashCooldown: 4
+  dashDuration: 0.5
+  dashSpeedMultiplier: 2
+  _isWeak: 0
+  _hp: 100
+  _weakHP: 120
+  _maxHp: 100
+--- !u!61 &6992263213649076421
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603167792098151698}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.01}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.4, y: 0.6}
+  m_EdgeRadius: 0
 --- !u!1001 &39511384228933336
 PrefabInstance:
   m_ObjectHideFlags: 0
