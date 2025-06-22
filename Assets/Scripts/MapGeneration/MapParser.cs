@@ -22,9 +22,14 @@ namespace MapGeneration
     
     public class MapParser : MonoBehaviour
     {
+        [Header("Scene References")]
         [SerializeField] private Tilemap wallTilemap;
         [SerializeField] private Tilemap floorTilemap;
+        [SerializeField] private Transform propsParent;
+        
+        [Header("Map Generation Sets")]
         [SerializeField] private Tileset tileset;
+        [SerializeField] private PropSet props;
         public static char WALL = '#';
         public static char FLOOR = '.';
         public static char EXIT = 'E';
@@ -95,12 +100,18 @@ namespace MapGeneration
                             + new Vector3(scale/2.0f, scale/2.0f,0));
                     } else if (linesArray[x] == EXIT)
                     {
-                        GameManager.Instance?.mapInfoContainer.AddGatePosition(new Vector2(x, y) * scale, false);
+                        GameManager.Instance?.mapInfoContainer.AddGatePosition(new Vector3(x * scale, y * scale, 0) + new Vector3(x * scale, y * scale, 0), false);
                     } else if (linesArray[x] == REAPER)
                     {
                         var manager = GameManager.Instance;
                         if (manager)
                             manager.mapInfoContainer.reaperPosition = new Vector3(x * scale, y * scale, 0)
+                                                                      + new Vector3(scale / 2.0f, scale / 2.0f, 0);
+                    } else if (linesArray[x] == CENTER)
+                    {
+                        var manager = GameManager.Instance;
+                        if (manager)
+                            manager.mapInfoContainer.altarPosition = new Vector3(x * scale, y * scale, 0)
                                                                       + new Vector3(scale / 2.0f, scale / 2.0f, 0);
                     }
 
@@ -148,6 +159,28 @@ namespace MapGeneration
                         if (x % 3 == 0 && y % 3 == 0)
                             _minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
                     }
+                }
+            }
+            
+            // add altar
+            if (GameManager.Instance)
+            {
+                var mapInfoContainer = GameManager.Instance.mapInfoContainer;
+                Instantiate(props.altarPrefab, mapInfoContainer.altarPosition, Quaternion.identity,
+                    propsParent);
+                for (var i = 0 ; i < mapInfoContainer.gatePositions.Count ; i++)
+                {
+                    var gatePosition = mapInfoContainer.gatePositions[i];
+                    var gateDirection = mapInfoContainer.gateDirections[i];
+                    var selectedGatePrefab = gateDirection switch
+                    {
+                        GateDirection.Up => props.gateUpPrefab,
+                        GateDirection.Down => props.gateDownPrefab,
+                        GateDirection.Left => props.gateLeftPrefab,
+                        GateDirection.Right => props.gateRightPrefab,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+                    Instantiate(selectedGatePrefab, gatePosition, Quaternion.identity, propsParent);
                 }
             }
 

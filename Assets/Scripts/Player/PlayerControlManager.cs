@@ -120,7 +120,7 @@ namespace Player
                 _characterContainer.SetCharacterSide(moveInput.x > 0);
                 KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, 
                     _isSoul? ((SoulContainer) _characterContainer)._hp : 100.0f, 
-                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f
+                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f, GameManager.Instance.PlayerId
                     , moveInput.x > 0 ? PlayerAnimationType.WalkRight: PlayerAnimationType.WalkLeft);
             }
             else
@@ -128,7 +128,7 @@ namespace Player
                 _characterContainer.prefab.PlayAnimation(PlayerState.IDLE, 0);
                 KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, 
                     _isSoul? ((SoulContainer) _characterContainer)._hp : 100.0f, 
-                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f
+                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f,GameManager.Instance.PlayerId
                     , PlayerAnimationType.Idle);
             }
         }

@@ -23,7 +23,7 @@ namespace AntMill.Liu.Scripts.networks
 
         private bool _startConnect = false;
         public int roomId = 0; // 0 to create new room, otherwise join existing
-        public int playerId = 0;
+        // public int playerId = 0;
         private bool _connected = false;
         private bool _roomJoined = false;
         private float _lastHelloTime = -10;
@@ -31,7 +31,7 @@ namespace AntMill.Liu.Scripts.networks
         private const float KcpSendIntervalTime = 0.02f;
         
         
-        private bool _debugBasicMessage = false; // Debug flag for basic message sending
+        private bool _debugBasicMessage = true; // Debug flag for basic message sending
         private UdpClient _udpClient;
         private IPEndPoint _serverEndPoint;
         private KCP _kcp;
@@ -219,10 +219,10 @@ namespace AntMill.Liu.Scripts.networks
             if (isJoin)
             {
                 _roomJoined = true;
-                playerId = messagePlayerId;
+                // playerId = messagePlayerId;
                 roomId = messageRoomId;
 
-                Debug.Log($"Successfully joined room {roomId} as player {playerId}");
+                Debug.Log($"Successfully joined room {roomId} as player {messagePlayerId}");
 
                 // Print other players in the room
                 foreach (var character in characters)
@@ -265,7 +265,7 @@ namespace AntMill.Liu.Scripts.networks
         }
 
         // Send SoulBasicMessage (position, HP)
-        public void SendPlayerBasicMessage(float posX, float posY, float hp, float maxHp, PlayerAnimationType animationType)
+        public void SendPlayerBasicMessage(float posX, float posY, float hp, float maxHp, int playerId, PlayerAnimationType animationType)
         {
             if (!_connected || !_roomJoined) return;
 
@@ -287,7 +287,7 @@ namespace AntMill.Liu.Scripts.networks
                 };
 
                 SendProtobufMessage(wrapper);
-                if (_debugBasicMessage) Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}, animation={animationType}");
+                if (_debugBasicMessage) Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}, player_id={playerId}");
             }
             catch (Exception e)
             {

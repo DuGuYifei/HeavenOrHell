@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab938205c6045e0b6349fe788402323, type: 3}
+  m_Name: PropSet
+  m_EditorClassIdentifier: 
+  altarPrefab: {fileID: 7843768707978070028, guid: 216ef9761701aeb41a2328489e0959db, type: 3}
+  gateLeftPrefab: {fileID: 2023491466701382310, guid: 391b95d56b8a18c4ea7156c21b4381e2, type: 3}
+  gateRightPrefab: {fileID: 2023491466701382310, guid: 391b95d56b8a18c4ea7156c21b4381e2, type: 3}
+  gateUpPrefab: {fileID: 2023491466701382310, guid: 391b95d56b8a18c4ea7156c21b4381e2, type: 3}
+  gateDownPrefab: {fileID: 2023491466701382310, guid: 391b95d56b8a18c4ea7156c21b4381e2, type: 3}
