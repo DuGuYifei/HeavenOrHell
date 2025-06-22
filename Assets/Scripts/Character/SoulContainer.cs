@@ -16,6 +16,7 @@ public abstract class SoulContainer : CharacterContainer
 
     public bool _isWeak = false;
     public float _hp = 100.0f;
+    public float _weakHP = 120.0f;
 
     protected override void Awake()
     {
@@ -34,7 +35,7 @@ public abstract class SoulContainer : CharacterContainer
         _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
         if (_hp <= 0)
         {
-            _isWeak = false;
+            _isWeak = true;
             _hp = 0.0f;
         }
     }
