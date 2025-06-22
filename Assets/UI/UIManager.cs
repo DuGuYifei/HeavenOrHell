@@ -418,7 +418,7 @@ namespace UI
 
             gameStartData.mapInfoContainer = new MapInfoContainer
             {
-                spawnPositions = new List<Vector3>(),
+                soulSpawnPositions = new List<Vector3>(),
                 gatePositions = new List<Vector3>(),
                 heavenGateIndex = 0,
                 mapString = mapString,

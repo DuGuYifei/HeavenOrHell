@@ -148,29 +148,40 @@ public class GameManager : MonoBehaviour
         var gameStartData = GameStartData.Instance;
         _playerId = gameStartData.playerId;
         var i = 0;
+        
+        mapInfoContainer = gameStartData.mapInfoContainer;
+        mapParser.ParseMap(gameStartData.mapInfoContainer.mapString);
+        var souldId = 0;
         foreach (var character in gameStartData.characters)
         {
             CharacterContainer selectedContainer = null;
+            Vector3 position = Vector3.zero;
             switch (character.type)
             {
                 case CharacterType.SoulDog:
                     selectedContainer = dogContainerPrefab;
+                    position = mapInfoContainer.soulSpawnPositions[souldId];
+                    souldId++;
                     break;
                 case CharacterType.SoulPsychologist:
                     selectedContainer = psyContainerPrefab;
+                    position = mapInfoContainer.soulSpawnPositions[souldId];
+                    souldId++;
                     break;
                 case CharacterType.SoulDetective:
                     selectedContainer = detectiveContainerPrefab;
+                    position = mapInfoContainer.soulSpawnPositions[souldId];
+                    souldId++;
                     break;
                 case CharacterType.Reaper:
                     selectedContainer = reaperContainerPrefab;
+                    position = mapInfoContainer.reaperPosition;
                     break;
                 default:
                     Debug.LogWarning($"Unknown character type: {character.type}");
                     break;
             }
             //TODO: character message should have a position and rotation
-            var position = new Vector3(TestValues.CharacterPositions[i].x, TestValues.CharacterPositions[i].y, 0);
             i++;
             var charContainer = Instantiate(selectedContainer, position, Quaternion.identity, characterParent);
             charContainer.id = character.id;
@@ -188,8 +199,6 @@ public class GameManager : MonoBehaviour
             }
             _characters.Add(charContainer);
         }
-        mapInfoContainer = gameStartData.mapInfoContainer;
-        mapParser.ParseMap(gameStartData.mapInfoContainer.mapString);
 
         
         _gameState = GameState.GameGenerated;
@@ -203,20 +212,6 @@ public class GameManager : MonoBehaviour
             OnGameInitializeFinished?.Invoke();
             _gameState = GameState.GameInitialized;
         }
-    }
-
-    public void SetSpawnPositions(List<Vector2> spawnPositions, float mapScale)
-    {
-        foreach (var position in spawnPositions)
-        {
-            mapInfoContainer.AddSpawnPosition(position * mapScale);
-        }
-        foreach (var position in spawnPositions)
-        {
-        }
-        mainCamera.enabled = true;
-        _playerContainer.transform.position = new Vector3(spawnPositions[_playerId].x * mapScale, spawnPositions[_playerId].y * mapScale, 0)
-            + new Vector3(1.5f,1.5f,0);
     }
 
     public enum GameState

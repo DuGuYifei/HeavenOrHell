@@ -69,10 +69,18 @@ namespace MapGeneration
                 {
                     if (linesArray[x] == SPAWN)
                     {
-                        spawnPoints.Add(new Vector2(x, y));
+
+                        GameManager.Instance?.mapInfoContainer.AddSpawnPosition(new Vector3(x * scale, y * scale, 0)
+                            + new Vector3(scale/2.0f, scale/2.0f,0));
                     } else if (linesArray[x] == EXIT)
                     {
                         GameManager.Instance?.mapInfoContainer.AddGatePosition(new Vector2(x, y) * scale, false);
+                    } else if (linesArray[x] == REAPER)
+                    {
+                        var manager = GameManager.Instance;
+                        if (manager)
+                            manager.mapInfoContainer.reaperPosition = new Vector3(x * scale, y * scale, 0)
+                                                                      + new Vector3(scale / 2.0f, scale / 2.0f, 0);
                     }
 
                     for (var i = scale * x ; i < scale * (x + 1); i++)
@@ -93,15 +101,12 @@ namespace MapGeneration
                     floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.floor);
                 else if (map[x][y] == CENTER)
                     floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.centerTile);
-                else if (map[x][y] == SPAWN)
-                    floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.spawnTile);
                 else 
                     floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.floor);
                 
             
                 // else
                 //     print(map[x][y]);
-            GameManager.Instance?.SetSpawnPositions(spawnPoints, scale);
         }
 
 
