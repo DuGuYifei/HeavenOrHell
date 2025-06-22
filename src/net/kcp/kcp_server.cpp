@@ -249,15 +249,16 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                 }
                 break;
             }
+            // attack result after player basic message in case of reaper attack to change the animation type of soul
             case message::IntegerMessageType::REAPER_ATTACK_RESULT:
             {
                 if (room->hasPlayer(player_id))
                 {
                     Player &soul = room->getPlayer(wrapper.integer_message().value());
+                    soul.animation_type = message::PlayerAnimationType::HIT;
+                    // decrease Hp after set to Hit, becasue in case soul directly die
                     soul.decreaseHp(soul.maxHp * 0.5f);
                     printf("Player %d in room %d attacked soul %d, soul hp decreased to %f\n", player_id, room->getRoomId(), wrapper.integer_message().value(), soul.hp);
-                    // send this msg to all players
-                    broadcastToRoom(room->getRoomId(), wrapper, {}, true);
                 }
                 break;
             }
