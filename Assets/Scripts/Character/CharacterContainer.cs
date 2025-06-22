@@ -40,6 +40,7 @@ public abstract class CharacterContainer : MonoBehaviour
 
     protected virtual void HandleBasicMessage(PlayerBasicMessage basicMessage)
     {
+        if (basicMessage.PlayerId != id) return;
         ContainerTransform.position = new Vector3(basicMessage.PositionX, basicMessage.PositionY, 0);
         if (basicMessage.AnimationType == PlayerAnimationType.Idle)
         {
