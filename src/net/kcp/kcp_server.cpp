@@ -343,6 +343,16 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         message::MessageWrapper wrapper_maze_map;
         wrapper_maze_map.mutable_string_message()->CopyFrom(maze_map_msg);
         session->sendMessage(wrapper_maze_map);
+        message::MessageWrapper wrapper_gate_msg;
+        message::GateMessage gate_msg;
+        for (const auto &[direction, type] : room->getGateTypes())
+        {
+            message::Gate *gate = gate_msg.add_gates();
+            gate->set_gate_direction(direction);
+            gate->set_gate_type(type);
+        }
+        wrapper_gate_msg.mutable_gate_message()->CopyFrom(gate_msg);
+        session->sendMessage(wrapper_gate_msg);
     }
     else
     {
@@ -387,6 +397,16 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         message::MessageWrapper wrapper_maze_map;
         wrapper_maze_map.mutable_string_message()->CopyFrom(maze_map_msg);
         session->sendMessage(wrapper_maze_map);
+        message::MessageWrapper wrapper_gate_msg;
+        message::GateMessage gate_msg;
+        for (const auto &[direction, type] : room->getGateTypes())
+        {
+            message::Gate *gate = gate_msg.add_gates();
+            gate->set_gate_direction(direction);
+            gate->set_gate_type(type);
+        }
+        wrapper_gate_msg.mutable_gate_message()->CopyFrom(gate_msg);
+        session->sendMessage(wrapper_gate_msg);
     }
 }
 
