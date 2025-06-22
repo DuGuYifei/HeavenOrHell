@@ -10,12 +10,13 @@ public abstract class CharacterContainer : MonoBehaviour
     public int id;
     public SPUM_Prefabs prefab;
     public bool hasSkills = false;
-    public bool isPlayer;
+    public bool isPlayer = false;
 
     // private Rigidbody2D _rigidbody2D;
     protected Transform ContainerTransform;
     private Transform _charTransform;
     private Vector3 _initialCharScale;
+    private Vector3 _lastPosition;
     protected virtual void Awake()
     {
         ContainerTransform = transform;
@@ -41,7 +42,16 @@ public abstract class CharacterContainer : MonoBehaviour
     protected virtual void HandleBasicMessage(PlayerBasicMessage basicMessage)
     {
         ContainerTransform.position = new Vector3(basicMessage.PositionX, basicMessage.PositionY, 0);
-        
+        if (_lastPosition != ContainerTransform.position)
+        {
+            SetCharacterSide(ContainerTransform.position.x - _lastPosition.x > 0);
+            PlayAnimation(PlayerState.MOVE);
+        }
+        else
+        {
+            PlayAnimation(PlayerState.IDLE);
+        }
+        _lastPosition = ContainerTransform.position;
     }
 
     public void SetPose(Vector2 pos)

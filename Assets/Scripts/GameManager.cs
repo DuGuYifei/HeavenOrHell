@@ -180,6 +180,7 @@ public class GameManager : MonoBehaviour
                 var playerContainer = Instantiate(playerContainerPrefab, Consts.PlayerPrefabPosition, Quaternion.identity, charContainer.transform);
                 playerContainer.transform.localPosition = Vector3.zero;
                 _playerContainer = charContainer;
+                charContainer.isPlayer = true;
             }
             else
             {
