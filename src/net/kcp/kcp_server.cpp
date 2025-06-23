@@ -18,10 +18,6 @@ KcpServer::KcpServer(uint16_t port)
 KcpServer::~KcpServer()
 {
     running = false;
-    if (networkThread.joinable())
-        networkThread.join();
-    if (gameThread.joinable())
-        gameThread.join();
     close(epollFd);
     close(udpFd);
 }
@@ -29,10 +25,7 @@ KcpServer::~KcpServer()
 void KcpServer::run()
 {
     running = true;
-    networkThread = std::thread(&KcpServer::networkThreadFunc, this);
-    gameThread = std::thread(&KcpServer::gameThreadFunc, this);
-    networkThread.join();
-    gameThread.join();
+    mainLoop();
 }
 
 void KcpServer::sendTo(const uint32_t conv, const google::protobuf::Message &msg)
@@ -363,7 +356,7 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                 player.position.x = wrapper.player_basic_message().position_x();
                 player.position.y = wrapper.player_basic_message().position_y();
                 player.animation_type = wrapper.player_basic_message().animation_type();
-                // printf("Player %d in room %d updated via queue: char_type=%d, is_ready=%s\n", player_id, room->getRoomId(), static_cast<int>(player.character_type), player.is_ready ? "true" : "false");
+                // printf("Player %d in room %d updated via queue: char_type=%d, player position(%f, %f)", player_id, room->getRoomId(), static_cast<int>(player.character_type), player.position.x, player.position.y);
             }
             break;
         }
@@ -590,7 +583,8 @@ void KcpServer::handleUdpRead()
         }
         if (n < 4)
             continue;
-        uint32_t conv = ikcp_getconv(buf);
+        // 从buf中获取conv 前4个字节转成uint32_t
+        uint32_t conv = *reinterpret_cast<uint32_t *>(buf);
         // Hello消息 / Hello message
         if (conv == 0)
         {
@@ -648,7 +642,7 @@ void KcpServer::handleUdpRead()
 int KcpServer::calcNextTimeout() const
 {
     const uint32_t now = currentMs();
-    uint32_t next = 100;
+    uint32_t next = 15;
     for (const auto &session : sessions | std::views::values)
     {
         const uint32_t time_stamp = ikcp_check(session->kcp, now);
@@ -662,6 +656,59 @@ uint32_t KcpServer::currentMs()
 {
     using namespace std::chrono;
     return static_cast<uint32_t>(duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count());
+}
+
+void KcpServer::mainLoop()
+{
+    constexpr int MAX_EVENTS = 10;
+    constexpr uint32_t GAME_TICK_INTERVAL = 15; // 游戏逻辑15ms一次
+    epoll_event events[MAX_EVENTS];
+    uint32_t lastGameTick = currentMs();
+
+    while (running)
+    {
+        const uint32_t now = currentMs();
+
+        // 计算下次超时时间，但不能超过游戏逻辑间隔
+        int timeoutMs = calcNextTimeout();
+        uint32_t nextGameTick = lastGameTick + GAME_TICK_INTERVAL;
+        if (now < nextGameTick)
+        {
+            uint32_t gameTickDelay = nextGameTick - now;
+            timeoutMs = std::min(timeoutMs, static_cast<int>(gameTickDelay));
+        }
+
+        // 处理网络事件
+        const int nfds = epoll_wait(epollFd, events, MAX_EVENTS, timeoutMs);
+        const uint32_t currentTime = currentMs();
+
+        for (int i = 0; i < nfds; ++i)
+        {
+            if (events[i].data.fd == udpFd)
+            {
+                handleUdpRead();
+            }
+        }
+
+        // 更新所有KCP会话
+        for (auto &session : sessions | std::views::values)
+        {
+            session->update(currentTime);
+            session->recvAll();
+        }
+
+        // 检查是否需要执行游戏逻辑
+        if (currentTime >= lastGameTick + GAME_TICK_INTERVAL)
+        {
+            gameLogicTick();
+            lastGameTick = currentTime;
+        }
+
+        for (auto &session : sessions | std::views::values)
+        {
+            session->update(currentMs());
+        }
+    }
 }
 
 void KcpServer::networkThreadFunc()
@@ -693,7 +740,7 @@ void KcpServer::gameThreadFunc()
     uint32_t lastGameTick = currentMs();
     while (running)
     {
-        constexpr uint32_t GAME_TICK_INTERVAL = 16;
+        constexpr uint32_t GAME_TICK_INTERVAL = 15;
         if (const uint32_t now = currentMs(); now >= lastGameTick + GAME_TICK_INTERVAL)
         {
             gameLogicTick();

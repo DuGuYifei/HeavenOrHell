@@ -8,7 +8,6 @@
 #include <memory>
 #include <random>
 #include <mutex>
-#include <thread>
 #include <atomic>
 #include "kcp_session.h"
 #include "message/gen/message.pb.h"
@@ -65,12 +64,12 @@ private:
     // Calculate how many milliseconds until the next kcp update
     int calcNextTimeout() const;
     static uint32_t currentMs();
+    // 主循环（合并网络和游戏逻辑） / Main loop (merged network and game logic)
+    void mainLoop();
     // 网络处理线程 / Network handling thread
     void networkThreadFunc();
     // 游戏逻辑线程 / Game logic thread
     void gameThreadFunc();
 
-    std::thread networkThread;
-    std::thread gameThread;
     std::atomic<bool> running;
 };

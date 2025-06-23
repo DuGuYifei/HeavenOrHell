@@ -6,9 +6,14 @@ KcpSession::KcpSession(const uint32_t _conv, const sockaddr_in &addr, const int 
     : conv(_conv), peerAddr(addr), roomId(roomId), playerId(playerId), room(std::move(room))
 {
     kcp = ikcp_create(conv, this);
-    ikcp_nodelay(kcp, 1, 1, 2, 1);
-    kcp->rx_minrto = 10;
-    ikcp_wndsize(kcp, 32 * 4, 32 * 4);
+    ikcp_nodelay(kcp, 1, 15, 1, 0);
+    kcp->rx_minrto = 15;
+    ikcp_wndsize(kcp, 32 * 4 * 32, 32 * 4 * 32);
+    // kcp->logmask = IKCP_LOG_OUTPUT | IKCP_LOG_INPUT;
+    // kcp->writelog = [](const char *s, ikcpcb *, void *)
+    // {
+    //     printf("%s\n", s);
+    // };
     ikcp_setoutput(kcp, &KcpSession::kcpOutput);
     udpSocket = udpFd;
 }
@@ -27,10 +32,22 @@ void KcpSession::update(const uint32_t nowMs) const
 int KcpSession::kcpOutput(const char *buf, int len, ikcpcb *, void *user)
 {
     auto *session = static_cast<KcpSession *>(user);
-    return static_cast<int>(sendto(session->udpSocket, buf, len, 0, reinterpret_cast<sockaddr *>(&session->peerAddr), sizeof(session->peerAddr)));
+    int ret = static_cast<int>(sendto(session->udpSocket, buf, len, 0, reinterpret_cast<sockaddr *>(&session->peerAddr), sizeof(session->peerAddr)));
+    if (ret < 0)
+    {
+        if (errno == EAGAIN || errno == EWOULDBLOCK)
+        {
+            printf("sendto: EAGAIN or EWOULDBLOCK\n");
+            return 0; // 告诉 KCP：不是致命错误，稍后再试
+        }
+        perror("sendto"); // 其他错误打印出来
+        return -1;        // 返回 -1 让你在日志里能看到
+    }
+    return ret;
 }
 
-void KcpSession::recvAll() const {
+void KcpSession::recvAll() const
+{
     while (true)
     {
         const int peek = ikcp_peeksize(kcp);
