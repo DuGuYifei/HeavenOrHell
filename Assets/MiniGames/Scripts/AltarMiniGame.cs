@@ -37,7 +37,7 @@ namespace MiniGames.Altar
 
         void OnDisable()
         {
-            minigameInputMap.Disable();
+            minigameInputMap?.Disable();
         }
 
         void Start()

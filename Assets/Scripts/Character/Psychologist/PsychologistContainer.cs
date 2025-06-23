@@ -26,18 +26,20 @@ namespace Character.Psychologist
                 }
             }
 
+            print(minDistance);
             if (minDistance > skillRange) return;
             _usedSkill = true;
-            if (nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
-            {
-                print("gate not heaven");
-                //TODO: gate is not heaven gate. Change gate color?
-            }
-            else
-            {
-                print("gate is heaven");
-                //TODO: gate is heaven gate. Change gate color?
-            }
+            // if (nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
+            // {
+            //     print("gate not heaven");
+            //     //TODO: gate is not heaven gate. Change gate color?
+            // }
+            // else
+            // {
+            //     print("gate is heaven");
+            //     //TODO: gate is heaven gate. Change gate color?
+            // }
+            GameManager.Instance.SetGateColor(nearestGate);
         }
     }
 }

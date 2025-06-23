@@ -3697,6 +3697,8 @@ MonoBehaviour:
     soulSpawnPositions: []
     reaperPosition: {x: 0, y: 0, z: 0}
     gatePositions: []
+    gateDirections: 
+    altarPosition: {x: 0, y: 0, z: 0}
     heavenGateIndex: 1
     mapString: 
   playerId: 0
@@ -3860,6 +3862,8 @@ MonoBehaviour:
   PlayerRoleDropdown: {fileID: 248259825}
   StartTimer: 2
   ActualTimer: 0
+  gateDirections: 
+  heavenGateIndex: 1
 --- !u!1 &1387056762
 GameObject:
   m_ObjectHideFlags: 0
@@ -6307,13 +6311,16 @@ MonoBehaviour:
   onSoulBasicReceived:
     m_PersistentCalls:
       m_Calls: []
-  onReaperAttackResultReceived:
-    m_PersistentCalls:
-      m_Calls: []
   onPropGetReceived:
     m_PersistentCalls:
       m_Calls: []
   onLobbyMessageReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  onGateMessageReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  onGateResultReceived:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &5524128742275959629
@@ -6352,7 +6359,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   roomId: 0
-  playerId: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

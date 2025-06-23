@@ -26,23 +26,28 @@ public abstract class SoulContainer : CharacterContainer
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
         _playerControlManager = GetComponentInChildren<PlayerControlManager>();
     }
 
     private void Update()
     {
-        _timeSinceLastDash += Time.deltaTime;
-        if (!_inDash) return;
-        _dashTime += Time.deltaTime;
-        if (!(_dashTime >= dashDuration)) return;
-        _inDash = false;
-        _dashTime = 0f;
-        _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
         if (_hp <= 0)
         {
             _isWeak = true;
             _hp = 0.0f;
         }
+        _timeSinceLastDash += Time.deltaTime;
+        if (!_inDash) return;
+        _dashTime += Time.deltaTime;
+        if (_dashTime < dashDuration) return;
+        _inDash = false;
+        _dashTime = 0f;
+        _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
     }
 
     public override void DashPerformed()

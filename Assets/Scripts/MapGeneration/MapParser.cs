@@ -30,6 +30,7 @@ namespace MapGeneration
         [Header("Map Generation Sets")]
         [SerializeField] private Tileset tileset;
         [SerializeField] private PropSet props;
+        
         public static char WALL = '#';
         public static char FLOOR = '.';
         public static char EXIT = 'E';
@@ -168,6 +169,7 @@ namespace MapGeneration
                 var mapInfoContainer = GameManager.Instance.mapInfoContainer;
                 Instantiate(props.altarPrefab, mapInfoContainer.altarPosition, Quaternion.identity,
                     propsParent);
+                var gates = new List<GateContainer>();
                 for (var i = 0 ; i < mapInfoContainer.gatePositions.Count ; i++)
                 {
                     var gatePosition = mapInfoContainer.gatePositions[i];
@@ -180,8 +182,10 @@ namespace MapGeneration
                         GateDirection.Right => props.gateRightPrefab,
                         _ => throw new ArgumentOutOfRangeException()
                     };
-                    Instantiate(selectedGatePrefab, gatePosition, Quaternion.identity, propsParent);
+                    var instance = Instantiate(selectedGatePrefab, gatePosition, Quaternion.identity, propsParent);
+                    gates.Add(instance.GetComponent<GateContainer>());
                 }
+                GameManager.Instance.SetGates(gates);
             }
 
             _minimapTexture.Apply();

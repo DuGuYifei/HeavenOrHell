@@ -11,11 +11,11 @@ namespace Minimap
         [SerializeField] private int width = 31;
         [SerializeField] private int height = 31;
         [SerializeField] private float mapScale = 3f;
+        [SerializeField] private GameObject minimapCanvas;
         
         private Texture2D _minimapPlayerPositionTexture;
         private Texture2D _minimapDarkMaskTexture;
         private CharacterContainer _player;
-        private GameObject _minimapParent;
         
         private readonly Color _playerColor = new (163 / 255f, 110 / 255f, 52 / 255f);
 
@@ -68,7 +68,7 @@ namespace Minimap
             }
             _minimapDarkMaskTexture.Apply();
             minimapDarkMaskRawImage.texture = _minimapDarkMaskTexture;
-            _minimapParent = transform.parent.gameObject;
+            minimapCanvas.SetActive(false);
         }
         
         private void Update()
@@ -105,7 +105,7 @@ namespace Minimap
 
         public void SetVisibility(bool visible)
         {
-            _minimapParent.SetActive(visible);
+            minimapCanvas.SetActive(visible);
         }
     }
 }

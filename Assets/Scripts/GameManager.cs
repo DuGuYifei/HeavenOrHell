@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private int _playerId;
     private GameState _gameState = GameState.BeforeMap;
     private CharacterContainer _playerContainer;
+    private List<GateContainer> _gates = new ();
     
     #region Properties
 
@@ -166,7 +167,20 @@ public class GameManager : MonoBehaviour
         KcpRecvMessageParser.Instance?.onGateResultReceived.AddListener(OnGateResultReceived);
     }
 
-    private void OnGateResultReceived(EnterGateResultMessage arg0)
+    public void SetGates(List<GateContainer> gates)
+    {
+        _gates = gates;
+    }
+    
+    public void SetGateColor(int gateId)
+    {
+        if (_gates.Count <= gateId) return;
+        var gate = _gates[gateId];
+        if (gate == null) return;
+        gate.ChangeColor(mapInfoContainer.heavenGateIndex == gateId);
+    }
+
+    private void OnGateResultReceived(EnterGateResultMessage message)
     {
         
     }
