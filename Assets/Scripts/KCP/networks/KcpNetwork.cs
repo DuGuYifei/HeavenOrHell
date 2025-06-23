@@ -29,7 +29,7 @@ namespace AntMill.Liu.Scripts.networks
         private float _lastHelloTime = -10;
         private const float HelloIntervalTime = 10f;
         private const float KcpSendIntervalTime = 0.02f;
-        
+        readonly object kcpLock = new object();
         
         private bool _debugBasicMessage = true; // Debug flag for basic message sending
         private UdpClient _udpClient;
@@ -91,9 +91,12 @@ namespace AntMill.Liu.Scripts.networks
             {
                 if (_kcp != null && Time.time - _lastHelloTime > KcpSendIntervalTime)
                 {
-                    _kcp.Update();
-                    _lastHelloTime = Time.time;
-                    ReceiveKcpMessages();
+                    lock (kcpLock)
+                    {
+                        _kcp.Update();
+                        _lastHelloTime = Time.time;
+                        ReceiveKcpMessages();
+                    }
                 }
             }
         }
@@ -162,18 +165,25 @@ namespace AntMill.Liu.Scripts.networks
 
                     // Setup KCP
                     _kcp = new KCP(conv, OnKcpOutput);
-                    _kcp.NoDelay(1, 1, 2, 1);  // Fast mode
+                    _kcp.NoDelay(1, 20, 2, 1);  // Fast mode
                     _kcp.WndSize(32 * 4, 32 * 4);     // Set window size
-
+                    // _kcp.logmask = KCP.IKCP_LOG_OUTPUT | KCP.IKCP_LOG_INPUT; // Enable logging
+                    // _kcp.SetLogger(Debug.Log);
                     _connected = true;
 
                     // Process this initial packet
-                    _kcp.Input(data, 0, data.Length, true, true);
+                    lock (kcpLock)
+                    {
+                        _kcp.Input(data, 0, data.Length, true, true);
+                    }
                 }
                 else if (_connected)
                 {
                     // Normal packet for existing KCP session
-                    _kcp.Input(data, 0, data.Length, true, true);
+                    lock (kcpLock)
+                    {
+                        _kcp.Input(data, 0, data.Length, true, true);
+                    }
                 }
             }
         }
