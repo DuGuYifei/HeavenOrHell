@@ -1,4 +1,5 @@
 using AntMill.Liu.Scripts.networks;
+using DefaultNamespace.UI;
 using Player;
 using UnityEngine;
 
@@ -82,15 +83,14 @@ public abstract class SoulContainer : CharacterContainer
 
         if (minDistance > gateCheckRange) return;
         _enteredGate = true;
+        _playerControlManager.enabled = false;
         if (nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
         {
-            print("gate not heaven");
-            //TODO: gate is not heaven gate. Change gate color?
+            GameEndUI.Instance.TurnOnGameEndPanel(false);
         }
         else
         {
-            print("gate is heaven");
-            //TODO: gate is heaven gate. Change gate color?
+            GameEndUI.Instance.TurnOnGameEndPanel(true);
         }
         KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[nearestGate]);
     }
