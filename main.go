@@ -122,7 +122,7 @@ func main() {
 			// Wrap the target executable with `stdbuf -oL -eL` so that stdout/stderr become line-buffered
 			// This ensures we can read C++ program output in real time
 			serverCmd = exec.Command("stdbuf", "-oL", "-eL", "/opt/server/hoh/HeavenOrHellServer")
-			
+
 			stdout, errPipeOut := serverCmd.StdoutPipe()
 			if errPipeOut != nil {
 				outputBuffer.Add("[error] Failed to create stdout pipe: " + errPipeOut.Error())
@@ -173,6 +173,16 @@ func main() {
 					serverCmd = nil
 					bufferLock.Unlock()
 				}()
+				go func() {
+					err := serverCmd.Wait()
+					bufferLock.Lock()
+					serverRunning = false
+					serverCmd = nil
+					if err != nil {
+						outputBuffer.Add("[process_exit] " + err.Error())
+					}
+					bufferLock.Unlock()
+				}()
 				c.JSON(http.StatusOK, gin.H{
 					"success":    true,
 					"buttonText": "关闭服务器",
@@ -190,6 +200,10 @@ func main() {
 				if err != nil {
 					exec.Command("pkill", "-f", "HeavenOrHellServer").Run()
 				}
+				// 新增：Kill 后调用 Wait()，防止僵尸进程
+				go func(cmd *exec.Cmd) {
+					cmd.Wait()
+				}(serverCmd)
 			} else {
 				exec.Command("pkill", "-f", "HeavenOrHellServer").Run()
 			}
