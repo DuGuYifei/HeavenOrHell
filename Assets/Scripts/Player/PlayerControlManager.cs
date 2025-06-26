@@ -101,6 +101,7 @@ namespace Player
 
         private void OnAttackPerformed(InputAction.CallbackContext obj)
         {
+            if (!Application.isFocused) return;
             print("attackPerformed");
             if (_characterContainer is ReaperContainer && debuffTimer <= 0.0f)
             {
