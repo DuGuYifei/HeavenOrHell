@@ -45,8 +45,6 @@ namespace UI
         public string ServerIP;
         public int ServerPort;
 
-        public GameObject KcpNetworkPrefab;
-        private GameObject KcpNetworkEntity;
         public GameObject MainMenu;
 
         public GameObject Connection;
@@ -150,6 +148,12 @@ namespace UI
                 case MenuState.Lobby:
                     {
                         DisconnectFromLobby();
+                        for (var i = 0; i < 3; i++)
+                        {
+                            OtherPlayers[i].IsReady = false;
+                            OtherPlayers[i].PlayerId = -1;
+                            OtherPlayers[i].CharacterType = CharacterType.SoulDog;
+                        }
                         Lobby.SetActive(false);
                         MainMenu.SetActive(true);
                         state = MenuState.MainMenu;
@@ -165,7 +169,7 @@ namespace UI
         public void DisconnectFromLobby()
         {
             Debug.Log("Disconnect from Lobby");
-            Destroy(KcpNetworkEntity);
+            kcpNetwork.DisconnectEverything();
             IsHost = false;
         }
 
@@ -177,7 +181,7 @@ namespace UI
 
                 SetUpKcp();
 
-                kcpNetwork.StartConnect();
+                kcpNetwork.StartUdpConnect();
                 IsHost = true;
                 PlayerLobbyState.PlayerId = 0;
 
@@ -202,7 +206,7 @@ namespace UI
 
                 Debug.Log($"Connecting to the lobby with a code '{roomId}'");
 
-                kcpNetwork.StartConnect(roomId);
+                kcpNetwork.StartUdpConnect(roomId);
                 LobbyId.GetComponent<TMP_Text>().text = $"room: {roomId}";
                 IsHost = false;
 
@@ -257,6 +261,7 @@ namespace UI
                             Debug.LogError("Unknown character type");
                             break;
                     }
+                    PlayerLobbyState.CharacterType = roomMsg.Characters[i].CharacterType;
                 }
                 else
                 {
@@ -283,11 +288,6 @@ namespace UI
                         }
                     }
                 }
-                // if (OtherPlayers[i].PlayerId == -1)
-                // {
-                //     newPlIndex = i;
-                // }
-                // roomMsg.Characters[i];
             }
 
             Debug.Log($" {OtherPlayers[0]} {OtherPlayers[1]} {OtherPlayers[2]}");
@@ -374,12 +374,9 @@ namespace UI
 
         public void SetUpKcp()
         {
-            if (KcpNetworkEntity == null)
-            {
-                kcpNetwork.serverIp = ServerIP;
-                kcpNetwork.serverPort = ServerPort;
-                kcpNetwork.StartClient();
-            }
+            kcpNetwork.serverIp = ServerIP;
+            kcpNetwork.serverPort = ServerPort;
+            kcpNetwork.StartClient();
             
             var kcpRecvMessageParser = kcpNetwork.GetComponent<KcpRecvMessageParser>();
             kcpRecvMessageParser.onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
@@ -393,7 +390,6 @@ namespace UI
             var i = 0;
             foreach (var gate in message.Gates)
             {
-                print($"Gate {i}: Type={gate.GateType}, Direction={gate.GateDirection}");
                 gateDirections.Add(gate.GateDirection);
                 if (gate.GateType == GateType.GateHeaven)
                 {

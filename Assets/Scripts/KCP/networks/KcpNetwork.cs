@@ -35,7 +35,7 @@ namespace AntMill.Liu.Scripts.networks
         private UdpClient _udpClient;
         private IPEndPoint _serverEndPoint;
         private KCP _kcp;
-        private uint _conv = 0;
+        private bool _udpStarted = false;
 
 
         #region DontDestroyOnLoad
@@ -66,7 +66,8 @@ namespace AntMill.Liu.Scripts.networks
             _udpClient = new UdpClient(0);
             _serverEndPoint = new IPEndPoint(IPAddress.Parse(serverIp), serverPort);
             _udpClient.Connect(_serverEndPoint);
-
+            _udpStarted = true;
+            enabled = true;
             // Start receiving UDP packets
             StartReceiving();
         }
@@ -111,8 +112,9 @@ namespace AntMill.Liu.Scripts.networks
                     _kcp.Flush(false);
                 }
 
+                _udpStarted = false;
                 _udpClient?.Close();
-                _udpClient?.Dispose();
+                // _udpClient?.Dispose();
                 _udpClient = null;
                 _kcp = null;
             }
@@ -121,20 +123,40 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogError($"Error during cleanup: {e.Message}");
             }
         }
+        
 
-        public void StartConnect(int targetRoomId = 0)
+        public void StartUdpConnect(int targetRoomId = 0)
         {
             roomId = targetRoomId;
             _startConnect = true;
         }
 
+        public void DisconnectEverything()
+        {
+            StopUdpConnect();
+            _connected = false;
+            _roomJoined = false;
+            _lastHelloTime = -10;
+            enabled = false;
+            roomId = 0;
+        }
+
+        public void StopUdpConnect()
+        {
+            _startConnect = false;
+            _udpStarted = false;
+            _udpClient.Close();
+        }
+
         private void StartReceiving()
         {
+            if (!_udpStarted) return;
             _udpClient.BeginReceive(OnUdpReceive, null);
         }
 
         private void OnUdpReceive(IAsyncResult result)
         {
+            if (!_udpStarted) return;
             try
             {
                 IPEndPoint remoteEp = null;
@@ -143,11 +165,13 @@ namespace AntMill.Liu.Scripts.networks
                 ProcessReceivedData(data);
 
                 // Continue receiving
+                
                 StartReceiving();
             }
             catch (Exception e)
             {
-                Debug.LogError($"UDP receive error: {e.Message}");
+                Debug.LogError("UDP receive error");
+                Debug.LogException(e);
             }
         }
 
@@ -161,7 +185,6 @@ namespace AntMill.Liu.Scripts.networks
                 {
                     // Initial connection setup with conv from server
                     Debug.Log($"Received conv={conv} from server, establishing KCP session");
-                    _conv = conv;
 
                     // Setup KCP
                     _kcp = new KCP(conv, OnKcpOutput);

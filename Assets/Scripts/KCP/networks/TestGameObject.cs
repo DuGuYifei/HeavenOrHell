@@ -8,7 +8,7 @@ namespace AntMill.Liu.Scripts.networks
         
         private void Start()
         {
-            kcpNetwork.StartConnect();
+            kcpNetwork.StartUdpConnect();
         }
     }
 }
