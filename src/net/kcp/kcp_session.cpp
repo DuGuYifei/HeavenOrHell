@@ -6,7 +6,7 @@ KcpSession::KcpSession(const uint32_t _conv, const sockaddr_in &addr, const int 
     : conv(_conv), peerAddr(addr), roomId(roomId), playerId(playerId), room(std::move(room))
 {
     kcp = ikcp_create(conv, this);
-    ikcp_nodelay(kcp, 1, 15, 1, 0);
+    ikcp_nodelay(kcp, 1, 20, 2, 1);
     kcp->rx_minrto = 15;
     ikcp_wndsize(kcp, 32 * 4 * 32, 32 * 4 * 32);
     // kcp->logmask = IKCP_LOG_OUTPUT | IKCP_LOG_INPUT;

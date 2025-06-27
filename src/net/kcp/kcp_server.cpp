@@ -480,13 +480,15 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         int player_id = room->getNextPlayerId();
         uint32_t conv = generateConv();
         room->addPlayer(player_id, static_cast<int>(conv));
+        message::CharacterType player_character_type = getRandomCharacterType();
+        room->getPlayer(player_id).character_type = player_character_type;
         player_room_map[conv] = std::make_pair(room_id, player_id);
         roomMsg.set_is_join(true);
         roomMsg.set_room_id(room_id);
         roomMsg.set_player_id(player_id);
         message::Character *character = roomMsg.add_characters();
         character->set_player_id(player_id);
-        character->set_character_type(getRandomCharacterType());
+        character->set_character_type(player_character_type);
         printf("New room created: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
         auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, room);
         sessions[conv] = session;
@@ -538,7 +540,11 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
             if (pid != player_id)
                 character->set_character_type(room->getPlayer(pid).character_type);
             else
-                character->set_character_type(getRandomCharacterType());
+            {
+                message::CharacterType player_character_type = getRandomCharacterType();
+                room->getPlayer(player_id).character_type = player_character_type;
+                character->set_character_type(player_character_type);
+            }
         }
         printf("Player joined room: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
         auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, room);
