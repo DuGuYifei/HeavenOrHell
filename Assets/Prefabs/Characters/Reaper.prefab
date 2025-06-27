@@ -40,7 +40,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2334704235935923552}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -76,13 +76,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2334704235935923552}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4261dca7f7776b69837db03bb78e67e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   activationTime: 0.25
   lifeLength: 0.5
+  triggerCollider: {fileID: 2850128637190035541}
 --- !u!1 &8773487927099523897
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,6 +138,8 @@ MonoBehaviour:
   hasSkills: 0
   isPlayer: 0
   collider2d: {fileID: 2850128637190035541}
+  checker: {fileID: 7177341143021643023}
+  attackTimeLength: 0.5
 --- !u!50 &5784511134699703318
 Rigidbody2D:
   serializedVersion: 5
@@ -217,7 +220,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8773487927099523897}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}

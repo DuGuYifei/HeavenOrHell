@@ -18,7 +18,7 @@ namespace network
         public GateMessageEvent onGateMessageReceived;
         public GateResultMessageEvent onGateResultReceived;
 
-        private bool _debugBasicMessage = true;
+        private bool _debugBasicMessage = false;
         #region Singleton
 
         private static KcpRecvMessageParser _instance;

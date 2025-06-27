@@ -6,16 +6,16 @@ using UnityEngine;
 public class ReaperContainer : CharacterContainer
 {
     [SerializeField] private CircleCollider2D collider2d;
-    
+    [SerializeField] private CollisionChecker checker;
+    [SerializeField] private float attackTimeLength = 1f;
+
     private float attackDistance = 0.5f;
     private float collisionRadius = 0.25f;
     
-    private CollisionChecker _collisionChecker;
     
     public override void OnInit()
     {
         base.OnInit();
-        _collisionChecker = collider2d.GetComponent<CollisionChecker>();
     }
 
     public override void SkillPerformed()
@@ -30,6 +30,7 @@ public class ReaperContainer : CharacterContainer
 
     public override void AttackPerformed()
     {
+        checker.StartCheck();
         // get the position of the mouse:
         UnityEngine.Vector2 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);

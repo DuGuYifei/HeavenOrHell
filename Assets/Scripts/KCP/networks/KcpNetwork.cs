@@ -31,7 +31,7 @@ namespace AntMill.Liu.Scripts.networks
         private const float KcpSendIntervalTime = 0.02f;
         readonly object kcpLock = new object();
         
-        private bool _debugBasicMessage = true; // Debug flag for basic message sending
+        private bool _debugBasicMessage = false; // Debug flag for basic message sending
         private UdpClient _udpClient;
         private IPEndPoint _serverEndPoint;
         private KCP _kcp;

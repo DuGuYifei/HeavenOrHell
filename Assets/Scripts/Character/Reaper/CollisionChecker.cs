@@ -5,6 +5,7 @@ public class CollisionChecker : MonoBehaviour
 {
     public float activationTime = 0.25f;
     public float lifeLength = 0.5f;
+    public Collider2D triggerCollider;
     private float lifeTime = 0f;
     private List<GameObject> currentCollisions = new List<GameObject>();
     
@@ -26,13 +27,26 @@ public class CollisionChecker : MonoBehaviour
                     hasHit = true;
                 }
             }
-            if (hasHit) enabled = false;
+
+            if (hasHit)
+            {
+                enabled = false;
+                triggerCollider.enabled = false;
+            }
         }
-        else if (lifeTime >= lifeLength)
+        if (lifeTime >= lifeLength)
         {
             enabled = false;
+            triggerCollider.enabled = false;
         }
 
+    }
+
+    public void StartCheck()
+    {
+        enabled = true;
+        lifeTime = 0f;
+        triggerCollider.enabled = true;
     }
     
 
