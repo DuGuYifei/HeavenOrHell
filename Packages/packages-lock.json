@@ -1,13 +1,5 @@
 {
   "dependencies": {
-    "com.esotericsoftware.spine.urp-shaders": {
-      "version": "file:com.esotericsoftware.spine.urp-shaders-4.1-2019.1",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.render-pipelines.universal": "7.1.5"
-      }
-    },
     "com.github-glitchenzo.nugetforunity": {
       "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
       "depth": 0,
