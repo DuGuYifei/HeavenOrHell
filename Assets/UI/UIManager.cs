@@ -1,34 +1,22 @@
-using UnityEditor;
-using UnityEngine;
-
-using Message;
-using AntMill.Liu.Scripts.networks;
-using System.Net;
-using System.Net.Sockets;
-using Google.Protobuf;
-using KcpProject;
 using System;
 using System.Collections.Generic;
+using AntMill.Liu.Scripts.networks;
 using DefaultNamespace;
-using Google.Protobuf.Collections;
 using MapGeneration;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting;
+using Message;
 using network;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
-
 
 namespace UI
 {
-
-    enum MenuState
+    internal enum MenuState
     {
         MainMenu,
         Connection,
-        Lobby
+        Lobby,
+        Tutorial
     }
 
     [Serializable]
@@ -37,7 +25,6 @@ namespace UI
         public bool IsReady;
         public int PlayerId;
         public CharacterType CharacterType;
-
     }
 
     public class UIManager : MonoBehaviour
@@ -59,22 +46,25 @@ namespace UI
 
         public KcpNetwork kcpNetwork;
 
-        LobbyPlayerInfo PlayerLobbyState;
-        bool IsHost = false;
+        public GameObject tutorialPage;
 
         public LobbyPlayerInfo[] OtherPlayers = new LobbyPlayerInfo[3];
         public GameObject[] PlayerIcons;
         public TMP_Dropdown PlayerRoleDropdown;
 
-        private MenuState state = MenuState.MainMenu;
-
         public float StartTimer = 2.0f;
         public float ActualTimer;
+        public List<GateDirection> gateDirections;
+        public int heavenGateIndex = 1;
+        private bool IsHost;
 
         private string mapString = "";
-        public List<GateDirection> gateDirections;
-        public int heavenGateIndex = 1; 
-        void Start()
+
+        private LobbyPlayerInfo PlayerLobbyState;
+
+        private MenuState state = MenuState.MainMenu;
+
+        private void Start()
         {
             ActualTimer = StartTimer;
 
@@ -83,13 +73,15 @@ namespace UI
             Connection.SetActive(false);
             Lobby.SetActive(false);
             ReadyFlag.SetActive(false);
+            tutorialPage.SetActive(false);
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 OtherPlayers[i].IsReady = false;
                 OtherPlayers[i].PlayerId = -1;
                 OtherPlayers[i].CharacterType = CharacterType.SoulDog;
             }
+
             PlayerLobbyState.IsReady = false;
             PlayerLobbyState.PlayerId = -1;
             PlayerLobbyState.CharacterType = CharacterType.SoulDog;
@@ -97,39 +89,30 @@ namespace UI
             // SetUpKcp();
         }
 
-        void Update()
+        private void Update()
         {
             if (IsGameStartable())
-            {
                 ActualTimer -= Time.deltaTime;
-            }
             else
-            {
                 ActualTimer = StartTimer;
-            }
-            if (ActualTimer <= 0.0f)
-            {
-                StartTheGame();
-            }
-            for (int i = 0; i < 3; i++)
+            if (ActualTimer <= 0.0f) StartTheGame();
+            for (var i = 0; i < 3; i++)
+                if (OtherPlayers[i].PlayerId == -1)
                 {
-                    if (OtherPlayers[i].PlayerId == -1)
+                    PlayerIcons[i].SetActive(false);
+                }
+                else
+                {
+                    PlayerIcons[i].SetActive(true);
+                    try
                     {
-                        PlayerIcons[i].SetActive(false);
+                        var ct = PlayerIcons[i].GetComponent<LobbyOtherPlayerController>();
+                        ct.SetReady(OtherPlayers[i].IsReady);
+                        ct.UpdateRole(OtherPlayers[i].CharacterType);
                     }
-                    else
+                    catch
                     {
-                        PlayerIcons[i].SetActive(true);
-                        try
-                        {
-                            LobbyOtherPlayerController ct = PlayerIcons[i].GetComponent<LobbyOtherPlayerController>();
-                            ct.SetReady(OtherPlayers[i].IsReady);
-                            ct.UpdateRole(OtherPlayers[i].CharacterType);
-                        }
-                        catch
-                        {
-                            Debug.Log("Could not properly change UI elements for other players");
-                        }
+                        Debug.Log("Could not properly change UI elements for other players");
                     }
                 }
         }
@@ -139,30 +122,26 @@ namespace UI
             switch (state)
             {
                 case MenuState.Connection:
+                    Connection.SetActive(false);
+                    MainMenu.SetActive(true);
+                    state = MenuState.MainMenu;
+                    break;
+                case MenuState.Lobby: 
+                    DisconnectFromLobby();
+                    for (var i = 0; i < 3; i++)
                     {
-                        Connection.SetActive(false);
-                        MainMenu.SetActive(true);
-                        state = MenuState.MainMenu;
-                        break;
+                        OtherPlayers[i].IsReady = false;
+                        OtherPlayers[i].PlayerId = -1;
+                        OtherPlayers[i].CharacterType = CharacterType.SoulDog;
                     }
-                case MenuState.Lobby:
-                    {
-                        DisconnectFromLobby();
-                        for (var i = 0; i < 3; i++)
-                        {
-                            OtherPlayers[i].IsReady = false;
-                            OtherPlayers[i].PlayerId = -1;
-                            OtherPlayers[i].CharacterType = CharacterType.SoulDog;
-                        }
-                        Lobby.SetActive(false);
-                        MainMenu.SetActive(true);
-                        state = MenuState.MainMenu;
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                    Lobby.SetActive(false);
+                    MainMenu.SetActive(true);
+                    state = MenuState.MainMenu;
+                    break;
+                case MenuState.Tutorial:
+                    tutorialPage.SetActive(false);
+                    MainMenu.SetActive(true);
+                    break;
             }
         }
 
@@ -193,7 +172,6 @@ namespace UI
             {
                 Debug.LogError($"Could not create a lobby: {e}");
             }
-
         }
 
         public void ConnectToLobby()
@@ -202,7 +180,7 @@ namespace UI
             {
                 SetUpKcp();
 
-                int roomId = int.Parse(LobbyEntryField.GetComponent<TMP_InputField>().text);
+                var roomId = int.Parse(LobbyEntryField.GetComponent<TMP_InputField>().text);
 
                 Debug.Log($"Connecting to the lobby with a code '{roomId}'");
 
@@ -227,23 +205,26 @@ namespace UI
             state = MenuState.Connection;
         }
 
+        public void GoToTutorial()
+        {
+            MainMenu.SetActive(false);
+            tutorialPage.SetActive(true);
+            state = MenuState.Tutorial;
+        }
+
         public void OnReceivingRoomMessage(RoomMessage roomMsg)
         {
             Debug.Log($"Room Message is received: {roomMsg}");
             Debug.Log($"user 1 playerid {roomMsg.Characters[0].PlayerId}");
             LobbyId.GetComponent<TMP_Text>().text = $"room: {roomMsg.RoomId}";
-            if (roomMsg.IsJoin && PlayerLobbyState.PlayerId == -1)
-            {
-                PlayerLobbyState.PlayerId = roomMsg.PlayerId;
-            }
+            if (roomMsg.IsJoin && PlayerLobbyState.PlayerId == -1) PlayerLobbyState.PlayerId = roomMsg.PlayerId;
             Debug.Log("Setting up players " + PlayerLobbyState.PlayerId);
             // TODO
-            
-            for (int i = 0; i < roomMsg.Characters.Count; i++)
-            {
+
+            for (var i = 0; i < roomMsg.Characters.Count; i++)
                 if (i == PlayerLobbyState.PlayerId)
                 {
-                    switch(roomMsg.Characters[i].CharacterType)
+                    switch (roomMsg.Characters[i].CharacterType)
                     {
                         case CharacterType.SoulDog:
                             PlayerRoleDropdown.SetValueWithoutNotify(0);
@@ -261,34 +242,29 @@ namespace UI
                             Debug.LogError("Unknown character type");
                             break;
                     }
+
                     PlayerLobbyState.CharacterType = roomMsg.Characters[i].CharacterType;
                 }
                 else
                 {
-                    bool existingPlayer = false;
-                    for (int j = 0; j < 3; j++)
-                    {
+                    var existingPlayer = false;
+                    for (var j = 0; j < 3; j++)
                         if (OtherPlayers[j].PlayerId == i)
                         {
                             OtherPlayers[j].CharacterType = roomMsg.Characters[i].CharacterType;
                             existingPlayer = true;
                             break;
                         }
-                    }
+
                     if (!existingPlayer)
-                    {
-                        for (int j = 0; j < 3; j++)
-                        {
+                        for (var j = 0; j < 3; j++)
                             if (OtherPlayers[j].PlayerId == -1)
                             {
                                 OtherPlayers[j].PlayerId = roomMsg.Characters[i].PlayerId;
                                 OtherPlayers[j].CharacterType = roomMsg.Characters[i].CharacterType;
                                 break;
                             }
-                        }
-                    }
                 }
-            }
 
             Debug.Log($" {OtherPlayers[0]} {OtherPlayers[1]} {OtherPlayers[2]}");
         }
@@ -296,24 +272,19 @@ namespace UI
         public void OnReceivingLobbyMessage(LobbyMessage lobbyMsg)
         {
             Debug.Log("LOBBY MESSAGE TRIGGERED");
-            int playerID = lobbyMsg.PlayerId;
+            var playerID = lobbyMsg.PlayerId;
             if (PlayerLobbyState.PlayerId == playerID)
-            {
                 Debug.LogWarning("Should user get their own lobby messages?");
-            }
             else
-            {
-                for (int i = 0; i < 3; i++)
-                {
+                for (var i = 0; i < 3; i++)
                     if (OtherPlayers[i].PlayerId == playerID)
                     {
-                        Debug.Log($"Updating other players info: PlayerId={playerID}, IsReady={lobbyMsg.IsReady}, CharType={lobbyMsg.CharacterType}");
+                        Debug.Log(
+                            $"Updating other players info: PlayerId={playerID}, IsReady={lobbyMsg.IsReady}, CharType={lobbyMsg.CharacterType}");
                         OtherPlayers[i].IsReady = lobbyMsg.IsReady;
                         OtherPlayers[i].CharacterType = lobbyMsg.CharacterType;
                         break;
                     }
-                }
-            }
 
             Debug.Log($" {OtherPlayers[0].PlayerId} {OtherPlayers[1].PlayerId} {OtherPlayers[2].PlayerId}");
         }
@@ -321,13 +292,9 @@ namespace UI
         public void SetReadyFlag()
         {
             if (ReadyFlag.activeSelf)
-            {
                 PlayerLobbyState.IsReady = false;
-            }
             else
-            {
                 PlayerLobbyState.IsReady = true;
-            }
             ReadyFlag.SetActive(PlayerLobbyState.IsReady);
             kcpNetwork.SendLobbyMessage(
                 PlayerLobbyState.PlayerId,
@@ -338,32 +305,31 @@ namespace UI
 
         public void ChangeRole(GameObject dpObj)
         {
-            TMP_Dropdown change = dpObj.GetComponent<TMP_Dropdown>();
+            var change = dpObj.GetComponent<TMP_Dropdown>();
             switch (change.value.ToString())
             {
                 case "0":
-                    {
-                        PlayerLobbyState.CharacterType = CharacterType.SoulDog;
-                        break;
-                    }
-                case "1":
-                    {
-                        PlayerLobbyState.CharacterType = CharacterType.SoulPsychologist;
-                        break;
-                    }
-                case "2":
-                    {
-                        PlayerLobbyState.CharacterType = CharacterType.SoulDetective;
-                        break;
-                    }
-                case "3":
-                    {
-                        PlayerLobbyState.CharacterType = CharacterType.Reaper;
-                        break;
-                    }
-                default:
+                {
+                    PlayerLobbyState.CharacterType = CharacterType.SoulDog;
                     break;
+                }
+                case "1":
+                {
+                    PlayerLobbyState.CharacterType = CharacterType.SoulPsychologist;
+                    break;
+                }
+                case "2":
+                {
+                    PlayerLobbyState.CharacterType = CharacterType.SoulDetective;
+                    break;
+                }
+                case "3":
+                {
+                    PlayerLobbyState.CharacterType = CharacterType.Reaper;
+                    break;
+                }
             }
+
             kcpNetwork.SendLobbyMessage(
                 PlayerLobbyState.PlayerId,
                 PlayerLobbyState.IsReady,
@@ -377,7 +343,7 @@ namespace UI
             kcpNetwork.serverIp = ServerIP;
             kcpNetwork.serverPort = ServerPort;
             kcpNetwork.StartClient();
-            
+
             var kcpRecvMessageParser = kcpNetwork.GetComponent<KcpRecvMessageParser>();
             kcpRecvMessageParser.onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
             kcpRecvMessageParser.onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
@@ -391,10 +357,7 @@ namespace UI
             foreach (var gate in message.Gates)
             {
                 gateDirections.Add(gate.GateDirection);
-                if (gate.GateType == GateType.GateHeaven)
-                {
-                    heavenGateIndex = i;
-                }
+                if (gate.GateType == GateType.GateHeaven) heavenGateIndex = i;
                 i++;
             }
         }
@@ -406,19 +369,17 @@ namespace UI
 
         public bool IsGameStartable()
         {
-            int player_count = 1;
-            int ready_count = PlayerLobbyState.IsReady ? 1 : 0;
-            int reaper_count = PlayerLobbyState.CharacterType == CharacterType.Reaper ? 1 : 0;
-            for (int i = 0; i < 3; i++)
+            var player_count = 1;
+            var ready_count = PlayerLobbyState.IsReady ? 1 : 0;
+            var reaper_count = PlayerLobbyState.CharacterType == CharacterType.Reaper ? 1 : 0;
+            for (var i = 0; i < 3; i++)
             {
                 player_count += OtherPlayers[i].PlayerId != -1 ? 1 : 0;
                 ready_count += OtherPlayers[i].IsReady ? 1 : 0;
                 reaper_count += OtherPlayers[i].CharacterType == CharacterType.Reaper ? 1 : 0;
             }
-            if (player_count > 1 && player_count == ready_count && reaper_count == 1)
-            {
-                return true;
-            }
+
+            if (player_count > 1 && player_count == ready_count && reaper_count == 1) return true;
             return false;
         }
 
@@ -427,10 +388,8 @@ namespace UI
             // Populate GameStartData
             var gameStartData = GameStartData.Instance;
             gameStartData.characters = new List<CharacterData>();
-            for (int i = 0; i < 3; i++)
-            {
+            for (var i = 0; i < 3; i++)
                 if (OtherPlayers[i].PlayerId != -1)
-                {
                     gameStartData.characters.Add(new CharacterData
                     {
                         id = OtherPlayers[i].PlayerId,
@@ -438,8 +397,7 @@ namespace UI
                         isPlayer = false,
                         spawnPosition = Vector3.zero // TODO: Set proper spawn position
                     });
-                }
-            }
+
             gameStartData.characters.Add(new CharacterData
             {
                 id = PlayerLobbyState.PlayerId,
@@ -454,11 +412,11 @@ namespace UI
                 gatePositions = new List<Vector3>(),
                 heavenGateIndex = heavenGateIndex,
                 mapString = mapString,
-                gateDirections = gateDirections,
+                gateDirections = gateDirections
             };
-            
+
             gameStartData.playerId = PlayerLobbyState.PlayerId;
-            
+
             // change scene
             Debug.Log("Starting the game");
             SceneManager.LoadScene(Consts.GameScene);
