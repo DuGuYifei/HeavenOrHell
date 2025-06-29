@@ -21,7 +21,7 @@ public class CollisionChecker : MonoBehaviour
             foreach (GameObject gObject in currentCollisions)
             {
                 SoulContainer soulCon = gObject.GetComponent<SoulContainer>();
-                if (soulCon != null && !soulCon._isWeak)
+                if (soulCon != null && !soulCon.isWeak)
                 {
                     transform.parent.GetComponent<ReaperContainer>().RegisterTheAttack(soulCon.id);
                     hasHit = true;

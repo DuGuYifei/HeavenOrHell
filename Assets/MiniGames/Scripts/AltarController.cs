@@ -52,7 +52,7 @@ public class AltarController : MonoBehaviour
             if (soulCont != null)
             {
                 // TODO check if it is weak soul
-                if (soulCont._isWeak)
+                if (soulCont.isWeak)
                 {
                     weakSoulCount += 1;
                 }
@@ -127,10 +127,10 @@ public class AltarController : MonoBehaviour
             SoulContainer soulCont = gObject.GetComponent<SoulContainer>();
             if (soulCont != null)
             {
-                if (soulCont._isWeak)
+                if (soulCont.isWeak)
                 {
                     weakSoulCount += 1;
-                    soulCont._isWeak = false;
+                    soulCont.isWeak = false;
                     // TODO send message that the soul is free!!!
                     KcpNetwork.Instance.SendAltarSuccessMessage(soulCont.id);
                 }

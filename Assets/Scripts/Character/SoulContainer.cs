@@ -5,6 +5,7 @@ using Message;
 using network;
 using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -26,12 +27,13 @@ public abstract class SoulContainer : CharacterContainer
     private float _dashTime = 0f;
     private float _timeSinceLastDash = 0f;
     private float _initialSpeedMultiplier;
-    
 
-    public bool _isWeak = false;
-    public float _hp = 100.0f;
-    public float _weakHP = 120.0f;
-    public float _maxHp = 100.0f;
+
+    private bool _isDead = false;
+    public bool isWeak = false;
+    private float _hp = 100.0f;
+    private float _weakTimer = 0f;
+    private float _maxHp = 100.0f;
     private bool _enteredGate = false;
 
     protected override void Awake()
@@ -49,7 +51,7 @@ public abstract class SoulContainer : CharacterContainer
     {
         if (_hp <= 0)
         {
-            _isWeak = true;
+            isWeak = true;
             _hp = 0.0f;
         }
         _timeSinceLastDash += Time.deltaTime;
@@ -85,19 +87,26 @@ public abstract class SoulContainer : CharacterContainer
     {
         if (basicMessage.PlayerId != id) return;
         base.HandleBasicMessage(basicMessage);
-        if (basicMessage.CharacterState == CharacterState.Weak && !_isWeak)
+        if (_isDead) return;
+        if (basicMessage.CharacterState == CharacterState.Weak && !isWeak)
         {
-            _isWeak = true;
+            isWeak = true;
             ChangeMaterialColor(true);
-        } else if (basicMessage.CharacterState == CharacterState.Normal && _isWeak)
+        } else if (basicMessage.CharacterState == CharacterState.Normal && isWeak)
         {
-            _isWeak = false;
+            isWeak = false;
             ChangeMaterialColor(false);
+        } else if (basicMessage.CharacterState == CharacterState.Die && isWeak)
+        {
+            //Dead by weak
+            _playerControlManager.enabled = false;
+            _isDead = true;
+            GameEndUI.Instance.TurnOnGameEndPanel(false, true);
         }
 
         _hp = basicMessage.Hp;
         _maxHp = basicMessage.MaxHp;
-        
+        _weakTimer = basicMessage.WeakTimer;
     }
 
     public void ChangeMaterialColor(bool toWeak)
@@ -154,13 +163,15 @@ public abstract class SoulContainer : CharacterContainer
         {
             GameEndUI.Instance.TurnOnGameEndPanel(true);
         }
+
+        _isDead = true;
         KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[nearestGate]);
     }
 
     #region Properties
 
     public SoulType SoulType => soulType;
-    public bool IsWeak => _isWeak;
+    public bool IsWeak => isWeak;
 
     #endregion
 }
