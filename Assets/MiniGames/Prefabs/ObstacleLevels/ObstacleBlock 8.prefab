@@ -2211,9 +2211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cc006e8be2ddb178b03e5195193aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 0.5
-  LeftLimit: -2.5
-  RightLimit: 2.5
+  MovementSpeed: 0.75
+  LeftLimit: -2.3
+  RightLimit: 2.3
   InitialSideMovementSpeedSign: 1
 --- !u!4 &6316644510465680690 stripped
 Transform:
@@ -2893,9 +2893,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cc006e8be2ddb178b03e5195193aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 0.5
-  LeftLimit: -2.5
-  RightLimit: 2.5
+  MovementSpeed: 0.75
+  LeftLimit: -2.3
+  RightLimit: 2.3
   InitialSideMovementSpeedSign: -1
 --- !u!4 &4819637192086766558 stripped
 Transform:

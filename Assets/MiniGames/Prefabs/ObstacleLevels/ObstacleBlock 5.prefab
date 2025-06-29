@@ -106,7 +106,6 @@ Transform:
   - {fileID: 4084278504124432958}
   - {fileID: 5937808316024163777}
   - {fileID: 7023223590335537612}
-  - {fileID: 4790663611056731035}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5277365140212822569
@@ -2196,7 +2195,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.333
+      value: -1.333
       objectReference: {fileID: 0}
     - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2831,68 +2830,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0aa72fb4d6fadf321b48f0cc50bd809e, type: 3}
   m_PrefabInstance: {fileID: 5828128712335302555}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5963926507490575317
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 7953817671629088508}
-    m_Modifications:
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.37
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.456
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8062879384888412525, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-      propertyPath: m_Name
-      value: Obstacle (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
---- !u!4 &4790663611056731035 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
-  m_PrefabInstance: {fileID: 5963926507490575317}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6235095193420403367
 PrefabInstance:
@@ -3570,7 +3507,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.37
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1206899431244181582, guid: bbbae592afde81f2ea47a815ada96e25, type: 3}
       propertyPath: m_LocalPosition.y
