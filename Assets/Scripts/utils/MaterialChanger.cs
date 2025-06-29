@@ -13,6 +13,9 @@ public class MaterialChanger : MonoBehaviour
     {
         var renderers = objectToChange.GetComponentsInChildren<Renderer>();
         foreach (var objRenderer in renderers) objRenderer.sharedMaterial = materialToApply;
+        #if UNITY_EDITOR
+        PrefabUtility.ApplyPrefabInstance(objectToChange, InteractionMode.UserAction);
+        #endif
     }
 }
 
@@ -25,7 +28,11 @@ public class MaterialChangerEditor : Editor
         DrawDefaultInspector();
 
         var materialChanger = (MaterialChanger)target;
-        if (GUILayout.Button("Change Material")) materialChanger.ChangeMaterial();
+        if (GUILayout.Button("Change Material"))
+        {
+            materialChanger.ChangeMaterial();
+            
+        }
     }
 }
 #endif

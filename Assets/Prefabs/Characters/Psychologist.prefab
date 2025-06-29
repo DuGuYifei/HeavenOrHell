@@ -129,6 +129,8 @@ MonoBehaviour:
   dashCooldown: 4
   dashDuration: 0.5
   dashSpeedMultiplier: 2
+  gateCheckRange: 1
+  weakColor: {r: 0.61395967, g: 3.3630974, b: 3.9844785, a: 0.7921569}
   _isWeak: 0
   _hp: 100
   _weakHP: 120
@@ -188,6 +190,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5077859592180073811}
     m_Modifications:
+    - target: {fileID: 2340785273210557569, guid: 20a21043dc45d48718c6d64c6a915ba7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524112558173604393, guid: 20a21043dc45d48718c6d64c6a915ba7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605696700972037151, guid: 20a21043dc45d48718c6d64c6a915ba7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227716428030290508, guid: 20a21043dc45d48718c6d64c6a915ba7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8523491926890486427, guid: 20a21043dc45d48718c6d64c6a915ba7, type: 3}
       propertyPath: m_Name
       value: SPUM_20250604162902579

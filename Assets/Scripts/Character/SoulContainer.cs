@@ -1,16 +1,25 @@
+using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
 using DefaultNamespace.UI;
+using network;
 using Player;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public abstract class SoulContainer : CharacterContainer
 {
+    private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
     [SerializeField] private SoulType soulType;
     [SerializeField] private float dashCooldown = 4f;
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private float dashSpeedMultiplier = 2f;
     [SerializeField] private float gateCheckRange = 1f;
+    [SerializeField] [ColorUsage(true, true)] private Color weakColor;
 
+    private Material _sharedMaterial;
+    private Color _defaultColor;
     private PlayerControlManager _playerControlManager;
     private bool _inDash = false;
     private float _dashTime = 0f;
@@ -50,6 +59,26 @@ public abstract class SoulContainer : CharacterContainer
         _dashTime = 0f;
         _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
     }
+    
+    public override void OnInit()
+    {
+        base.OnInit();
+        if (isPlayer) KcpRecvMessageParser.Instance?.onReaperResultReceived.AddListener(ReaperResultReceived);
+        var renderers = GetComponentsInChildren<SpriteRenderer>();
+        for (var i = 0; i < renderers.Length; i++)
+        {
+            if (!_sharedMaterial) _sharedMaterial = renderers[i].material;
+            else renderers[i].material = _sharedMaterial;
+        }
+
+        _defaultColor = _sharedMaterial.GetColor(BaseColor);
+    }
+
+    public void ChangeMaterialColor(bool toWeak)
+    {
+        if (!_sharedMaterial) return;
+        _sharedMaterial.SetColor(BaseColor, toWeak ? weakColor : _defaultColor);
+    }
 
     public override void DashPerformed()
     {
@@ -64,6 +93,13 @@ public abstract class SoulContainer : CharacterContainer
     public override void AttackPerformed()
     {
         // no attack ... YET
+    }
+    
+    private void ReaperResultReceived(int playerId)
+    {
+        if (playerId != id) return;
+        _hp = 0.0f;
+        _isWeak = true;
     }
 
     public override void GateActionPerformed()
@@ -102,6 +138,22 @@ public abstract class SoulContainer : CharacterContainer
 
     #endregion
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(SoulContainer), true)]
+public class SoulContainerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        var soulContainer = (SoulContainer) target;
+        if (GUILayout.Button("Change Material Color"))
+        {
+            soulContainer.ChangeMaterialColor(soulContainer.IsWeak);
+        }
+    }
+}
+#endif
 
 public enum SoulType
 {
