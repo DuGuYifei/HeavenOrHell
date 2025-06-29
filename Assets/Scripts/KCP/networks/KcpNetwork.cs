@@ -299,7 +299,7 @@ namespace AntMill.Liu.Scripts.networks
         }
 
         // Send SoulBasicMessage (position, HP)
-        public void SendPlayerBasicMessage(float posX, float posY, float hp, float maxHp, int playerId, PlayerAnimationType animationType)
+        public void SendPlayerBasicMessage(float posX, float posY, int playerId, PlayerAnimationType animationType)
         {
             if (!_connected || !_roomJoined) return;
 
@@ -310,8 +310,6 @@ namespace AntMill.Liu.Scripts.networks
                     PlayerId = playerId,
                     PositionX = posX,
                     PositionY = posY,
-                    Hp = hp,
-                    MaxHp = maxHp,
                     AnimationType = animationType
                 };
 
@@ -321,7 +319,7 @@ namespace AntMill.Liu.Scripts.networks
                 };
 
                 SendProtobufMessage(wrapper);
-                if (_debugBasicMessage) Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), hp={hp}/{maxHp}, player_id={playerId}");
+                if (_debugBasicMessage) Debug.Log($"[Client→Server] Sent SoulBasicMessage: pos=({posX},{posY}), player_id={playerId}");
             }
             catch (Exception e)
             {

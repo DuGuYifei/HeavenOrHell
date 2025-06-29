@@ -15,6 +15,7 @@ namespace MiniGames.Altar
         public GameObject arrowDown;
         public GameObject arrowLeft;
         public GameObject arrowRight;
+        [SerializeField] private int orderInLayer = 2;
 
         public InputActionAsset inputAction;
         InputActionMap minigameInputMap;
@@ -160,6 +161,7 @@ namespace MiniGames.Altar
                     buttons[i].transform.position.x - 0.75f * (buttonSequenceLength / 2 - i),
                     buttons[i].transform.position.y                    
                 );
+                buttons[i].GetComponent<SpriteRenderer>().sortingOrder = orderInLayer;
             }
             readyForInput = true;
         }

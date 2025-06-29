@@ -20,7 +20,7 @@ namespace network
         public IntegerMessageEvent onReaperResultReceived;
         public IntegerMessageEvent onAltarSuccessReceived;
 
-        private readonly bool _debugBasicMessage = true;
+        private readonly bool _debugBasicMessage = false;
 
         private void HandleMessageWrapper(MessageWrapper wrapper)
         {

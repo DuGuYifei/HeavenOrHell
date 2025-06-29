@@ -142,11 +142,10 @@ namespace Player
                 _characterContainer.prefab.PlayAnimation(PlayerState.IDLE, 0);
             }
 
-            SendPlayerBasicMessage(position.x, position.y, _isSoul ? ((SoulContainer)_characterContainer)._hp : 100.0f,
-                _isSoul ? ((SoulContainer)_characterContainer)._maxHp : 100.0f, moveInput.x);
+            SendPlayerBasicMessage(position.x, position.y, moveInput.x);
         }
 
-        private void SendPlayerBasicMessage(float positionX, float positionY, float hp, float maxHp,
+        private void SendPlayerBasicMessage(float positionX, float positionY,
             float moveInputX = 0)
         {
             var animationState = _characterContainer.prefab.GetAnimationState();
@@ -176,7 +175,7 @@ namespace Player
                     break;
             }
 
-            KcpNetwork.Instance.SendPlayerBasicMessage(positionX, positionY, hp, maxHp, GameManager.Instance.PlayerId,
+            KcpNetwork.Instance.SendPlayerBasicMessage(positionX, positionY, GameManager.Instance.PlayerId,
                 animationType);
         }
     }
