@@ -26,6 +26,7 @@ namespace MiniGames.Runner
                         0f,
                         (-10) * i
                     );
+                    CreatedObstacles[i - 1].transform.RotateAround(CreatedObstacles[i - 1].transform.position, Vector3.up, 180f);
                 }
                 EscapeBlock.transform.position = new Vector3
                 (
