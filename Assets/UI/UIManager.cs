@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AntMill.Liu.Scripts.networks;
 using DefaultNamespace;
 using MapGeneration;
@@ -405,6 +406,8 @@ namespace UI
                 isPlayer = true,
                 spawnPosition = Vector3.zero // TODO: Set proper spawn position
             });
+
+            gameStartData.characters = gameStartData.characters.OrderBy(x => x.id).ToList();
 
             gameStartData.mapInfoContainer = new MapInfoContainer
             {
