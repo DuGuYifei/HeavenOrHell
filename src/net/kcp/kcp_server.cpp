@@ -37,10 +37,10 @@ void KcpServer::sendTo(const uint32_t conv, const google::protobuf::Message &msg
     }
 }
 
-void KcpServer::gameLogicTick()
+void KcpServer::gameLogicTick(float delta_time)
 {
     updateAllRooms();
-    iterateBroadcastAllRooms();
+    iterateBroadcastAllRooms(delta_time);
 }
 
 void KcpServer::updateAllRooms()
@@ -59,7 +59,7 @@ void KcpServer::updateAllRooms()
     }
 }
 
-void KcpServer::iterateBroadcastAllRooms()
+void KcpServer::iterateBroadcastAllRooms(float delta_time)
 {
     std::vector<int> finishedRoomIds;
     for (const std::vector<int> roomIds = room_manager->getAllRoomIds(); const int roomId : roomIds)
@@ -71,6 +71,7 @@ void KcpServer::iterateBroadcastAllRooms()
         // PlayerBasicMessage
         for (std::vector<int> all_players = room->getAllPlayerIds(); int player_id : all_players)
         {
+            room->getPlayer(player_id).weak_update(delta_time);
             message::PlayerBasicMessage playerMsg;
             Position position = room->getPlayer(player_id).position;
             playerMsg.set_player_id(player_id);
@@ -80,6 +81,7 @@ void KcpServer::iterateBroadcastAllRooms()
             playerMsg.set_max_hp(room->getPlayer(player_id).maxHp);
             playerMsg.set_character_state(room->getPlayer(player_id).character_state);
             playerMsg.set_animation_type(room->getPlayer(player_id).animation_type);
+            playerMsg.set_weak_timer(room->getPlayer(player_id).weak_timer);
             message::MessageWrapper wrapper;
             wrapper.mutable_player_basic_message()->CopyFrom(playerMsg);
             broadcastToRoom(roomId, wrapper, {}, true);
@@ -716,7 +718,7 @@ void KcpServer::mainLoop()
         // 检查是否需要执行游戏逻辑
         if (currentTime >= lastGameTick + GAME_TICK_INTERVAL)
         {
-            gameLogicTick();
+            gameLogicTick((currentTime - lastGameTick) / 1000.0f);
             lastGameTick = currentTime;
         }
 
@@ -759,7 +761,7 @@ void KcpServer::gameThreadFunc()
         constexpr uint32_t GAME_TICK_INTERVAL = 15;
         if (const uint32_t now = currentMs(); now >= lastGameTick + GAME_TICK_INTERVAL)
         {
-            gameLogicTick();
+            gameLogicTick((now - lastGameTick)/ 1000.0f);
             lastGameTick = now;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));

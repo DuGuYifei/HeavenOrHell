@@ -27,9 +27,9 @@ public:
     void sendTo(uint32_t conv, const google::protobuf::Message &msg);
     // 向指定房间发送消息 / Broadcast message to specified room
     void broadcastToRoom(int room_id, const google::protobuf::Message &msg, const std::vector<int> &skip_player_ids = {}, bool in_game = false);
-    void gameLogicTick();
+    void gameLogicTick(float delta_time);
     void updateAllRooms();
-    void iterateBroadcastAllRooms();
+    void iterateBroadcastAllRooms(float delta_time);
     void updateRoomLogic(std::shared_ptr<Room> room);
     void updateLobbyLogic(std::shared_ptr<Room> room);
     bool checkGameResult(std::shared_ptr<Room> room); // true if game result is finished
