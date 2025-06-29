@@ -16,6 +16,9 @@ public enum PlayerState
 }
 public class SPUM_Prefabs : MonoBehaviour
 {
+    private static readonly int Move = Animator.StringToHash("1_Move");
+    private static readonly int Debuff = Animator.StringToHash("5_Debuff");
+    private static readonly int IsDeath = Animator.StringToHash("isDeath");
     public float _version;
     public bool EditChk;
     public string _code;
@@ -154,40 +157,46 @@ public class SPUM_Prefabs : MonoBehaviour
         }
     
     }
-    public void PlayAnimation(PlayerState PlayState, int index){
+    public void PlayAnimation(PlayerState playState, int index){
         Animator animator = _anim;
-        //Debug.Log(PlayState.ToString());
-        var animations =  StateAnimationPairs[PlayState.ToString()];
-        //Debug.Log(OverrideController[PlayState.ToString()].name);
-        OverrideController[PlayState.ToString()] = animations[index];
-        //Debug.Log( OverrideController[PlayState.ToString()].name);
-        var StateStr = PlayState.ToString();
+        var animations =  StateAnimationPairs[playState.ToString()];
+        OverrideController[playState.ToString()] = animations[index];
+        var stateStr = playState.ToString();
    
-        bool isMove = StateStr.Contains("MOVE");
-        bool isDebuff = StateStr.Contains("DEBUFF");
-        bool isDeath = StateStr.Contains("DEATH");
-        animator.SetBool("1_Move", isMove);
-        animator.SetBool("5_Debuff", isDebuff);
-        animator.SetBool("isDeath", isDeath);
+        bool isMove = stateStr.Contains("MOVE");
+        bool isDebuff = stateStr.Contains("DEBUFF");
+        bool isDeath = stateStr.Contains("DEATH");
+        animator.SetBool(Move, isMove);
+        animator.SetBool(Debuff, isDebuff);
+        animator.SetBool(IsDeath, isDeath);
         if(!isMove && !isDebuff)
         {
             AnimatorControllerParameter[] parameters = animator.parameters;
             foreach (AnimatorControllerParameter parameter in parameters)
             {
-                // if(parameter.type == AnimatorControllerParameterType.Bool){
-                //     bool isBool = StateStr.ToUpper().Contains(parameter.name.ToUpper());
-                //     animator.SetBool(parameter.name, isBool);
-                // }
                 if(parameter.type == AnimatorControllerParameterType.Trigger)
                 {
-                    bool isTrigger = parameter.name.ToUpper().Contains(StateStr.ToUpper());
-                    if(isTrigger){
-                         Debug.Log($"Parameter: {parameter.name}, Type: {parameter.type}");
+                    bool isTrigger = parameter.name.ToUpper().Contains(stateStr.ToUpper());
+                    if(isTrigger && !animator.GetCurrentAnimatorStateInfo(0).IsName(stateStr.ToUpper())){
+                        Debug.Log($"Parameter: {parameter.name}, Type: {parameter.type}");
                         animator.SetTrigger(parameter.name);
                     }
                 }
             }
         }
+    }
+    public PlayerState GetAnimationState()
+    {
+        var animator = _anim;
+        var types = new[] {"IDLE", "MOVE", "ATTACK", "DAMAGED", "DEBUFF", "DEATH", "OTHER"};
+        foreach (var type in types)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(type))
+            {
+                return (PlayerState)Enum.Parse(typeof(PlayerState), type);
+            }
+        }
+        return PlayerState.IDLE;
     }
     AnimationClip LoadAnimationClip(string clipPath)
     {

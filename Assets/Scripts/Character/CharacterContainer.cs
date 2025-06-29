@@ -15,6 +15,7 @@ public abstract class CharacterContainer : MonoBehaviour
     protected Transform ContainerTransform;
     private Transform _charTransform;
     private Vector3 _initialCharScale;
+    private bool _wasLastMoveRight = true;
     protected virtual void Awake()
     {
         ContainerTransform = transform;
@@ -31,27 +32,44 @@ public abstract class CharacterContainer : MonoBehaviour
 
     public virtual void OnInit()
     {
-        if (!isPlayer)
-        {
-            KcpRecvMessageParser.Instance?.onSoulBasicReceived.AddListener(HandleBasicMessage);
-        }
+        KcpRecvMessageParser.Instance?.onSoulBasicReceived.AddListener(HandleBasicMessage);
     }
 
     protected virtual void HandleBasicMessage(PlayerBasicMessage basicMessage)
     {
-        if (basicMessage.PlayerId != id) return;
+        if (basicMessage.PlayerId != id || isPlayer) return;
         ContainerTransform.position = new Vector3(basicMessage.PositionX, basicMessage.PositionY, 0);
-        if (basicMessage.AnimationType == PlayerAnimationType.Idle)
+        switch (basicMessage.AnimationType)
         {
-            PlayAnimation(PlayerState.IDLE);
-        } else if (basicMessage.AnimationType == PlayerAnimationType.WalkLeft)
-        {
-            SetCharacterSide(false);
-            PlayAnimation(PlayerState.MOVE);
-        } else if (basicMessage.AnimationType == PlayerAnimationType.WalkRight)
-        {
-            SetCharacterSide(true);
-            PlayAnimation(PlayerState.MOVE);
+            case PlayerAnimationType.Idle:
+                SetCharacterSide(_wasLastMoveRight);
+                PlayAnimation(PlayerState.IDLE);
+                break;
+            case PlayerAnimationType.WalkLeft:
+                SetCharacterSide(false);
+                _wasLastMoveRight = false;
+                PlayAnimation(PlayerState.MOVE);
+                break;
+            case PlayerAnimationType.WalkRight:
+                _wasLastMoveRight = true;
+                SetCharacterSide(true);
+                PlayAnimation(PlayerState.MOVE);
+                break;
+            case PlayerAnimationType.Attack:
+                PlayAnimation(PlayerState.ATTACK);
+                break;
+            case PlayerAnimationType.Die:
+                PlayAnimation(PlayerState.DEATH);
+                break;
+            case PlayerAnimationType.Hit:
+                PlayAnimation(PlayerState.DAMAGED);
+                break;
+            case PlayerAnimationType.DashLeft:
+            case PlayerAnimationType.DashRight:
+            case PlayerAnimationType.Weak:
+            default:
+                PlayAnimation(PlayerState.IDLE);
+                break;
         }
         // if (_lastPosition != ContainerTransform.position)
         // {

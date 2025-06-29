@@ -172,6 +172,7 @@ namespace AntMill.Liu.Scripts.networks
             {
                 Debug.LogError("UDP receive error");
                 Debug.LogException(e);
+                StartReceiving();
             }
         }
 

@@ -233,7 +233,7 @@ MonoBehaviour:
   dashSpeedMultiplier: 2
   gateCheckRange: 1
   weakColor: {r: 0.61395967, g: 3.3630974, b: 3.9844785, a: 0.7921569}
-  _isWeak: 1
+  _isWeak: 0
   _hp: 100
   _weakHP: 120
   _maxHp: 100

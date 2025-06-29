@@ -53,6 +53,8 @@ public abstract class SoulContainer : CharacterContainer
             _hp = 0.0f;
         }
         _timeSinceLastDash += Time.deltaTime;
+        InGameUIManager.Instance?.UpdateSoulDashCooldown(_timeSinceLastDash / dashCooldown);
+
         if (!_inDash) return;
         _dashTime += Time.deltaTime;
         if (_dashTime < dashDuration) return;
@@ -64,7 +66,11 @@ public abstract class SoulContainer : CharacterContainer
     public override void OnInit()
     {
         base.OnInit();
-        if (isPlayer) KcpRecvMessageParser.Instance?.onReaperResultReceived.AddListener(ReaperResultReceived);
+        if (isPlayer)
+        {
+            KcpRecvMessageParser.Instance?.onReaperResultReceived.AddListener(ReaperResultReceived);
+            InGameUIManager.Instance?.InitializeUI(true);
+        }
         var renderers = GetComponentsInChildren<SpriteRenderer>();
         for (var i = 0; i < renderers.Length; i++)
         {
@@ -77,6 +83,8 @@ public abstract class SoulContainer : CharacterContainer
 
     protected override void HandleBasicMessage(PlayerBasicMessage basicMessage)
     {
+        if (basicMessage.PlayerId != id) return;
+        base.HandleBasicMessage(basicMessage);
         if (basicMessage.CharacterState == CharacterState.Weak && !_isWeak)
         {
             _isWeak = true;
@@ -86,6 +94,10 @@ public abstract class SoulContainer : CharacterContainer
             _isWeak = false;
             ChangeMaterialColor(false);
         }
+
+        _hp = basicMessage.Hp;
+        _maxHp = basicMessage.MaxHp;
+        
     }
 
     public void ChangeMaterialColor(bool toWeak)
@@ -111,9 +123,9 @@ public abstract class SoulContainer : CharacterContainer
     
     private void ReaperResultReceived(int playerId)
     {
-        if (playerId != id) return;
-        _hp = 0.0f;
-        _isWeak = true;
+        print("received reaper result for player: " + playerId);
+        // prefab.PlayAnimation(PlayerState.DAMAGED, 0);
+        // if (playerId != id) return;
     }
 
     public override void GateActionPerformed()

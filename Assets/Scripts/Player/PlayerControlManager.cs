@@ -1,5 +1,4 @@
-﻿using System;
-using AntMill.Liu.Scripts.networks;
+﻿using AntMill.Liu.Scripts.networks;
 using Message;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,18 +13,19 @@ namespace Player
 
         public float speedDebuff = 0.5f;
         public float debuffLength = 5.0f;
-        public float debuffTimer = 0.0f;
+        public float debuffTimer;
+        private InputAction _attackAction;
+        private CharacterContainer _characterContainer;
+        private InputAction _dashAction;
+        private InputAction _gateAction;
+        private bool _isSoul;
+        private InputAction _mapAction;
 
         private InputAction _moveAction;
-        private InputAction _skillAction;
-        private InputAction _dashAction;
-        private InputAction _mapAction;
-        private InputAction _attackAction;
-        private InputAction _gateAction;
         private Rigidbody2D _rigidbody2D;
-        private CharacterContainer _characterContainer;
-        private bool _isSoul = false;
-        
+        private InputAction _skillAction;
+        private bool _wasLastMoveRight = true;
+
         private void Awake()
         {
             var actionMap = playerActionAsset.FindActionMap("Player", true);
@@ -40,6 +40,15 @@ namespace Player
             // check if the character is a soul
             _isSoul = _characterContainer is SoulContainer;
             transform.parent.GetComponent<Collider2D>().enabled = true;
+        }
+
+        private void Update()
+        {
+        }
+
+        private void FixedUpdate()
+        {
+            Move();
         }
 
         private void OnEnable()
@@ -76,7 +85,7 @@ namespace Player
         {
             GameManager.Instance?.MiniMapController?.SetVisibility(true);
         }
-        
+
         private void OnMapEnded(InputAction.CallbackContext obj)
         {
             GameManager.Instance?.MiniMapController?.SetVisibility(false);
@@ -92,7 +101,7 @@ namespace Player
             print("skillPerformed");
             _characterContainer.SkillPerformed();
         }
-        
+
         private void OnDashActionPerformed(InputAction.CallbackContext obj)
         {
             print("dashPerformed");
@@ -110,44 +119,65 @@ namespace Player
             }
         }
 
-        private void FixedUpdate()
-        {
-            Move();
-        }
-
-        private void Update()
-        {
-            
-        }
-
         private void Move()
         {
-            Vector2 moveInput = _moveAction.ReadValue<Vector2>();
+            var moveInput = _moveAction.ReadValue<Vector2>();
             moveInput *= moveSpeed * speedMultiplier;
             if (debuffTimer > 0.0f)
             {
                 moveInput *= speedDebuff;
                 debuffTimer -= Time.deltaTime;
             }
+
             _rigidbody2D.linearVelocity = moveInput;
             var position = transform.position;
             if (moveInput.x != 0 || moveInput.y != 0)
             {
                 _characterContainer.prefab.PlayAnimation(PlayerState.MOVE, 0);
                 _characterContainer.SetCharacterSide(moveInput.x > 0);
-                KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, 
-                    _isSoul? ((SoulContainer) _characterContainer)._hp : 100.0f, 
-                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f, GameManager.Instance.PlayerId
-                    , moveInput.x > 0 ? PlayerAnimationType.WalkRight: PlayerAnimationType.WalkLeft);
+                if (moveInput.x != 0)_wasLastMoveRight = moveInput.x > 0;
             }
             else
             {
                 _characterContainer.prefab.PlayAnimation(PlayerState.IDLE, 0);
-                KcpNetwork.Instance.SendPlayerBasicMessage(position.x, position.y, 
-                    _isSoul? ((SoulContainer) _characterContainer)._hp : 100.0f, 
-                    _isSoul? ((SoulContainer) _characterContainer)._maxHp : 100.0f,GameManager.Instance.PlayerId
-                    , PlayerAnimationType.Idle);
             }
+
+            SendPlayerBasicMessage(position.x, position.y, _isSoul ? ((SoulContainer)_characterContainer)._hp : 100.0f,
+                _isSoul ? ((SoulContainer)_characterContainer)._maxHp : 100.0f, moveInput.x);
+        }
+
+        private void SendPlayerBasicMessage(float positionX, float positionY, float hp, float maxHp,
+            float moveInputX = 0)
+        {
+            var animationState = _characterContainer.prefab.GetAnimationState();
+            PlayerAnimationType animationType;
+            var isRight = moveInputX != 0 ? moveInputX > 0 : _wasLastMoveRight;
+            switch (animationState)
+            {
+                case PlayerState.MOVE:
+                    animationType = isRight ? PlayerAnimationType.WalkRight : PlayerAnimationType.WalkLeft;
+                    break;
+                case PlayerState.ATTACK:
+                    animationType = PlayerAnimationType.Attack;
+                    break;
+                case PlayerState.DEATH:
+                    animationType = PlayerAnimationType.Die;
+                    break;
+                case PlayerState.DAMAGED:
+                    animationType = PlayerAnimationType.Hit;
+                    break;
+                case PlayerState.IDLE:
+                    animationType = PlayerAnimationType.Idle;
+                    break;
+                case PlayerState.DEBUFF:
+                case PlayerState.OTHER:
+                default:
+                    animationType = PlayerAnimationType.Idle;
+                    break;
+            }
+
+            KcpNetwork.Instance.SendPlayerBasicMessage(positionX, positionY, hp, maxHp, GameManager.Instance.PlayerId,
+                animationType);
         }
     }
 }

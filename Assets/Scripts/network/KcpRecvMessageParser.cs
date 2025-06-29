@@ -20,7 +20,7 @@ namespace network
         public IntegerMessageEvent onReaperResultReceived;
         public IntegerMessageEvent onAltarSuccessReceived;
 
-        private readonly bool _debugBasicMessage = false;
+        private readonly bool _debugBasicMessage = true;
 
         private void HandleMessageWrapper(MessageWrapper wrapper)
         {
@@ -50,7 +50,7 @@ namespace network
                     var soulMsg = wrapper.PlayerBasicMessage;
                     if (_debugBasicMessage)
                         Debug.Log(
-                            $"[Server→Client] SoulBasicMessage: player_id={soulMsg.PlayerId}, pos=({soulMsg.PositionX},{soulMsg.PositionY}), hp={soulMsg.Hp}/{soulMsg.MaxHp}, animation_type={soulMsg.AnimationType}");
+                            $"[Server→Client] SoulBasicMessage: {soulMsg}");
                     onSoulBasicReceived?.Invoke(soulMsg);
                     break;
 
