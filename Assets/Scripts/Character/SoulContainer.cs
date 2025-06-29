@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
 using DefaultNamespace.UI;
+using Message;
 using network;
 using Player;
 using UnityEngine;
@@ -72,6 +73,19 @@ public abstract class SoulContainer : CharacterContainer
         }
 
         _defaultColor = _sharedMaterial.GetColor(BaseColor);
+    }
+
+    protected override void HandleBasicMessage(PlayerBasicMessage basicMessage)
+    {
+        if (basicMessage.CharacterState == CharacterState.Weak && !_isWeak)
+        {
+            _isWeak = true;
+            ChangeMaterialColor(true);
+        } else if (basicMessage.CharacterState == CharacterState.Normal && _isWeak)
+        {
+            _isWeak = false;
+            ChangeMaterialColor(false);
+        }
     }
 
     public void ChangeMaterialColor(bool toWeak)
