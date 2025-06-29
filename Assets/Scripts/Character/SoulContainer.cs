@@ -92,10 +92,18 @@ public abstract class SoulContainer : CharacterContainer
         {
             isWeak = true;
             ChangeMaterialColor(true);
+            if (isPlayer)
+            {
+                InGameUIManager.Instance?.TurnDeathIndicatorOn(true);
+            }
         } else if (basicMessage.CharacterState == CharacterState.Normal && isWeak)
         {
             isWeak = false;
             ChangeMaterialColor(false);
+            if (isPlayer)
+            {
+                InGameUIManager.Instance?.TurnDeathIndicatorOn(false);
+            }
         } else if (basicMessage.CharacterState == CharacterState.Die && isWeak)
         {
             //Dead by weak
@@ -105,8 +113,14 @@ public abstract class SoulContainer : CharacterContainer
         }
 
         _hp = basicMessage.Hp;
+        if (isPlayer)
+        {
+            InGameUIManager.Instance?.SetHearts(_hp / _maxHp);
+        }
+        
         _maxHp = basicMessage.MaxHp;
         _weakTimer = basicMessage.WeakTimer;
+        if (_weakTimer > 0f && isPlayer) InGameUIManager.Instance?.UpdateSoulWeakTimer(_weakTimer / 60f);
     }
 
     public void ChangeMaterialColor(bool toWeak)

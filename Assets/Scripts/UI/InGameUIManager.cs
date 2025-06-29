@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace DefaultNamespace.UI
@@ -10,6 +11,11 @@ namespace DefaultNamespace.UI
         [SerializeField] private Image soulDashFill;
         [SerializeField] private Color soulDashFillingColor;
         [SerializeField] private Color soulDashFillEndColor;
+        [Header("Soul Death Indicator")]
+        [SerializeField] private GameObject soulDeathImage;
+        [SerializeField] private RectTransform soulDeathFillRectTransform;
+        [Header("Heart Container")]
+        [SerializeField] private SoulHeartContainer heartContainer;
         
         
         private RectTransform _souldashFillRectTransform;
@@ -36,6 +42,26 @@ namespace DefaultNamespace.UI
         public void InitializeUI(bool isSoul)
         {
             soulDashImage.SetActive(isSoul);
+            heartContainer.gameObject.SetActive(isSoul);
+        }
+        
+        public void SetHearts(float heartRatio)
+        {
+            heartContainer.SetHearts(heartRatio);
+        }
+        
+        public void TurnDeathIndicatorOn(bool isOn)
+        {
+            soulDeathImage.SetActive(isOn);
+            if (isOn)
+            {
+                soulDeathFillRectTransform.anchorMax = new Vector2(0.5f, 0f);
+            }
+        }
+        
+        public void UpdateSoulWeakTimer(float fillAmount)
+        {
+            if (soulDeathImage.activeSelf) soulDeathFillRectTransform.anchorMax = new Vector2(0.5f, fillAmount);
         }
 
         public void UpdateSoulDashCooldown(float fillAmount )
