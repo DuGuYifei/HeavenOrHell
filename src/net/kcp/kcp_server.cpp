@@ -386,6 +386,13 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                     // decrease Hp after set to Hit, becasue in case soul directly die
                     soul.decreaseHp(soul.maxHp * 0.5f);
                     printf("Player %d in room %d attacked soul %d, soul hp decreased to %f\n", player_id, room->getRoomId(), wrapper.integer_message().value(), soul.hp);
+                    // send this msg to the soul who attacked
+                    message::IntegerMessage attack_result_msg;
+                    attack_result_msg.set_message_type(message::IntegerMessageType::REAPER_ATTACK_RESULT);
+                    attack_result_msg.set_value(player_id);
+                    message::MessageWrapper wrapper_attack_result;
+                    wrapper_attack_result.mutable_integer_message()->CopyFrom(attack_result_msg);
+                    sendTo(room->getPlayerConv(wrapper.integer_message().value()), wrapper_attack_result);
                 }
                 break;
             }
