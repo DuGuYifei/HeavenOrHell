@@ -368,8 +368,11 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
             {
                 if (room->hasPlayer(player_id))
                 {
-                    Player &player = room->getPlayer(player_id);
-                    player.recoverHp(player.maxHp * 0.5f);
+                    Player &player = room->getPlayer(wrapper.integer_message().value());
+                    if (player.character_state == message::CharacterState::Character_STATE_WEAK) {
+                        player.character_state = message::CharacterState::Character_STATE_NORMAL;
+                        player.recoverHp(player.maxHp * 0.5f);
+                    }
                     printf("Player %d in room %d recovered %f hp by altar mini game success\n", player_id, room->getRoomId(), player.maxHp * 0.5f);
                     // send this msg to all players
                     broadcastToRoom(room->getRoomId(), wrapper, {}, true);
