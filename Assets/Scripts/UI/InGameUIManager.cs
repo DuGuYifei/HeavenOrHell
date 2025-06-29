@@ -14,11 +14,17 @@ namespace DefaultNamespace.UI
         [Header("Soul Death Indicator")]
         [SerializeField] private GameObject soulDeathImage;
         [SerializeField] private RectTransform soulDeathFillRectTransform;
+
+        [Header("Reaper Attack Indicator")] 
+        [SerializeField] private GameObject reaperAttackImage;
+        [SerializeField] private Image reaperAttackFill;
+        
         [Header("Heart Container")]
         [SerializeField] private SoulHeartContainer heartContainer;
         
         
-        private RectTransform _souldashFillRectTransform;
+        private RectTransform _soulDashFillRectTransform;
+        private RectTransform _reaperAttackFillRectTransform;
         
         #region Singleton
 
@@ -36,13 +42,15 @@ namespace DefaultNamespace.UI
 
         private void Start()
         {
-            _souldashFillRectTransform = soulDashFill.GetComponent<RectTransform>();
+            _soulDashFillRectTransform = soulDashFill.GetComponent<RectTransform>();
+            _reaperAttackFillRectTransform = reaperAttackFill.GetComponent<RectTransform>();
         }
 
         public void InitializeUI(bool isSoul)
         {
             soulDashImage.SetActive(isSoul);
             heartContainer.gameObject.SetActive(isSoul);
+            reaperAttackImage.SetActive(!isSoul);
         }
         
         public void SetHearts(float heartRatio)
@@ -66,8 +74,14 @@ namespace DefaultNamespace.UI
 
         public void UpdateSoulDashCooldown(float fillAmount )
         {
-            if (soulDashImage.activeSelf) _souldashFillRectTransform.anchorMax = new Vector2(0.5f, fillAmount);
+            if (soulDashImage.activeSelf) _soulDashFillRectTransform.anchorMax = new Vector2(0.5f, fillAmount);
             soulDashFill.color = fillAmount >= 1? soulDashFillEndColor : soulDashFillingColor;
+        }
+        
+        public void UpdateReaperAttackCooldown(float fillAmount)
+        {
+            if (reaperAttackImage.activeSelf) _reaperAttackFillRectTransform.anchorMax = new Vector2(0.5f, fillAmount);
+            reaperAttackFill.color = fillAmount >= 1 ? soulDashFillEndColor : soulDashFillingColor;
         }
     }
 }

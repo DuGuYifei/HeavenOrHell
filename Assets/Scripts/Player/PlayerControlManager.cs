@@ -11,9 +11,6 @@ namespace Player
         [SerializeField] private float moveSpeed;
         public float speedMultiplier = 1f;
 
-        public float speedDebuff = 0.5f;
-        public float debuffLength = 5.0f;
-        public float debuffTimer;
         private InputAction _attackAction;
         private CharacterContainer _characterContainer;
         private InputAction _dashAction;
@@ -112,10 +109,9 @@ namespace Player
         {
             if (!Application.isFocused) return;
             print("attackPerformed");
-            if (_characterContainer is ReaperContainer && debuffTimer <= 0.0f)
+            if (_characterContainer is ReaperContainer)
             {
                 _characterContainer.AttackPerformed();
-                debuffTimer = debuffLength;
             }
         }
 
@@ -123,11 +119,6 @@ namespace Player
         {
             var moveInput = _moveAction.ReadValue<Vector2>();
             moveInput *= moveSpeed * speedMultiplier;
-            if (debuffTimer > 0.0f)
-            {
-                moveInput *= speedDebuff;
-                debuffTimer -= Time.deltaTime;
-            }
 
             _rigidbody2D.linearVelocity = moveInput;
             var position = transform.position;
