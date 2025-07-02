@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      LightFire_0: 3501702319104308712
+      LightFire_1: -3945681638796974538
+      LightFire_2: 1771547380254636483
+      LightFire_3: 7022820737329218618
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
