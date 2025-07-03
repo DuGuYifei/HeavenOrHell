@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Net;
-using Unity.VisualScripting;
-using UnityEditor.Build.Content;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Timeline;
 
 namespace MiniGames.Runner {
 
     public class RunnerGamePlayerController : MonoBehaviour
     {
-
+        [SerializeField][Tooltip("Dog is 0, detective is 1, psychologist is 2")] private List<SPUM_Prefabs> soulPrefabs;
+        [SerializeField] private float soulInstanceScale = 2.6f;
         public float ForwardSpeed = 7.5f;
         public float Acceleration = 200.0f;
         public float SideSpeed = 7.5f;
@@ -25,6 +22,9 @@ namespace MiniGames.Runner {
         float SlowTimer = 0f;
 
         public InputActionAsset inputAction;
+        private Transform _spriteInstanceTransform;
+        private Vector3 _spriteLeftScale;
+        private Vector3 _spriteRightScale;
         InputActionMap minigameInputMap;
 
         Rigidbody rb;
@@ -42,6 +42,7 @@ namespace MiniGames.Runner {
                 minigameInputMap.Enable();
             }
             rb = GetComponent<Rigidbody>();
+            if(!GameManager.Instance)SetSoulPrefab(0);
         }
 
         void Update()
@@ -104,6 +105,7 @@ namespace MiniGames.Runner {
                         0f,
                         0f
                     );
+                    _spriteInstanceTransform.localScale = _spriteLeftScale;
                 }
                 else if (minigameInputMap.FindAction("Right").IsPressed())
                 {
@@ -112,6 +114,7 @@ namespace MiniGames.Runner {
                         0f,
                         0f
                     );
+                    _spriteInstanceTransform.localScale = _spriteRightScale;
                 }
             }
             else
@@ -150,6 +153,24 @@ namespace MiniGames.Runner {
             {
                 SlowTimer = 0f;
             }
+        }
+        
+        public void SetSoulPrefab(int prefabIndex)
+        {
+            if (prefabIndex < 0 || prefabIndex >= soulPrefabs.Count)
+            {
+                Debug.LogError("Invalid prefab index: " + prefabIndex);
+                return;
+            }
+            SPUM_Prefabs selectedPrefab = soulPrefabs[prefabIndex];
+            if (!selectedPrefab) return;
+            var instance = Instantiate(selectedPrefab, transform, false);
+            _spriteInstanceTransform = instance.transform;
+            _spriteLeftScale = new Vector3(soulInstanceScale, soulInstanceScale, soulInstanceScale);
+            _spriteRightScale = new Vector3(-soulInstanceScale, soulInstanceScale, soulInstanceScale);
+            _spriteInstanceTransform.localScale = _spriteRightScale;
+            instance.OverrideControllerInit();
+            instance.PlayAnimation(PlayerState.MOVE, 0);
         }
 
         void OnTriggerEnter(Collider other)

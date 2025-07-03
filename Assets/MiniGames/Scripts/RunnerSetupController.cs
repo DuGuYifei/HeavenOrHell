@@ -11,6 +11,7 @@ namespace MiniGames.Runner
         public GameObject[] ObstacleBlocks;
         public GameObject StartBlock;
         public GameObject EscapeBlock;
+        [SerializeField] private RunnerGamePlayerController playerController;
 
         void Start()
         {
@@ -44,7 +45,11 @@ namespace MiniGames.Runner
                     (-10)
                 );
             }
+        }
 
+        public void InitializeSoul(int soulIndex)
+        {
+            playerController.SetSoulPrefab(soulIndex);
         }
 
         void Update()
