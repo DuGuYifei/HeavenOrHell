@@ -7,6 +7,7 @@ namespace MiniGames.Runner
     {
 
         public float WallSpeed = 7.5f;
+        public bool IsMoving = false;
         Rigidbody rb;
 
         void Start()
@@ -16,12 +17,15 @@ namespace MiniGames.Runner
 
         void Update()
         {
-            rb.linearVelocity = new Vector3
-            (
-                0f,
-                0f,
-                WallSpeed * (-1)
-            );
+            if (IsMoving)
+            {
+                rb.linearVelocity = new Vector3
+                (
+                    0f,
+                    0f,
+                    WallSpeed * (-1)
+                );
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ namespace MiniGames.Runner {
         [SerializeField][Tooltip("Dog is 0, detective is 1, psychologist is 2")] private List<SPUM_Prefabs> soulPrefabs;
         [SerializeField] private RunnerSetup runnerSetup;
         [SerializeField] private float soulInstanceScale = 2.6f;
+        public bool IsMoving = false;
         public float ForwardSpeed = 7.5f;
         public float Acceleration = 200.0f;
         public float SideSpeed = 7.5f;
@@ -48,31 +49,33 @@ namespace MiniGames.Runner {
 
         void Update()
         {
-            if (transform.position.y <= 0f)
+            if (!IsMoving) return;
+            
+            if (transform.localPosition.y <= 0f)
             {
-                transform.position = new Vector3
+                transform.localPosition = new Vector3
                 (
-                    transform.position.x,
+                    transform.localPosition.x,
                     0.0f,
-                    transform.position.z
+                    transform.localPosition.z
                 );
             }
-            if (transform.position.x < (-1) * SideBoundary)
+            if (transform.localPosition.x < (-1) * SideBoundary)
             {
-                transform.position = new Vector3
+                transform.localPosition = new Vector3
                 (
                     (-1) * SideBoundary,
-                    transform.position.y,
-                    transform.position.z
+                    transform.localPosition.y,
+                    transform.localPosition.z
                 );
             }
-            else if (transform.position.x > SideBoundary)
+            else if (transform.localPosition.x > SideBoundary)
             {
-                transform.position = new Vector3
+                transform.localPosition = new Vector3
                 (
                     SideBoundary,
-                    transform.position.y,
-                    transform.position.z
+                    transform.localPosition.y,
+                    transform.localPosition.z
                 );
             }
 
@@ -128,7 +131,7 @@ namespace MiniGames.Runner {
             }
 
 
-            if (minigameInputMap.FindAction("Jump").triggered && transform.position.y == 0f)
+            if (minigameInputMap.FindAction("Jump").triggered && transform.localPosition.y == 0f)
             {
                 rb.linearVelocity = new Vector3(
                     rb.linearVelocity.x,
@@ -137,7 +140,7 @@ namespace MiniGames.Runner {
                 );
             }
 
-            if (GravityScale > 0f && transform.position.y > 0f)
+            if (GravityScale > 0f && transform.localPosition.y > 0f)
             {
                 rb.linearVelocity += new Vector3
                 (
