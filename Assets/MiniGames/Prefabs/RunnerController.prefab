@@ -6727,6 +6727,10 @@ PrefabInstance:
       value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
+      propertyPath: runnerSetup
+      value: 
+      objectReference: {fileID: 3018291460806885453}
+    - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
       propertyPath: ForwardSpeed
       value: 8
       objectReference: {fileID: 0}

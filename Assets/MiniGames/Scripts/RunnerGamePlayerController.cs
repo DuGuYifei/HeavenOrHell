@@ -7,6 +7,7 @@ namespace MiniGames.Runner {
     public class RunnerGamePlayerController : MonoBehaviour
     {
         [SerializeField][Tooltip("Dog is 0, detective is 1, psychologist is 2")] private List<SPUM_Prefabs> soulPrefabs;
+        [SerializeField] private RunnerSetup runnerSetup;
         [SerializeField] private float soulInstanceScale = 2.6f;
         public float ForwardSpeed = 7.5f;
         public float Acceleration = 200.0f;
@@ -183,7 +184,9 @@ namespace MiniGames.Runner {
             else if (other.CompareTag("EscapeWall"))
             {
                 Debug.Log("HANDLE RETURN");
+                runnerSetup.runnerCamera.enabled = false;
                 GameManager.Instance?.MinigameFinished(true);
+                Destroy(runnerSetup.gameObject);
             }
             else if (other.CompareTag("Obstacle"))
             {
