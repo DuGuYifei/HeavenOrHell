@@ -556,15 +556,6 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
             if (pid != player_id) {
                 // for room message
                 character->set_character_type(room->getPlayer(pid).character_type);
-                // for lobby message of ready
-                if (room->getPlayer(pid).is_ready) {
-                    message::LobbyMessage lobby_message;
-                    lobby_message.set_player_id(pid);
-                    lobby_message.set_character_type(room->getPlayer(pid).character_type);
-                    message::MessageWrapper wrapper_lobby_message;
-                    wrapper_lobby_message.mutable_lobby_message()->CopyFrom(lobby_message);
-                    session->sendMessage(wrapper_lobby_message);
-                }
             }
             else
             {
@@ -579,6 +570,21 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         wrapper_room.mutable_room_message()->CopyFrom(roomMsg);
         session->sendMessage(wrapper_room);
         broadcastToRoom(room_id, wrapper_room, {player_id}, false);
+
+        for (int pid : all_players)
+        {
+            if (pid != player_id && room->getPlayer(pid).is_ready) {
+                // for lobby message of ready
+                message::LobbyMessage lobby_message;
+                lobby_message.set_player_id(pid);
+                lobby_message.set_character_type(room->getPlayer(pid).character_type);
+                lobby_message.set_is_ready(true);
+                message::MessageWrapper wrapper_lobby_message;
+                wrapper_lobby_message.mutable_lobby_message()->CopyFrom(lobby_message);
+                session->sendMessage(wrapper_lobby_message);
+            }
+        }
+
         message::StringMessage maze_map_msg;
         maze_map_msg.set_message_type(message::StringMessageType::MAZE_MAP);
         maze_map_msg.set_message_content(room->getMazeMap().get_rle_compressed_maze());
