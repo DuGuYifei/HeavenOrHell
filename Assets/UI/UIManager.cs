@@ -272,7 +272,7 @@ namespace UI
 
         public void OnReceivingLobbyMessage(LobbyMessage lobbyMsg)
         {
-            Debug.Log("LOBBY MESSAGE TRIGGERED");
+            Debug.Log($"LOBBY MESSAGE TRIGGERED {lobbyMsg}");
             var playerID = lobbyMsg.PlayerId;
             if (PlayerLobbyState.PlayerId == playerID)
                 Debug.LogWarning("Should user get their own lobby messages?");

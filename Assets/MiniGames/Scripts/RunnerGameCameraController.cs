@@ -17,10 +17,10 @@ namespace MiniGames.Runner
         // Update is called once per frame
         void Update()
         {
-            transform.position = new Vector3(
+            transform.localPosition = new Vector3(
                 0.0f,
                 offset.y,
-                player.transform.position.z + offset.z 
+                player.transform.localPosition.z + offset.z 
             );
         }
     }
