@@ -35,6 +35,8 @@ public abstract class SoulContainer : CharacterContainer
     private float _weakTimer = 0f;
     private float _maxHp = 100.0f;
     private bool _enteredGate = false;
+    
+    private int _nearestGate = -1;
 
     protected override void Awake()
     {
@@ -153,7 +155,7 @@ public abstract class SoulContainer : CharacterContainer
 
     public override void GateActionPerformed()
     {
-        if (_enteredGate) return;
+        if (_enteredGate || isWeak) return;
         var nearestGate = -1;
         var minDistance = float.MaxValue;
         foreach (var gate in GameManager.Instance.mapInfoContainer.gatePositions)
@@ -169,17 +171,53 @@ public abstract class SoulContainer : CharacterContainer
         if (minDistance > gateCheckRange) return;
         _enteredGate = true;
         _playerControlManager.enabled = false;
+        _nearestGate = nearestGate;
         if (nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
         {
-            GameEndUI.Instance.TurnOnGameEndPanel(false);
+            // GameEndUI.Instance.TurnOnGameEndPanel(false);
+            GameManager.Instance.SpawnGateMinigame(soulType);
         }
         else
         {
             GameEndUI.Instance.TurnOnGameEndPanel(true);
+            KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[nearestGate]);
         }
 
-        _isDead = true;
-        KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[nearestGate]);
+    }
+    
+    public void TestGateActionPerformed()
+    {
+        if (_enteredGate || isWeak) return;
+        _enteredGate = true;
+        _playerControlManager.enabled = false;
+        _nearestGate = (GameManager.Instance.mapInfoContainer.heavenGateIndex + 1) % GameManager.Instance.mapInfoContainer.gatePositions.Count;
+        if (_nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
+        {
+            // GameEndUI.Instance.TurnOnGameEndPanel(false);
+            GameManager.Instance.SpawnGateMinigame(soulType);
+        }
+        else
+        {
+            GameEndUI.Instance.TurnOnGameEndPanel(true);
+            KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[_nearestGate]);
+        }
+    }
+    
+    public void RunnerMinigameFinished(bool isHeavenGate)
+    {
+        if (!isPlayer) return;
+        if (isHeavenGate)
+        {
+            _playerControlManager.enabled = true;
+            _enteredGate = false;
+        }
+        else
+        {
+            GameEndUI.Instance?.TurnOnGameEndPanel(false);
+            KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[_nearestGate]);
+            _isDead = true;
+        }
+        
     }
 
     #region Properties
@@ -188,6 +226,7 @@ public abstract class SoulContainer : CharacterContainer
     public bool IsWeak => isWeak;
 
     #endregion
+
 }
 
 #if UNITY_EDITOR
@@ -202,6 +241,11 @@ public class SoulContainerEditor : Editor
         {
             soulContainer.ChangeMaterialColor(soulContainer.IsWeak);
         }
+        
+        if (GUILayout.Button("Test Gate Action"))
+        {
+            soulContainer.TestGateActionPerformed();
+        }
     }
 }
 #endif
@@ -209,6 +253,6 @@ public class SoulContainerEditor : Editor
 public enum SoulType
 {
     Dog,
+    Detective,
     Psychologist,
-    Detective
 }

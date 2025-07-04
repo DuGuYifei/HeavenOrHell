@@ -2,8 +2,11 @@ using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
 using Character;
 using DefaultNamespace;
+using DefaultNamespace.UI;
+using Google.Protobuf.WellKnownTypes;
 using MapGeneration;
 using Message;
+using MiniGames.Runner;
 using Minimap;
 using network;
 using Player;
@@ -19,8 +22,8 @@ public class GameManager : MonoBehaviour
     [Header("Characters")]
     [SerializeField] private Transform characterParent;
 
-    [Header("EnvObjects")] [SerializeField]
-    private Grid gameGrid;
+    [Header("EnvObjects")] 
+    [SerializeField] private Grid gameGrid;
     
     [Header("Character Prefabs")]
     [SerializeField] private SoulContainer dogContainerPrefab;
@@ -34,7 +37,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MiniMapController miniMapController;
     public MapInfoContainer mapInfoContainer;
     private List<CharacterContainer> _characters = new();
-    
+
+    [Header("Minigames")] 
+    [SerializeField] private RunnerSetup runnerPrefab;
+    [SerializeField] private Vector3 runnerInstancePosition = new (1000, 0, 0);
     
     
     [Header("Dog Path Manager")]
@@ -183,6 +189,20 @@ public class GameManager : MonoBehaviour
     private void OnGateResultReceived(EnterGateResultMessage message)
     {
         
+    }
+
+    public void SpawnGateMinigame(SoulType soulType)
+    {
+        var runnerMinigame = Instantiate(runnerPrefab, runnerInstancePosition, Quaternion.identity);
+        runnerMinigame.runnerCamera.enabled = true;
+        runnerMinigame.InitializeSoul((int) soulType);
+        mainCamera.enabled = false;
+    }
+
+    public void MinigameFinished(bool isHeavenGate)
+    {
+        mainCamera.enabled = true;
+        ((SoulContainer)_playerContainer).RunnerMinigameFinished(isHeavenGate);
     }
 
     private void Update()

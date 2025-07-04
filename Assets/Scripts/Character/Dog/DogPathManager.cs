@@ -19,13 +19,11 @@ namespace Character
         // private readonly Dictionary<int, HashSet<Vector2Int>> _currentPath = new();
         // private readonly Dictionary<int, List<DogPathContainer>> _activePaths = new();
 
-        private Camera _mainCamera;
         private Vector3 _gridSize;
         private List<Tile> _dogTiles = new(); 
 
         public void TurnOnPathChecking()
         {
-            _mainCamera = GameManager.Instance.mainCamera;
             _checkPaths = true;
             _gridSize = GameManager.Instance.GridSize;
             GameManager.Instance.OnGameInitializeFinished.AddListener(Initialize);

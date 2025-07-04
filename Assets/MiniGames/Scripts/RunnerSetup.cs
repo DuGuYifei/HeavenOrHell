@@ -5,6 +5,7 @@ namespace MiniGames.Runner
 {
     public class RunnerSetup : MonoBehaviour
     {
+        public Camera runnerCamera;
         public int ObstaclesAmount = 5;
         GameObject[] CreatedObstacles = new GameObject[5];
 
@@ -12,6 +13,7 @@ namespace MiniGames.Runner
         public GameObject StartBlock;
         public GameObject EscapeBlock;
         [SerializeField] private RunnerGamePlayerController playerController;
+        [SerializeField] private Transform obstacleParent;
 
         void Start()
         {
@@ -20,7 +22,7 @@ namespace MiniGames.Runner
             {
                 for (int i = 1; i <= ObstaclesAmount; i++)
                 {
-                    CreatedObstacles[i - 1] = Instantiate<GameObject>(ObstacleBlocks[Random.Range(0, ObstacleBlocks.Length)]);
+                    CreatedObstacles[i - 1] = Instantiate<GameObject>(ObstacleBlocks[Random.Range(0, ObstacleBlocks.Length)], obstacleParent);
                     CreatedObstacles[i - 1].transform.position = new Vector3
                     (
                         0f,
@@ -50,11 +52,6 @@ namespace MiniGames.Runner
         public void InitializeSoul(int soulIndex)
         {
             playerController.SetSoulPrefab(soulIndex);
-        }
-
-        void Update()
-        {
-
         }
     }
 }

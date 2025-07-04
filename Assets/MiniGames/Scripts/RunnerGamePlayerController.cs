@@ -175,15 +175,17 @@ namespace MiniGames.Runner {
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "FireWall")
+            if (other.CompareTag("FireWall"))
             {
                 Debug.Log("HANDLE DEATH");
+                GameManager.Instance?.MinigameFinished(false);
             }
-            else if (other.tag == "EscapeWall")
+            else if (other.CompareTag("EscapeWall"))
             {
                 Debug.Log("HANDLE RETURN");
+                GameManager.Instance?.MinigameFinished(true);
             }
-            else if (other.tag == "Obstacle")
+            else if (other.CompareTag("Obstacle"))
             {
                 Debug.Log("Obstacle touched => slowing down");
                 SlowTimer = SlowDuration;

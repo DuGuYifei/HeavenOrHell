@@ -24,8 +24,12 @@ public class ReaperContainer : CharacterContainer
     public override void OnInit()
     {
         base.OnInit();
-        if (isPlayer) InGameUIManager.Instance?.InitializeUI(false);
-
+        if (isPlayer)
+        {
+            InGameUIManager.Instance?.InitializeUI(false);
+            _playerControlManager = GetComponentInChildren<PlayerControlManager>();
+            _initialSpeedMultiplier = _playerControlManager.speedMultiplier;
+        }
     }
 
     public override void SkillPerformed()
@@ -41,8 +45,6 @@ public class ReaperContainer : CharacterContainer
     protected override void Start()
     {
         base.Start();
-        _playerControlManager = GetComponentInChildren<PlayerControlManager>();
-        _initialSpeedMultiplier = _playerControlManager.speedMultiplier;
     }
 
     private void Update()
