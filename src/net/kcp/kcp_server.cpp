@@ -544,23 +544,37 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         roomMsg.set_is_join(true);
         roomMsg.set_room_id(room_id);
         roomMsg.set_player_id(player_id);
+        printf("Player joined room: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
+        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, room);
+        sessions[conv] = session;
+
         std::vector<int> all_players = room->getAllPlayerIds();
         for (int pid : all_players)
         {
             message::Character *character = roomMsg.add_characters();
             character->set_player_id(pid);
-            if (pid != player_id)
+            if (pid != player_id) {
+                // for room message
                 character->set_character_type(room->getPlayer(pid).character_type);
+                // for lobby message of ready
+                if (room->getPlayer(pid).is_ready) {
+                    message::LobbyMessage lobby_message;
+                    lobby_message.set_player_id(pid);
+                    lobby_message.set_character_type(room->getPlayer(pid).character_type);
+                    message::MessageWrapper wrapper_lobby_message;
+                    wrapper_lobby_message.mutable_lobby_message()->CopyFrom(lobby_message);
+                    session->sendMessage(wrapper_lobby_message);
+                }
+            }
             else
             {
+                // for room message
                 message::CharacterType player_character_type = getRandomCharacterType();
                 room->getPlayer(player_id).character_type = player_character_type;
                 character->set_character_type(player_character_type);
             }
         }
-        printf("Player joined room: %d, player_id: %d, conv: %u\n", room_id, player_id, conv);
-        auto session = std::make_shared<KcpSession>(conv, cliAddr, udpFd, room_id, player_id, room);
-        sessions[conv] = session;
+
         message::MessageWrapper wrapper_room;
         wrapper_room.mutable_room_message()->CopyFrom(roomMsg);
         session->sendMessage(wrapper_room);
