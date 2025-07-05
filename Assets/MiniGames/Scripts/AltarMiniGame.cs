@@ -1,6 +1,3 @@
-using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

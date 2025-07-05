@@ -9,7 +9,6 @@ namespace Character
 {
     public class DogPathManager : MonoBehaviour
     {
-        [SerializeField] private int spawnDistance = 2;
         [SerializeField] private Tilemap dogPathTilemap;
         [SerializeField] private Tileset tileset;
         private readonly Dictionary<int, HashSet<Vector3Int>> _characterPaths = new ();
