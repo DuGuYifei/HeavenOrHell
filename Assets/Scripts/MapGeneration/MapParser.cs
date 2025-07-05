@@ -126,11 +126,15 @@ namespace MapGeneration
                 }
             }
 
-            for (var x = 0; x < scale * Width; x++)
+            for (var x = -3; x <= scale * Width + 2; x++)
             {
-                for (var y = 0; y < scale * Height; y++)
+                for (var y = -3; y <= scale * Height + 2; y++)
                 {
-                    if (map[x][y] == WALL)
+                    if (x < 0 || y < 0 || x >= scale * Width || y >= scale * Height)
+                    {
+                        wallTilemap.SetTile(new Vector3Int(x, y, 0), tileset.wallTile);
+                    }
+                    else if (map[x][y] == WALL)
                     {
                         wallTilemap.SetTile(new Vector3Int(x, y, 0), tileset.wallTile);
                         if (x % 3 == 0 && y % 3 == 0)
