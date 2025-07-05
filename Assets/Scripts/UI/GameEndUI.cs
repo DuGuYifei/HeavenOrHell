@@ -1,18 +1,29 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace DefaultNamespace.UI
+namespace UI
 {
     public class GameEndUI : MonoBehaviour
     {
+        [Header("Soul End Panel")]
+        [SerializeField] private GameObject soulEndPanel;
+        [SerializeField] private TextMeshProUGUI soulEndText;
+        [SerializeField] private string soulEnterGateText = "You entered heaven!";
+        [SerializeField] private string soulEnterHellText = "You entered hell!";
+        [SerializeField] private string soulDiedOfWeaknessText = "You died because you were weak!";
+        
+        [Header("Game End Panel")]
         [SerializeField] private GameObject gameEndPanel;
         [SerializeField] private TextMeshProUGUI gameEndText;
-
-        [Header("Texts")] [SerializeField] private string winText = "You Entered Heaven!";
-        [SerializeField] private string loseText = "You Entered Hell!";
-        [SerializeField] private string hitByReaperText = "You were hit by the Reaper!";
+        [SerializeField] private Image gameEndBackground;
+        [SerializeField] private Color gameEndWinBackground;
+        [SerializeField] private Color gameEndLoseBackground;
+        [SerializeField] private float gameEndPanelDelay = 3.0f;
         
-        
+        private bool _delayStarted = false;
+        private float _delayTime = 0f;
         
         #region Singleton
 
@@ -27,18 +38,59 @@ namespace DefaultNamespace.UI
         }
 
         #endregion
-        
-        public void TurnOnGameEndPanel(bool isWin, bool isHitByReaper = false)
+
+        private void Update()
         {
-            gameEndPanel.SetActive(true);
+            if (!_delayStarted) return;
+            _delayTime += Time.deltaTime;
+            if (_delayTime >= gameEndPanelDelay)
+            {
+                _delayStarted = false;
+                SceneManager.LoadScene(0);
+            }
+        }
+        
+        
+        public void TurnOnSoulEndPanel(bool isWin, bool isHitByReaper = false)
+        {
+            soulEndPanel.SetActive(true);
             if (isHitByReaper)
             {
-                gameEndText.text = hitByReaperText;
+                soulEndText.text = soulDiedOfWeaknessText;
             }
             else
             {
-                gameEndText.text = isWin ? winText : loseText;
+                soulEndText.text = isWin ? soulEnterGateText : soulEnterHellText;
             }
         }
+
+        public void TurnOnGameEndPanel(bool soulWin, bool playerSoul)
+        {
+            gameEndPanel.SetActive(true);
+            if (soulWin && playerSoul)
+            {
+                gameEndText.text = "You won!";
+                gameEndBackground.color = gameEndWinBackground;
+            }
+            else if (!soulWin && playerSoul)
+            {
+                gameEndText.text = "You lost!";
+                gameEndBackground.color = gameEndLoseBackground;
+            }
+            else if (soulWin)
+            {
+                gameEndText.text = "The souls got out!";
+                gameEndBackground.color = gameEndLoseBackground;
+            }
+            else
+            {
+                gameEndText.text = "You Won!";
+                gameEndBackground.color = gameEndWinBackground;
+            }
+
+            _delayStarted = true;
+        }
     }
+    
+    
 }

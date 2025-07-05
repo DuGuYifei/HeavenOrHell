@@ -19,6 +19,7 @@ namespace network
         public GateResultMessageEvent onGateResultReceived;
         public IntegerMessageEvent onReaperResultReceived;
         public IntegerMessageEvent onAltarSuccessReceived;
+        public GameResultMessageEvent onResultMessageReceived;
 
         private readonly bool _debugBasicMessage = false;
 
@@ -94,6 +95,11 @@ namespace network
                         onAltarSuccessReceived?.Invoke(integerMsg.Value);
                     }
                     break;
+                case MessageWrapper.PayloadOneofCase.GameResultMessage:
+                    var gameResultMsg = wrapper.GameResultMessage;
+                    Debug.Log($"[Server→Client] GameResultMessage: {gameResultMsg}");
+                    onResultMessageReceived?.Invoke(gameResultMsg);
+                    break;
                 default:
                     Debug.Log($"[Server→Client] Unknown message type: {wrapper.PayloadCase}");
                     break;
@@ -155,6 +161,11 @@ namespace network
 
     [Serializable]
     public class IntegerMessageEvent : UnityEvent<int>
+    {
+    }
+    
+    [Serializable]
+    public class GameResultMessageEvent : UnityEvent<GameResultMessage>
     {
     }
 }

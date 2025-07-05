@@ -10,6 +10,7 @@ using MiniGames.Runner;
 using Minimap;
 using network;
 using Player;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -171,6 +172,7 @@ public class GameManager : MonoBehaviour
         _gameState = GameState.GameGenerated;
         KcpNetwork.Instance.SendStartReceiveMessage(_playerId);
         KcpRecvMessageParser.Instance?.onGateResultReceived.AddListener(OnGateResultReceived);
+        KcpRecvMessageParser.Instance?.onResultMessageReceived.AddListener(GameResultMessageReceived);
     }
 
     public void SetGates(List<GateContainer> gates)
@@ -189,6 +191,12 @@ public class GameManager : MonoBehaviour
     private void OnGateResultReceived(EnterGateResultMessage message)
     {
         
+    }
+    
+    private void GameResultMessageReceived(GameResultMessage message)
+    {
+        var result = message.GameResult;
+        GameEndUI.Instance?.TurnOnGameEndPanel(result == GameResult.SoulWin, _playerContainer is SoulContainer);
     }
 
     public void SpawnGateMinigame(SoulType soulType)

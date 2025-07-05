@@ -4,6 +4,7 @@ using DefaultNamespace.UI;
 using Message;
 using network;
 using Player;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
@@ -111,7 +112,7 @@ public abstract class SoulContainer : CharacterContainer
             //Dead by weak
             _playerControlManager.enabled = false;
             _isDead = true;
-            GameEndUI.Instance.TurnOnGameEndPanel(false, true);
+            GameEndUI.Instance.TurnOnSoulEndPanel(false, true);
         }
 
         _hp = basicMessage.Hp;
@@ -179,7 +180,7 @@ public abstract class SoulContainer : CharacterContainer
         }
         else
         {
-            GameEndUI.Instance.TurnOnGameEndPanel(true);
+            GameEndUI.Instance.TurnOnSoulEndPanel(true);
             KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[nearestGate]);
         }
 
@@ -198,7 +199,7 @@ public abstract class SoulContainer : CharacterContainer
         }
         else
         {
-            GameEndUI.Instance.TurnOnGameEndPanel(true);
+            GameEndUI.Instance.TurnOnSoulEndPanel(true);
             KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[_nearestGate]);
         }
     }
@@ -213,7 +214,7 @@ public abstract class SoulContainer : CharacterContainer
         }
         else
         {
-            GameEndUI.Instance?.TurnOnGameEndPanel(false);
+            GameEndUI.Instance?.TurnOnSoulEndPanel(false);
             KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[_nearestGate]);
             _isDead = true;
         }
