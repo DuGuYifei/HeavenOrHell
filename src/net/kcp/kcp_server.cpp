@@ -371,7 +371,8 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                 if (room->hasPlayer(player_id))
                 {
                     Player &player = room->getPlayer(wrapper.integer_message().value());
-                    if (player.character_state == message::CharacterState::Character_STATE_WEAK) {
+                    if (player.character_state == message::CharacterState::Character_STATE_WEAK)
+                    {
                         player.character_state = message::CharacterState::Character_STATE_NORMAL;
                         player.recoverHp(player.maxHp * 0.5f);
                     }
@@ -386,7 +387,8 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
             {
                 if (room->hasPlayer(player_id))
                 {
-                    Player &soul = room->getPlayer(wrapper.integer_message().value());
+                    int victim_id = wrapper.integer_message().value();
+                    Player &soul = room->getPlayer(victim_id);
                     soul.animation_type = message::PlayerAnimationType::HIT;
                     // decrease Hp after set to Hit, becasue in case soul directly die
                     soul.decreaseHp(soul.maxHp * 0.5f);
@@ -394,10 +396,11 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                     // send this msg to the soul who attacked
                     message::IntegerMessage attack_result_msg;
                     attack_result_msg.set_message_type(message::IntegerMessageType::REAPER_ATTACK_RESULT);
-                    attack_result_msg.set_value(player_id);
+                    attack_result_msg.set_value(victim_id);
                     message::MessageWrapper wrapper_attack_result;
                     wrapper_attack_result.mutable_integer_message()->CopyFrom(attack_result_msg);
-                    sendTo(room->getPlayerConv(wrapper.integer_message().value()), wrapper_attack_result);
+                    // broadcast to all players, then can play hit animation or sfx
+                    broadcastToRoom(room->getRoomId(), wrapper_attack_result, {}, true);
                 }
                 break;
             }
@@ -547,7 +550,8 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
         {
             message::Character *character = roomMsg.add_characters();
             character->set_player_id(pid);
-            if (pid != player_id) {
+            if (pid != player_id)
+            {
                 // for room message
                 character->set_character_type(room->getPlayer(pid).character_type);
             }
@@ -567,7 +571,8 @@ void KcpServer::handleHello(const char *buf, int len, const sockaddr_in &cliAddr
 
         for (int pid : all_players)
         {
-            if (pid != player_id && room->getPlayer(pid).is_ready) {
+            if (pid != player_id && room->getPlayer(pid).is_ready)
+            {
                 // for lobby message of ready
                 message::LobbyMessage lobby_message;
                 lobby_message.set_player_id(pid);
@@ -775,7 +780,7 @@ void KcpServer::gameThreadFunc()
         constexpr uint32_t GAME_TICK_INTERVAL = 15;
         if (const uint32_t now = currentMs(); now >= lastGameTick + GAME_TICK_INTERVAL)
         {
-            gameLogicTick((now - lastGameTick)/ 1000.0f);
+            gameLogicTick((now - lastGameTick) / 1000.0f);
             lastGameTick = now;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
