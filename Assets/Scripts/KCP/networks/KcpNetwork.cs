@@ -145,7 +145,7 @@ namespace AntMill.Liu.Scripts.networks
         {
             _startConnect = false;
             _udpStarted = false;
-            _udpClient.Close();
+            _udpClient?.Close();
         }
 
         private void StartReceiving()

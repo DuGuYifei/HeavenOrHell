@@ -47,7 +47,6 @@ namespace UI
 
         public GameObject ReadyFlag;
 
-        public KcpNetwork kcpNetwork;
 
         public GameObject tutorialPage;
 
@@ -153,7 +152,7 @@ namespace UI
         public void DisconnectFromLobby()
         {
             Debug.Log("Disconnect from Lobby");
-            kcpNetwork.DisconnectEverything();
+            KcpNetwork.Instance?.DisconnectEverything();
             IsHost = false;
         }
 
@@ -165,7 +164,7 @@ namespace UI
 
                 SetUpKcp();
 
-                kcpNetwork.StartUdpConnect();
+                KcpNetwork.Instance?.StartUdpConnect();
                 IsHost = true;
                 PlayerLobbyState.PlayerId = 0;
 
@@ -176,6 +175,7 @@ namespace UI
             catch (Exception e)
             {
                 Debug.LogError($"Could not create a lobby: {e}");
+                Debug.LogError(e.StackTrace);
             }
         }
 
@@ -189,7 +189,7 @@ namespace UI
 
                 Debug.Log($"Connecting to the lobby with a code '{roomId}'");
 
-                kcpNetwork.StartUdpConnect(roomId);
+                KcpNetwork.Instance?.StartUdpConnect(roomId);
                 LobbyId.GetComponent<TMP_Text>().text = $"room: {roomId}";
                 IsHost = false;
 
@@ -301,7 +301,7 @@ namespace UI
             else
                 PlayerLobbyState.IsReady = true;
             ReadyFlag.SetActive(PlayerLobbyState.IsReady);
-            kcpNetwork.SendLobbyMessage(
+            KcpNetwork.Instance?.SendLobbyMessage(
                 PlayerLobbyState.PlayerId,
                 PlayerLobbyState.IsReady,
                 PlayerLobbyState.CharacterType
@@ -335,7 +335,7 @@ namespace UI
                 }
             }
 
-            kcpNetwork.SendLobbyMessage(
+            KcpNetwork.Instance?.SendLobbyMessage(
                 PlayerLobbyState.PlayerId,
                 PlayerLobbyState.IsReady,
                 PlayerLobbyState.CharacterType
@@ -345,15 +345,18 @@ namespace UI
 
         public void SetUpKcp()
         {
+            KcpNetwork.Instance.DisconnectEverything();
+
+            
             var serverIp = serverIPInputField.text;
             PlayerPrefs.SetString("ServerIP", serverIp);
             var serverPort = int.Parse(serverPortInputField.text);
             PlayerPrefs.SetInt("ServerPort", serverPort);
-            kcpNetwork.serverIp = serverIp;
-            kcpNetwork.serverPort = serverPort;
-            kcpNetwork.StartClient();
+            KcpNetwork.Instance.serverIp = serverIp;
+            KcpNetwork.Instance.serverPort = serverPort;
+            KcpNetwork.Instance.StartClient();
 
-            var kcpRecvMessageParser = kcpNetwork.GetComponent<KcpRecvMessageParser>();
+            var kcpRecvMessageParser = KcpNetwork.Instance.GetComponent<KcpRecvMessageParser>();
             kcpRecvMessageParser.onRoomMessageReceived.AddListener(OnReceivingRoomMessage);
             kcpRecvMessageParser.onLobbyMessageReceived.AddListener(OnReceivingLobbyMessage);
             kcpRecvMessageParser.onMapReceived.AddListener(OnMapReceived);
