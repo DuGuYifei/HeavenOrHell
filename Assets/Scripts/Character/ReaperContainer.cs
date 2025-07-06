@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using AntMill.Liu.Scripts.networks;
 using DefaultNamespace.UI;
@@ -102,7 +103,7 @@ public class ReaperContainer : CharacterContainer
         hitDir.Normalize();
 
         hitDir = hitDir * attackDistance;
-
+        
         // generate the position of the collision shape to place
         UnityEngine.Vector3 collisionSpawn = new UnityEngine.Vector3(
             transform.position.x + hitDir.x,
@@ -115,6 +116,9 @@ public class ReaperContainer : CharacterContainer
         collider2d.radius = collisionRadius;
         // collider.AddComponent<CollisionChecker>();
         PlayAnimation(PlayerState.ATTACK);
+        
+        _audioSource.Play();
+        
         // mb check for collisions and if there's a poor soul, DAMAGE it
         _attackPerformed = true;
         _debuffTimer = 0f;

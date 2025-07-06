@@ -71,9 +71,9 @@ public abstract class SoulContainer : CharacterContainer
     public override void OnInit()
     {
         base.OnInit();
+        KcpRecvMessageParser.Instance?.onReaperResultReceived.AddListener(ReaperResultReceived);
         if (isPlayer)
         {
-            KcpRecvMessageParser.Instance?.onReaperResultReceived.AddListener(ReaperResultReceived);
             InGameUIManager.Instance?.InitializeUI(true);
         }
         var renderers = GetComponentsInChildren<SpriteRenderer>();
@@ -152,6 +152,8 @@ public abstract class SoulContainer : CharacterContainer
         print("received reaper result for player: " + playerId);
         // prefab.PlayAnimation(PlayerState.DAMAGED, 0);
         // if (playerId != id) return;
+        if (playerId == id)
+            _audioSource.Play();
     }
 
     public override void GateActionPerformed()

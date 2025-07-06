@@ -16,6 +16,9 @@ public abstract class CharacterContainer : MonoBehaviour
     private Transform _charTransform;
     private Vector3 _initialCharScale;
     private bool _wasLastMoveRight = true;
+    
+    protected AudioSource _audioSource;
+    
     protected virtual void Awake()
     {
         ContainerTransform = transform;
@@ -33,6 +36,15 @@ public abstract class CharacterContainer : MonoBehaviour
     public virtual void OnInit()
     {
         KcpRecvMessageParser.Instance?.onSoulBasicReceived.AddListener(HandleBasicMessage);
+
+        try
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("AudioSource not found on CharacterContainer: " + e.Message);
+        }
     }
 
     protected virtual void HandleBasicMessage(PlayerBasicMessage basicMessage)
