@@ -698,7 +698,7 @@ uint32_t KcpServer::currentMs()
 void KcpServer::mainLoop()
 {
     constexpr int MAX_EVENTS = 10;
-    constexpr uint32_t GAME_TICK_INTERVAL = 15; // 游戏逻辑15ms一次
+    constexpr uint32_t GAME_TICK_INTERVAL = 10; // 游戏逻辑10ms一次
     epoll_event events[MAX_EVENTS];
     uint32_t lastGameTick = currentMs();
 
