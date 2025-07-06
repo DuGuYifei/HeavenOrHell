@@ -12,15 +12,17 @@ public class ReaperContainer : CharacterContainer
     [SerializeField] private float attackTimeLength = 1f;
     [SerializeField] private float debuffLength = 5.0f;
     [SerializeField] private float speedDebuff = 0.5f;
+    [SerializeField] private float regularSpeedMultiplier = 1.05f;
+    public GameObject Pointer;
 
     private bool _attackPerformed;
     private float _initialSpeedMultiplier;
     private float _debuffTimer = 0f;
-    private float attackDistance = 0.5f;
+    private float attackDistance = 0.65f;
     private float collisionRadius = 0.25f;
     private PlayerControlManager _playerControlManager;
-    
-    
+
+
     public override void OnInit()
     {
         base.OnInit();
@@ -28,7 +30,8 @@ public class ReaperContainer : CharacterContainer
         {
             InGameUIManager.Instance?.InitializeUI(false);
             _playerControlManager = GetComponentInChildren<PlayerControlManager>();
-            _initialSpeedMultiplier = _playerControlManager.speedMultiplier;
+            // _initialSpeedMultiplier = _playerControlManager.speedMultiplier;
+            _initialSpeedMultiplier = regularSpeedMultiplier;
         }
     }
 
@@ -59,6 +62,28 @@ public class ReaperContainer : CharacterContainer
                 _attackPerformed = false;
                 _debuffTimer = 0f;
             }
+        }
+        if (isPlayer)
+        {
+            Pointer.SetActive(true);
+            UnityEngine.Vector2 mousePos = Input.mousePosition;
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+            UnityEngine.Vector2 hitDir = new UnityEngine.Vector2(
+                mousePos.x - transform.position.x,
+                mousePos.y - transform.position.y
+            );
+            hitDir.Normalize();
+
+            hitDir = hitDir * attackDistance;
+
+            UnityEngine.Vector3 pointerPosition = new UnityEngine.Vector3(
+                transform.position.x + hitDir.x,
+                transform.position.y + hitDir.y,
+                transform.position.z
+            );
+            Pointer.transform.position = pointerPosition;
+
         }
     }
 
