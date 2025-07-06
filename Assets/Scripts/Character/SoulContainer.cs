@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
+using Assets.Scripts.game.sfx;
 using DefaultNamespace.UI;
 using Message;
 using network;
@@ -38,6 +39,8 @@ public abstract class SoulContainer : CharacterContainer
     private bool _enteredGate = false;
     
     private int _nearestGate = -1;
+    
+    protected GhostingContainer GhostingContainer;
 
     protected override void Awake()
     {
@@ -48,6 +51,7 @@ public abstract class SoulContainer : CharacterContainer
     {
         base.Start();
         _playerControlManager = GetComponentInChildren<PlayerControlManager>();
+        GhostingContainer = GetComponent<GhostingContainer>();
     }
 
     private void Update()
@@ -63,6 +67,7 @@ public abstract class SoulContainer : CharacterContainer
         if (!_inDash) return;
         _dashTime += Time.deltaTime;
         if (_dashTime < dashDuration) return;
+        GhostingContainer.StopEffect();
         _inDash = false;
         _dashTime = 0f;
         _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
@@ -140,6 +145,8 @@ public abstract class SoulContainer : CharacterContainer
         _timeSinceLastDash = 0f;
         _initialSpeedMultiplier = _playerControlManager.speedMultiplier;
         _playerControlManager.speedMultiplier = dashSpeedMultiplier;
+        GhostingContainer.Init(5, 0.02f);
+
     }
 
     public override void AttackPerformed()

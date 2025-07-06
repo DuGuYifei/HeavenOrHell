@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5667620373165205409}
   - component: {fileID: 6992263213649076421}
   - component: {fileID: -1847340430210688995}
+  - component: {fileID: 191912515139281626}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -276,6 +277,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &191912515139281626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603167792098151698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3120b51951e586040818597645f27012, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnRate: 0.02
+  _trailLength: 5
+  _desiredAlpha: 0.8
+  _effectDuration: 0.2
+  _desiredColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &39511384228933336
 PrefabInstance:
   m_ObjectHideFlags: 0
