@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
+using Audio;
 using Character;
 using DefaultNamespace;
 using DefaultNamespace.UI;
@@ -100,6 +101,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance?.Play("BackgroundMusic");
         if (!GameStartData.Instance)
         {
             // KcpRecvMessageParser.Instance.onRoomMessageReceived.AddListener(OnRoomMessageReceived);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AntMill.Liu.Scripts.networks;
+using Audio;
 using DefaultNamespace;
 using MapGeneration;
 using Message;
@@ -68,6 +69,7 @@ namespace UI
 
         private void Start()
         {
+            AudioManager.Instance?.Play("Lobby");
             ActualTimer = StartTimer;
 
             state = MenuState.MainMenu;
