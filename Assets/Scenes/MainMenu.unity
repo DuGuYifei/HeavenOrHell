@@ -468,7 +468,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11.5, y: 0}
   m_SizeDelta: {x: 20, y: -17}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &117103556
@@ -515,7 +515,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 935356132}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6059211
+  m_Size: 0.6051236
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3543,7 +3543,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2125226130}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.3940789}
+  m_AnchorMin: {x: 0, y: 0.39487642}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -5852,7 +5852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967b84c7d889a9c1594688f0f87ce131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerIP: 127.0.0.1
+  ServerIP: 157.180.74.111
   ServerPort: 8888
   serverIPInputField: {fileID: 185271149}
   serverPortInputField: {fileID: 1581918605}
@@ -6050,8 +6050,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 8.5, y: 0}
-  m_SizeDelta: {x: 1834.0967, y: 1458.0784}
+  m_AnchoredPosition: {x: -1, y: 0}
+  m_SizeDelta: {x: 1770, y: 1460}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1387738423
 MonoBehaviour:
@@ -6073,20 +6073,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Welcome to \"Heaven or Hell\"! In this game you will play as a soul or
-    a reaper. Souls have to find the heaven gate and enter it to win while the reaper
-    tries to stop them. \n\nMovement:\nYou can move using WASD or arrow keys.\n\nSouls:\nSoWelcome
-    tuls have to find the heaven gate while fleeing from the reaper.  They can dash
-    for a short period of time by pressing the button \"SPACE\". They may enter the
-    gate when they are near it by pressing button \"G\". \nThere are three different
-    types of souls, each with their own unique ability:\n\n1. Dog: Can see other
-    players' footprints in the game.\n2. Detective: Can see the direction of all
-    of the Gates\n3. Psychologist: Can use it's one-time ability (using button \"E\")
-    to check whether a gate is heaven or hell. \n\nReaper:\nThe reaper should stop
-    the souls from reaching the heaven gate. It can attack using \"Left Mouse Button\"
-    to reduce the health of the souls and eventually weaken them. Weakend souls have
-    to go to altar to get back to normal state before being able to interact with
-    gates.\n\n\n\n\n\n"
+  m_text: "Welcome to \"Heaven or Hell\"! \n\nIn this game you will play as a soul
+    or a reaper. Souls have to find the heaven gate and enter it to win while the
+    reaper tries to stop them. \n\nMovement:\nYou can move using WASD or arrow keys.\n\nSouls:\nSouls
+    have to find the heaven gate while fleeing from the reaper. They can dash for
+    a short period of time by pressing the button \"SPACE\". They may enter the gate
+    when they are near it by pressing button \"G\". If they enter a hell gate, they
+    have to run towards the gate again to go back in the dungeon; if the wall of
+    fire reaches them, they lose and get trapped in hell.\n\nIf soul is weakened,
+    it has to reach the altar with another soul that has some health. Then healthy
+    soul has to activate the altar and restore some weakened soul's health.\n\nThere
+    are three different types of souls, each with their own unique ability:\n\n1.
+    Dog: Can see other players' footprints in the game.\n2. Detective: Can see the
+    direction of all of the Gates\n3. Psychologist: Can use it's one-time ability
+    (using button \"E\") to check whether a gate is heaven or hell. \n\nReaper:\nA
+    reaper has to prevent souls from reaching the heaven gate. It can attack using
+    \"Left Mouse Button\" to reduce the health of a soul and eventually weaken them.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
