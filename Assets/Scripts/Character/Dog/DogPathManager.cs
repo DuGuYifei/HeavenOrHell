@@ -52,7 +52,7 @@ namespace Character
 
         private void Update()
         {
-            if (!_checkPaths) return;
+            if (!_checkPaths || _dogTiles.Count == 0) return;
             // Add character paths
             var characters = GameManager.Instance.Characters;
             var i = 0;

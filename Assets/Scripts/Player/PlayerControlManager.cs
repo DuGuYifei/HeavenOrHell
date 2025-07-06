@@ -119,18 +119,22 @@ namespace Player
         {
             var moveInput = _moveAction.ReadValue<Vector2>();
             moveInput *= moveSpeed * speedMultiplier;
-
+            var spumPrefab = _characterContainer.prefab;
+            if (!spumPrefab.isOverrideControllerInit)
+            {
+                spumPrefab.OverrideControllerInit();
+            }
             _rigidbody2D.linearVelocity = moveInput;
             var position = transform.position;
             if (moveInput.x != 0 || moveInput.y != 0)
             {
-                _characterContainer.prefab.PlayAnimation(PlayerState.MOVE, 0);
+                spumPrefab.PlayAnimation(PlayerState.MOVE, 0);
                 _characterContainer.SetCharacterSide(moveInput.x > 0);
                 if (moveInput.x != 0)_wasLastMoveRight = moveInput.x > 0;
             }
             else
             {
-                _characterContainer.prefab.PlayAnimation(PlayerState.IDLE, 0);
+                spumPrefab.PlayAnimation(PlayerState.IDLE, 0);
             }
 
             SendPlayerBasicMessage(position.x, position.y, moveInput.x);

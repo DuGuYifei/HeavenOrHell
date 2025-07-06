@@ -24,6 +24,7 @@ public class SPUM_Prefabs : MonoBehaviour
     public string _code;
     public Animator _anim;
     private AnimatorOverrideController OverrideController;
+    public bool isOverrideControllerInit = false;
 
     public string UnitType;
     public List<SpumPackage> spumPackages = new List<SpumPackage>();
@@ -39,6 +40,8 @@ public class SPUM_Prefabs : MonoBehaviour
     public List<AnimationClip> OTHER_List = new();
     public void OverrideControllerInit()
     {
+        if (isOverrideControllerInit) return;
+        isOverrideControllerInit = true;
         Animator animator = _anim;
         OverrideController = new AnimatorOverrideController();
         OverrideController.runtimeAnimatorController= animator.runtimeAnimatorController;
