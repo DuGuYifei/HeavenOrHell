@@ -30,9 +30,11 @@ namespace UI
 
     public class UIManager : MonoBehaviour
     {
-        public string ServerIP;
-        public int ServerPort;
-
+        public string ServerIP = "127.0.0.1";
+        public int ServerPort = 8888;
+        [SerializeField] private TMP_InputField serverIPInputField;
+        [SerializeField] private TMP_InputField serverPortInputField;
+        
         public GameObject MainMenu;
 
         public GameObject Connection;
@@ -86,7 +88,9 @@ namespace UI
             PlayerLobbyState.IsReady = false;
             PlayerLobbyState.PlayerId = -1;
             PlayerLobbyState.CharacterType = CharacterType.SoulDog;
-
+            
+            serverIPInputField.SetTextWithoutNotify(PlayerPrefs.GetString("ServerIP", ServerIP));
+            serverPortInputField.SetTextWithoutNotify(PlayerPrefs.GetInt("ServerPort", ServerPort).ToString());
             // SetUpKcp();
         }
 
@@ -341,8 +345,12 @@ namespace UI
 
         public void SetUpKcp()
         {
-            kcpNetwork.serverIp = ServerIP;
-            kcpNetwork.serverPort = ServerPort;
+            var serverIp = serverIPInputField.text;
+            PlayerPrefs.SetString("ServerIP", serverIp);
+            var serverPort = int.Parse(serverPortInputField.text);
+            PlayerPrefs.SetInt("ServerPort", serverPort);
+            kcpNetwork.serverIp = serverIp;
+            kcpNetwork.serverPort = serverPort;
             kcpNetwork.StartClient();
 
             var kcpRecvMessageParser = kcpNetwork.GetComponent<KcpRecvMessageParser>();
