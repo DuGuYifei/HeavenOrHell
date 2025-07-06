@@ -230,7 +230,7 @@ MonoBehaviour:
   attackTimeLength: 0.4
   debuffLength: 3
   speedDebuff: 0.6
-  regularSpeedMultiplier: 1.05
+  regularSpeedMultiplier: 1.1
   Pointer: {fileID: 7613626626215107592}
 --- !u!50 &5784511134699703318
 Rigidbody2D:
