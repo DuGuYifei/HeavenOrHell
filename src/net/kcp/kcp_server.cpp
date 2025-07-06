@@ -423,12 +423,6 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                     player.animation_type = message::PlayerAnimationType::DIE;
                     player.player_result = PlayerResult::HELL;
                 }
-                message::Gate gate;
-                gate.set_gate_direction(wrapper.enter_gate_message().gate_direction());
-                gate.set_gate_type(gate_type);
-                message::EnterGateResultMessage enter_gate_result_message;
-                enter_gate_result_message.set_player_id(player_id);
-                enter_gate_result_message.set_allocated_gate(&gate);
                 broadcastToRoom(room->getRoomId(), wrapper, {}, true);
             }
             break;
