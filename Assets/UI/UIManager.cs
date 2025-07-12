@@ -140,6 +140,10 @@ namespace UI
                         OtherPlayers[i].PlayerId = -1;
                         OtherPlayers[i].CharacterType = CharacterType.SoulDog;
                     }
+                    PlayerLobbyState.IsReady = false;
+                    PlayerLobbyState.PlayerId = -1;
+                    ReadyFlag.SetActive(false);
+                    PlayerLobbyState.CharacterType = CharacterType.SoulDog;
                     Lobby.SetActive(false);
                     MainMenu.SetActive(true);
                     state = MenuState.MainMenu;
