@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MapGeneration;
 using Message;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class GameStartData: MonoBehaviour
@@ -25,10 +26,25 @@ public class GameStartData: MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(this);
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    #endregion
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
     
-    #endregion
-    
+    private void OnSceneUnloaded(Scene scene)
+    {
+        if (scene.name == Consts.GameScene)
+        {
+            instance = null;
+            DestroyImmediate(gameObject);
+        }
+    }
+
     public List<CharacterData> characters = new ();
     public MapInfoContainer mapInfoContainer;
     public int playerId;

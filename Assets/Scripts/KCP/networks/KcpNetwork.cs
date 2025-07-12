@@ -7,6 +7,7 @@ using KcpProject;
 using System;
 using Google.Protobuf.Collections;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace AntMill.Liu.Scripts.networks
 {
@@ -55,24 +56,13 @@ namespace AntMill.Liu.Scripts.networks
             {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
+                SceneManager.sceneUnloaded += OnSceneUnloaded;
             }
         }
 
         #endregion
         
-        public void StartClient()
-        {
-            // 初始化 UDP 与 KCP 会话
-            _udpClient = new UdpClient(0);
-            _serverEndPoint = new IPEndPoint(IPAddress.Parse(serverIp), serverPort);
-            _udpClient.Connect(_serverEndPoint);
-            _udpStarted = true;
-            enabled = true;
-            // Start receiving UDP packets
-            StartReceiving();
-        }
-
-
+        
         private void Update()
         {
             // Send Hello message if not connected
@@ -104,6 +94,7 @@ namespace AntMill.Liu.Scripts.networks
 
         private void OnDestroy()
         {
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
             try
             {
                 if (_connected && _kcp != null)
@@ -124,7 +115,27 @@ namespace AntMill.Liu.Scripts.networks
             }
         }
         
-
+        private void OnSceneUnloaded(Scene scene)
+        {
+            if (scene.name == Consts.GameScene)
+            {
+                _instance = null;
+                DestroyImmediate(gameObject);
+            }
+        }
+        
+        public void StartClient()
+        {
+            // 初始化 UDP 与 KCP 会话
+            _udpClient = new UdpClient(0);
+            _serverEndPoint = new IPEndPoint(IPAddress.Parse(serverIp), serverPort);
+            _udpClient.Connect(_serverEndPoint);
+            _udpStarted = true;
+            enabled = true;
+            // Start receiving UDP packets
+            StartReceiving();
+        }
+        
         public void StartUdpConnect(int targetRoomId = 0)
         {
             roomId = targetRoomId;

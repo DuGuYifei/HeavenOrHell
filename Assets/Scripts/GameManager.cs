@@ -2,9 +2,6 @@ using System.Collections.Generic;
 using AntMill.Liu.Scripts.networks;
 using Audio;
 using Character;
-using DefaultNamespace;
-using DefaultNamespace.UI;
-using Google.Protobuf.WellKnownTypes;
 using MapGeneration;
 using Message;
 using MiniGames.Runner;
@@ -14,7 +11,7 @@ using Player;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -94,6 +91,7 @@ public class GameManager : MonoBehaviour
         }
         _instance = this;
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     #endregion
@@ -112,6 +110,30 @@ public class GameManager : MonoBehaviour
         }
         // mainCamera.enabled = false;
     }
+    
+    private void Update()
+    {
+        if (_gameState == GameState.GameGenerated)
+        {
+            OnGameInitializeFinished?.Invoke();
+            _gameState = GameState.GameInitialized;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+    
+    private void OnSceneUnloaded(Scene scene)
+    {
+        if (scene.name == Consts.GameScene)
+        {
+            _instance = null;
+            DestroyImmediate(gameObject);
+        }
+    }
+
 
     private void PopulateGame()
     {
@@ -214,15 +236,7 @@ public class GameManager : MonoBehaviour
         mainCamera.enabled = true;
         ((SoulContainer)_playerContainer).RunnerMinigameFinished(isHeavenGate);
     }
-
-    private void Update()
-    {
-        if (_gameState == GameState.GameGenerated)
-        {
-            OnGameInitializeFinished?.Invoke();
-            _gameState = GameState.GameInitialized;
-        }
-    }
+    
 
     public enum GameState
     {
