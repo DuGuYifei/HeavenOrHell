@@ -33,6 +33,11 @@ public class ReaperContainer : CharacterContainer
             _playerControlManager = GetComponentInChildren<PlayerControlManager>();
             // _initialSpeedMultiplier = _playerControlManager.speedMultiplier;
             _initialSpeedMultiplier = regularSpeedMultiplier;
+            //Change the color of the gates
+            for (var i = 0; i < GameManager.Instance.mapInfoContainer.gatePositions.Count; i++)
+            {
+                GameManager.Instance.SetGateColor(i);
+            }
         }
     }
 
