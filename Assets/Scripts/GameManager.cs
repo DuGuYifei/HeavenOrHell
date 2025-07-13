@@ -192,7 +192,7 @@ public class GameManager : MonoBehaviour
             _characters.Add(charContainer);
         }
 
-        miniMapController.InitializeMinimap(_playerContainer);
+        miniMapController.InitializeMinimapDarkMask(_playerContainer, gameStartData.mapInfoContainer.gatePositions);
         _gameState = GameState.GameGenerated;
         KcpNetwork.Instance.SendStartReceiveMessage(_playerId);
         KcpRecvMessageParser.Instance?.onGateResultReceived.AddListener(OnGateResultReceived);

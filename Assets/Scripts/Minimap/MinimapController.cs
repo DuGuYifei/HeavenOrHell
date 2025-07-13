@@ -1,100 +1,110 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using utils;
 
 namespace Minimap
 {
     public class MiniMapController : MonoBehaviour
     {
-        [SerializeField] private RawImage minimapPlayerPositionRawImage;
         [SerializeField] private RawImage minimapDarkMaskRawImage;
+        [SerializeField] private RawImage minimapRawImage;
         [SerializeField] private int width = 31;
         [SerializeField] private int height = 31;
-        [SerializeField] private float mapScale = 3f;
-        [SerializeField] private GameObject minimapCanvas;
+        [SerializeField] private float minimapImageSize = 280f;
+        [SerializeField] private int darkMaskScale = 10;
+        [SerializeField] private int soulRevealRange = 1;
+        [SerializeField] private RectTransform gateParent;
+        [SerializeField] private Image gatePrefab;
+        [SerializeField] private RectTransform playerParent;
+        [SerializeField] private Image playerPrefab;
+        [SerializeField] private Vector2 maximizedSizeDelta;
+        [SerializeField] private Vector2 maximizedAnchoredPosition;
+        [SerializeField] private Vector2 maximizedAnchorMin;
+        [SerializeField] private Vector2 maximizedAnchorMax;
         
-        private Texture2D _minimapPlayerPositionTexture;
         private Texture2D _minimapDarkMaskTexture;
         private CharacterContainer _player;
+        private RectTransform _minimapPlayer;
+        private RectTransform _minimapTransform;
+        
+        private Vector2 _minimizedSizeDelta;
+        private Vector2 _minimizedAnchoredPosition;
+        private Vector2 _minimizedAnchorMin;
+        private Vector2 _minimizedAnchorMax;
+        private float _instanceSize;
         
         private readonly Color _playerColor = new (163 / 255f, 110 / 255f, 52 / 255f);
+        
+        public void SetMinimapTexture(Texture2D texture)
+        {
+            minimapRawImage.texture = texture;
+        }
 
-        public void InitializeMinimap(CharacterContainer player)
+        public void InitializeMinimapDarkMask(CharacterContainer player, List<Vector3> gatePositions)
         {
             _player = player;
-            // 将 _minimapPlayerPositionTexture 设为全透明 
-            _minimapPlayerPositionTexture = new Texture2D(width, height);
-            for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    _minimapPlayerPositionTexture.SetPixel(x, y, new Color(0, 0, 0, 0));
             
-            // 将 player _charTransform 在 scale * width 和 scale * height 位置映射到 width 和 height 小地图范围内
-            int playerX = Mathf.FloorToInt(player.transform.position.x / mapScale);
-            int playerY = Mathf.FloorToInt(player.transform.position.y / mapScale);
-            // 宝藏暗红
-            _minimapPlayerPositionTexture.SetPixel(playerX, playerY, _playerColor);
-            _minimapPlayerPositionTexture.Apply();
-            minimapPlayerPositionRawImage.texture = _minimapPlayerPositionTexture;
-            
+            var playerPos = player.transform.position / Consts.MapScale;
+            _minimapPlayer = Instantiate(playerPrefab, playerParent).transform as RectTransform;
+            SetPrefabPos(_minimapPlayer, playerPos);
             if (player is ReaperContainer)
             {
-                // 将 _minimapDarkMaskTexture 设为全透明 
-                _minimapDarkMaskTexture = new Texture2D(width, height);
-                for (int x = 0; x < width; x++)
-                    for (int y = 0; y < height; y++)
-                        _minimapDarkMaskTexture.SetPixel(x, y, new Color(0, 0, 0, 0));
+                minimapDarkMaskRawImage.gameObject.SetActive(false);
             }
             else
             {
-                // 将 _minimapDarkMaskTexture 设为全黑
-                _minimapDarkMaskTexture = new Texture2D(width, height);
-                for (int x = 0; x < width; x++)
-                    for (int y = 0; y < height; y++)
+                _minimapDarkMaskTexture = new Texture2D(width * darkMaskScale, height * darkMaskScale);
+                for (int x = 0; x < width * darkMaskScale; x++)
+                    for (int y = 0; y < height * darkMaskScale; y++)
                         _minimapDarkMaskTexture.SetPixel(x, y, new Color(0, 0, 0, 1));
                 
-                // 将 player 周围 9隔和自己位置设为全透明
-                for (int x = -1; x <= 1; x++)
-                {
-                    for (int y = -1; y <= 1; y++)
-                    {
-                        int posX = playerX + x;
-                        int posY = playerY + y;
-                        if (posX >= 0 && posX < width && posY >= 0 && posY < height)
-                        {
-                            _minimapDarkMaskTexture.SetPixel(posX, posY, new Color(0, 0, 0, 0));
-                        }
-                    }
-                }
+                UpdateDarkMask(playerPos);
+                _minimapDarkMaskTexture.filterMode = FilterMode.Point;
+                minimapDarkMaskRawImage.texture = _minimapDarkMaskTexture;
             }
-            _minimapDarkMaskTexture.Apply();
-            minimapDarkMaskRawImage.texture = _minimapDarkMaskTexture;
-            minimapCanvas.SetActive(false);
+
+            _instanceSize = 0.5f / width;
+            
+            // set gates
+            foreach (var gatePosition in gatePositions)
+            {
+                var gate = Instantiate(gatePrefab, gateParent);
+                var gatePos = gatePosition / Consts.MapScale;
+                SetPrefabPos(gate.rectTransform, gatePos);
+            }
+            _minimapTransform = transform as RectTransform;
+            _minimizedSizeDelta = _minimapTransform.sizeDelta;
+            _minimizedAnchoredPosition = _minimapTransform.anchoredPosition;
+            _minimizedAnchorMin = _minimapTransform.anchorMin;
+            _minimizedAnchorMax = _minimapTransform.anchorMax;
         }
         
         private void Update()
         {
             if (!_player) return;
-            // 更新 player 在小地图上的位置
-            int playerX = Mathf.FloorToInt(_player.transform.position.x / mapScale);
-            int playerY = Mathf.FloorToInt(_player.transform.position.y / mapScale);
-            
-            // 清除之前的玩家位置
-            for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    _minimapPlayerPositionTexture.SetPixel(x, y, new Color(0, 0, 0, 0));
-            
-            // 设置新的玩家位置
-            _minimapPlayerPositionTexture.SetPixel(playerX, playerY, new Color(150f/255f, 17f/255f, 30f/255f, 1));
-            _minimapPlayerPositionTexture.Apply();
-            
-            // 设置玩家周围 9格和自己位置为透明
-            for (int x = -1; x <= 1; x++)
+            var playerPos = _player.transform.position / Consts.MapScale;
+            SetPrefabPos(_minimapPlayer, playerPos);
+            if (_player is not ReaperContainer) UpdateDarkMask(playerPos);
+
+        }
+
+        private void SetPrefabPos(RectTransform instanceTransform, Vector2 pos)
+        {
+            instanceTransform.anchorMin = pos / width - new Vector2(_instanceSize, _instanceSize);
+            instanceTransform.anchorMax = pos / width + new Vector2(_instanceSize, _instanceSize);
+        }
+
+        private void UpdateDarkMask(Vector2 playerPos)
+        {
+            for (int x = -soulRevealRange * darkMaskScale; x <= soulRevealRange * darkMaskScale; x++)
             {
-                for (int y = -1; y <= 1; y++)
+                for (int y = -soulRevealRange * darkMaskScale; y <= soulRevealRange * darkMaskScale; y++)
                 {
-                    int posX = playerX + x;
-                    int posY = playerY + y;
-                    if (posX >= 0 && posX < width && posY >= 0 && posY < height)
+                    int posX = Mathf.RoundToInt(playerPos.x * darkMaskScale) + x;
+                    int posY = Mathf.RoundToInt(playerPos.y * darkMaskScale) + y;
+                    if (posX >= 0 && posX < width * darkMaskScale && posY >= 0 && posY < height * darkMaskScale)
                     {
                         _minimapDarkMaskTexture.SetPixel(posX, posY, new Color(0, 0, 0, 0));
                     }
@@ -105,7 +115,20 @@ namespace Minimap
 
         public void SetVisibility(bool visible)
         {
-            minimapCanvas.SetActive(visible);
+            if (visible)
+            {
+                _minimapTransform.sizeDelta = maximizedSizeDelta;
+                _minimapTransform.anchoredPosition = maximizedAnchoredPosition;
+                _minimapTransform.anchorMin = maximizedAnchorMin;
+                _minimapTransform.anchorMax = maximizedAnchorMax;
+            }
+            else
+            {
+                _minimapTransform.sizeDelta = _minimizedSizeDelta;
+                _minimapTransform.anchoredPosition = _minimizedAnchoredPosition;
+                _minimapTransform.anchorMin = _minimizedAnchorMin;
+                _minimapTransform.anchorMax = _minimizedAnchorMax;
+            }
         }
     }
 }

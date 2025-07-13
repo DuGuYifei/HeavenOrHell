@@ -31,6 +31,9 @@ namespace MapGeneration
         [SerializeField] private Tileset tileset;
         [SerializeField] private PropSet props;
         
+        [Header("Minimap")]
+        [SerializeField] private MiniMapController miniMapController;
+        
         public static char WALL = '#';
         public static char FLOOR = '.';
         public static char EXIT = 'E';
@@ -39,18 +42,14 @@ namespace MapGeneration
         public static char TREASURE = '$';
         public static char REAPER = 'R';
         
-        [SerializeField] private RawImage minimapRawImage;
-        
         private const int Width = 31;
         private const int Height = 31;
-        private Texture2D _minimapTexture;
         private readonly Color _wallColor = new Color(163 / 255f, 110 / 255f, 52 / 255f);
         private readonly Color _floorColor = new Color(232 / 255f, 202 / 255f, 153 / 255f);
         private bool _testFlag = false;
 
         private void Start()
         {
-            _minimapTexture = new Texture2D(Width, Height);
             if (KcpRecvMessageParser.Instance && !GameStartData.Instance) 
                 KcpRecvMessageParser.Instance.onMapReceived.AddListener(ParseMessage);
         }
@@ -126,6 +125,7 @@ namespace MapGeneration
                 }
             }
 
+            var minimapTexture = new Texture2D(Width, Height);
             for (var x = -3; x <= scale * Width + 2; x++)
             {
                 for (var y = -3; y <= scale * Height + 2; y++)
@@ -138,31 +138,31 @@ namespace MapGeneration
                     {
                         wallTilemap.SetTile(new Vector3Int(x, y, 0), tileset.wallTile);
                         if (x % 3 == 0 && y % 3 == 0)
-                            _minimapTexture.SetPixel(x / 3, y / 3, _wallColor);
+                            minimapTexture.SetPixel(x / 3, y / 3, _wallColor);
                     }
                     else if (map[x][y] == FLOOR)
                     {
                         floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.floor);
                         if (x % 3 == 0 && y % 3 == 0)
-                            _minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
+                            minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
                     }
                     else if (map[x][y] == CENTER)
                     {
                         floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.centerTile);
                         if (x % 3 == 0 && y % 3 == 0)
-                            _minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
+                            minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
                     }
                     else if (map[x][y] == SPAWN)
                     {
                         floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.spawnTile);
                         if (x % 3 == 0 && y % 3 == 0)
-                            _minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
+                            minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
                     }
                     else
                     {
                         floorTilemap.SetTile(new Vector3Int(x, y, 0), tileset.floor);
                         if (x % 3 == 0 && y % 3 == 0)
-                            _minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
+                            minimapTexture.SetPixel(x / 3, y / 3, _floorColor);
                     }
                 }
             }
@@ -192,9 +192,9 @@ namespace MapGeneration
                 GameManager.Instance.SetGates(gates);
             }
 
-            _minimapTexture.Apply();
-            _minimapTexture.filterMode = FilterMode.Point;
-            minimapRawImage.texture = _minimapTexture;
+            minimapTexture.Apply();
+            minimapTexture.filterMode = FilterMode.Point;
+            miniMapController.SetMinimapTexture(minimapTexture);
                 // else
                 //     print(map[x][y]);
         }
