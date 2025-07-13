@@ -20,6 +20,7 @@ namespace network
         public IntegerMessageEvent onReaperResultReceived;
         public IntegerMessageEvent onAltarSuccessReceived;
         public GameResultMessageEvent onResultMessageReceived;
+        public ChatMessageEvent onChatMessageReceived;
 
         private readonly bool _debugBasicMessage = false;
 
@@ -100,6 +101,11 @@ namespace network
                     Debug.Log($"[Server→Client] GameResultMessage: {gameResultMsg}");
                     onResultMessageReceived?.Invoke(gameResultMsg);
                     break;
+                case MessageWrapper.PayloadOneofCase.ChatMessage:
+                    var chatMsg = wrapper.ChatMessage;
+                    Debug.Log($"[Server→Client] ChatMessage: from={chatMsg.FromPlayer}, content={chatMsg.Content}");
+                    onChatMessageReceived?.Invoke(chatMsg);
+                    break;
                 default:
                     Debug.Log($"[Server→Client] Unknown message type: {wrapper.PayloadCase}");
                     break;
@@ -109,7 +115,7 @@ namespace network
         #region Singleton
 
         public static KcpRecvMessageParser Instance { get; private set; }
-        
+
         private void Awake()
         {
             if (Instance) return;
@@ -163,9 +169,14 @@ namespace network
     public class IntegerMessageEvent : UnityEvent<int>
     {
     }
-    
+
     [Serializable]
     public class GameResultMessageEvent : UnityEvent<GameResultMessage>
+    {
+    }
+
+    [Serializable]
+    public class ChatMessageEvent : UnityEvent<ChatMessage>
     {
     }
 }
