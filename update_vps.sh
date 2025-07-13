@@ -1,0 +1,1 @@
+scp ./build/HeavenOrHellServer username@ip:/opt/server/hoh/
