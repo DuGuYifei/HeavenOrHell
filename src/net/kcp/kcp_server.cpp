@@ -436,7 +436,7 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
             {
                 if (wrapper.chat_message().is_to_all())
                 {
-                    printf("Player %d in room %d sent chat message: %s\n", player_id, room->getRoomId(), wrapper.chat_message().message().c_str());
+                    printf("Player %d in room %d sent chat message: %s\n", player_id, room->getRoomId(), wrapper.chat_message().content().c_str());
                     broadcastToRoom(room->getRoomId(), wrapper, {}, true);
                 }
                 else
@@ -446,7 +446,7 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
                     {
                         if (room->getPlayer(pid).character_type != message::CharacterType::REAPER)
                             continue;
-                        printf("Player %d in room %d sent chat message to non-reaper: %s\n", player_id, room->getRoomId(), wrapper.chat_message().message().c_str());
+                        printf("Player %d in room %d sent chat message to non-reaper: %s\n", player_id, room->getRoomId(), wrapper.chat_message().content().c_str());
                         broadcastToRoom(room->getRoomId(), wrapper, {pid}, true);
                     }
                 }
