@@ -430,6 +430,28 @@ void KcpServer::updateRoomLogic(std::shared_ptr<Room> room)
             }
             break;
         }
+        case message::MessageWrapper::kChatMessage:
+        {
+            if (room->hasPlayer(player_id))
+            {
+                if (wrapper.chat_message().is_to_all())
+                {
+                    printf("Player %d in room %d sent chat message: %s\n", player_id, room->getRoomId(), wrapper.chat_message().message().c_str());
+                    broadcastToRoom(room->getRoomId(), wrapper, {}, true);
+                }
+                else
+                {
+                    // find reaper and skip reaper
+                    for (const std::vector<int> all_players = room->getAllPlayerIds(); const int pid : all_players)
+                    {
+                        if (room->getPlayer(pid).character_type != message::CharacterType::REAPER)
+                            continue;
+                        printf("Player %d in room %d sent chat message to non-reaper: %s\n", player_id, room->getRoomId(), wrapper.chat_message().message().c_str());
+                        broadcastToRoom(room->getRoomId(), wrapper, {pid}, true);
+                    }
+                }
+            }
+        }
         // TODO: other message to the game here
         default:;
         }
