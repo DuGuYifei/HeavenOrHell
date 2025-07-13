@@ -7,7 +7,6 @@ using KcpProject;
 using System;
 using Google.Protobuf.Collections;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace AntMill.Liu.Scripts.networks
 {
@@ -31,7 +30,7 @@ namespace AntMill.Liu.Scripts.networks
         private const float HelloIntervalTime = 10f;
         private const float KcpSendIntervalTime = 0.02f;
         readonly object kcpLock = new object();
-        
+
         private bool _debugBasicMessage = false; // Debug flag for basic message sending
         private UdpClient _udpClient;
         private IPEndPoint _serverEndPoint;
@@ -40,7 +39,7 @@ namespace AntMill.Liu.Scripts.networks
 
 
         #region DontDestroyOnLoad
-        
+
         private static KcpNetwork _instance;
 
         public static KcpNetwork Instance
@@ -52,17 +51,28 @@ namespace AntMill.Liu.Scripts.networks
         {
             if (_instance)
                 Destroy(gameObject);
-            else 
+            else
             {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
-                SceneManager.sceneUnloaded += OnSceneUnloaded;
             }
         }
 
         #endregion
-        
-        
+
+        public void StartClient()
+        {
+            // 初始化 UDP 与 KCP 会话
+            _udpClient = new UdpClient(0);
+            _serverEndPoint = new IPEndPoint(IPAddress.Parse(serverIp), serverPort);
+            _udpClient.Connect(_serverEndPoint);
+            _udpStarted = true;
+            enabled = true;
+            // Start receiving UDP packets
+            StartReceiving();
+        }
+
+
         private void Update()
         {
             // Send Hello message if not connected
@@ -94,7 +104,6 @@ namespace AntMill.Liu.Scripts.networks
 
         private void OnDestroy()
         {
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
             try
             {
                 if (_connected && _kcp != null)
@@ -114,28 +123,8 @@ namespace AntMill.Liu.Scripts.networks
                 Debug.LogError($"Error during cleanup: {e.Message}");
             }
         }
-        
-        private void OnSceneUnloaded(Scene scene)
-        {
-            if (scene.name == Consts.GameScene)
-            {
-                _instance = null;
-                DestroyImmediate(gameObject);
-            }
-        }
-        
-        public void StartClient()
-        {
-            // 初始化 UDP 与 KCP 会话
-            _udpClient = new UdpClient(0);
-            _serverEndPoint = new IPEndPoint(IPAddress.Parse(serverIp), serverPort);
-            _udpClient.Connect(_serverEndPoint);
-            _udpStarted = true;
-            enabled = true;
-            // Start receiving UDP packets
-            StartReceiving();
-        }
-        
+
+
         public void StartUdpConnect(int targetRoomId = 0)
         {
             roomId = targetRoomId;
@@ -176,7 +165,7 @@ namespace AntMill.Liu.Scripts.networks
                 ProcessReceivedData(data);
 
                 // Continue receiving
-                
+
                 StartReceiving();
             }
             catch (Exception e)
@@ -386,7 +375,7 @@ namespace AntMill.Liu.Scripts.networks
             //     Debug.LogError($"Error sending reaper attack message: {e.Message}");
             // }
         }
-        
+
         public void SendEnterGateMessage(int playerId, GateDirection gateDirection)
         {
             if (!_connected || !_roomJoined) return;
@@ -486,6 +475,33 @@ namespace AntMill.Liu.Scripts.networks
             }
         }
 
+        public void SendChatMessage(String fromPlayer, string messageText)
+        {
+            if (!_connected || !_roomJoined) return;
+
+            try
+            {
+                ChatMessage chatMsg = new ChatMessage
+                {
+                    FromPlayer = fromPlayer,
+                    IsToAll = false,
+                    Content = messageText
+                };
+
+                MessageWrapper wrapper = new MessageWrapper
+                {
+                    ChatMessage = chatMsg
+                };
+
+                SendProtobufMessage(wrapper);
+                Debug.Log($"[Client→Server] Sent ChatMessage: FromPlayerId={fromPlayer}, MessageText={messageText}");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error sending chat message: {e.Message}");
+            }
+        }
+
         private void SendProtobufMessage(IMessage message)
         {
             if (_kcp == null) return;
@@ -502,6 +518,6 @@ namespace AntMill.Liu.Scripts.networks
     [Serializable]
     public class KcpRecvMessageEvent : UnityEvent<MessageWrapper>
     {
-        
+
     }
 }
