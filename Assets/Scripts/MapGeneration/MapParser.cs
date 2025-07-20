@@ -26,6 +26,7 @@ namespace MapGeneration
         [SerializeField] private Tilemap wallTilemap;
         [SerializeField] private Tilemap floorTilemap;
         [SerializeField] private Transform propsParent;
+        [SerializeField] private WallDecorationPlacer wallDecorationPlacer;
         
         [Header("Map Generation Sets")]
         [SerializeField] private Tileset tileset;
@@ -83,6 +84,7 @@ namespace MapGeneration
             //create a new tilemap with the given width and height
             wallTilemap.ClearAllTiles();
             floorTilemap.ClearAllTiles();
+            
             //tilemap is three times the size of the map
             var map = new char[3 * Width][];
             for (var index = 0; index < 3 * Width; index++) map[index] = new char[3 * Height];
@@ -166,6 +168,8 @@ namespace MapGeneration
                     }
                 }
             }
+            
+            wallDecorationPlacer.PlaceDecorations();
             
             // add altar
             if (GameManager.Instance)
