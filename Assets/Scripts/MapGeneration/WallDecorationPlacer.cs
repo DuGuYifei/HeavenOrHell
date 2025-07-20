@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace MapGeneration
 {
@@ -12,7 +14,7 @@ namespace MapGeneration
         
         [SerializeField] private float decorationChance = 0.1f;
         
-        [SerializeField] private List<Tile> decorationTiles;
+        [SerializeField] private List<DecorationTile> decorationTiles;
         
         private readonly HashSet<Vector3Int> _decorationTilesSet = new ();
         
@@ -45,7 +47,14 @@ namespace MapGeneration
         {
             if (NeighborsNotPlaced(pos) && Random.value < decorationChance)
             {
-                TileBase tileToPlace = decorationTiles[Random.Range(0, decorationTiles.Count)];
+                var randomIndex = Random.Range(0, decorationTiles.Count);
+                var decorationTile = decorationTiles[randomIndex];
+                TileBase tileToPlace = decorationTile.tile;
+                if (decorationTile.placementPrefab)
+                {
+                    // Instantiate the placement prefab at the position
+                    Instantiate(decorationTile.placementPrefab, decorationTilemap.GetCellCenterWorld(pos), Quaternion.identity, decorationTilemap.transform);
+                }
                 decorationTilemap.SetTile(pos, tileToPlace);
                 _decorationTilesSet.Add(pos);
             }
@@ -76,5 +85,12 @@ namespace MapGeneration
                 wallTilemap.GetTile(pos + 2 * Vector3Int.down) != targetRuleTile;
         }
         
+    }
+
+    [Serializable]
+    public class DecorationTile
+    {
+        public Tile tile;
+        public GameObject placementPrefab;
     }
 }

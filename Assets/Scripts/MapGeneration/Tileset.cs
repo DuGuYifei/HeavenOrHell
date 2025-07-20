@@ -7,7 +7,7 @@ namespace MapGeneration
     public class Tileset : ScriptableObject
     {
         public RuleTile wallTile;
-        public Tile floor;
+        public RuleTile floor;
         public Tile centerTile;
         public Tile spawnTile;
 

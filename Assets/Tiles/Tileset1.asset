@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tileset1
   m_EditorClassIdentifier: 
   wallTile: {fileID: 11400000, guid: f307e7f7638b74e53baa7d41d27eb26d, type: 2}
-  floor: {fileID: 11400000, guid: 47a18e91e3ef34160af93353a252fd97, type: 2}
+  floor: {fileID: 11400000, guid: e9a0edd881719400996d01851feef934, type: 2}
   centerTile: {fileID: 11400000, guid: 66b1061405fe54fd888f5a2287cac16b, type: 2}
   spawnTile: {fileID: 11400000, guid: c7dd4825915d9480c8e8488291e26b43, type: 2}
   detectiveTrail: {fileID: 11400000, guid: f4b6210e4e789431993af7c22a948b2d, type: 2}
