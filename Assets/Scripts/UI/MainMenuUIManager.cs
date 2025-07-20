@@ -29,7 +29,7 @@ namespace UI
         public CharacterType CharacterType;
     }
 
-    public class UIManager : MonoBehaviour
+    public class MainMenuUIManager : MonoBehaviour
     {
         public string ServerIP = "127.0.0.1";
         public int ServerPort = 8888;
