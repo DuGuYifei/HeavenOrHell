@@ -115,10 +115,19 @@ public class ReaperContainer : CharacterContainer
             transform.position.y + hitDir.y,
             transform.position.z
         );
+        
+        float angle = Mathf.Atan2(
+            (-1) * hitDir.y, 
+            (-1) * hitDir.x
+        ) * Mathf.Rad2Deg;
+        UnityEngine.Quaternion collisionRotation = UnityEngine.Quaternion.AngleAxis(angle, UnityEngine.Vector3.forward);
+
+
         // CircleCollider2D collider = Instantiate<CircleCollider2D>(new CircleCollider2D());
         collider2d.transform.position = collisionSpawn;
         collider2d.transform.parent = transform;
         collider2d.radius = collisionRadius;
+        collider2d.transform.rotation = collisionRotation;
         // collider.AddComponent<CollisionChecker>();
         PlayAnimation(PlayerState.ATTACK);
         

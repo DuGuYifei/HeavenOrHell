@@ -14,9 +14,15 @@ public class CollisionChecker : MonoBehaviour
     void Update()
     {
         lifeTime += Time.deltaTime;
-
-        if (lifeTime >= activationTime)
+        GetComponent<SpriteRenderer>().enabled = false;
+        if (lifeTime >= lifeLength + activationTime)
         {
+            enabled = false;
+            triggerCollider.enabled = false;
+        }
+        else if (lifeTime >= activationTime)
+        {
+            // GetComponent<SpriteRenderer>().enabled = true;
             var hasHit = false;
             foreach (GameObject gObject in currentCollisions)
             {
@@ -33,11 +39,6 @@ public class CollisionChecker : MonoBehaviour
                 enabled = false;
                 triggerCollider.enabled = false;
             }
-        }
-        if (lifeTime >= lifeLength)
-        {
-            enabled = false;
-            triggerCollider.enabled = false;
         }
 
     }
