@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa38cc5af258298269276dcf1e59bc46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallSpeed: 7.55
+  WallSpeed: 7.5
   IsMoving: 0
 --- !u!1 &2281576006936914816
 GameObject:
@@ -6902,12 +6902,20 @@ PrefabInstance:
       value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
+      propertyPath: SideSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
       propertyPath: runnerSetup
       value: 
       objectReference: {fileID: 3018291460806885453}
     - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
+      propertyPath: Acceleration
+      value: 225
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
       propertyPath: ForwardSpeed
-      value: 8
+      value: 8.15
       objectReference: {fileID: 0}
     - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
       propertyPath: GravityScale
@@ -6915,7 +6923,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
       propertyPath: SlowDuration
-      value: 1.25
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
+      propertyPath: SideAcceleration
+      value: 225
       objectReference: {fileID: 0}
     - target: {fileID: 4486622430194236507, guid: bffecb974857092c1bf9333b24627d76, type: 3}
       propertyPath: soulPrefabs.Array.size
