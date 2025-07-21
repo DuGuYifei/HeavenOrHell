@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - RunnerPlayer
+  - FireWall
+  - EscapeWall
+  - Obstacle
   layers:
   - Default
   - TransparentFX

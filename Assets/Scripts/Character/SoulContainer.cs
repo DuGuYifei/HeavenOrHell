@@ -183,6 +183,8 @@ public abstract class SoulContainer : CharacterContainer
         _enteredGate = true;
         _playerControlManager.enabled = false;
         _enteredGatePosition = transform.position;
+        KcpNetwork.Instance.SendPlayerBasicMessage(farPosition.x, farPosition.y, GameManager.Instance.PlayerId,
+            PlayerAnimationType.Idle);
         transform.position = farPosition;
         _nearestGate = nearestGate;
         if (nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
