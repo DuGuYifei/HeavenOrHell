@@ -21,7 +21,7 @@ public abstract class SoulContainer : CharacterContainer
     [SerializeField] private float dashSpeedMultiplier = 2f;
     [SerializeField] private float gateCheckRange = 1f;
     [SerializeField] [ColorUsage(true, true)] private Color weakColor;
-
+    [SerializeField] private Vector3 farPosition = new Vector3(-100, 0, 0);
     private Material _sharedMaterial;
     private Color _defaultColor;
     private PlayerControlManager _playerControlManager;
@@ -37,6 +37,7 @@ public abstract class SoulContainer : CharacterContainer
     private float _weakTimer = 0f;
     private float _maxHp = 100.0f;
     private bool _enteredGate = false;
+    private Vector3 _enteredGatePosition = Vector3.zero;
     
     private int _nearestGate = -1;
     
@@ -181,6 +182,8 @@ public abstract class SoulContainer : CharacterContainer
         if (minDistance > gateCheckRange) return;
         _enteredGate = true;
         _playerControlManager.enabled = false;
+        _enteredGatePosition = transform.position;
+        transform.position = farPosition;
         _nearestGate = nearestGate;
         if (nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
         {
@@ -220,6 +223,7 @@ public abstract class SoulContainer : CharacterContainer
         {
             _playerControlManager.enabled = true;
             _enteredGate = false;
+            transform.position = _enteredGatePosition;
         }
         else
         {

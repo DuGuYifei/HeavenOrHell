@@ -20,6 +20,7 @@ namespace UI
         [SerializeField] private Image gameEndBackground;
         [SerializeField] private Color gameEndWinBackground;
         [SerializeField] private Color gameEndLoseBackground;
+        [SerializeField] private Color GameEndTieBackground;
         [SerializeField] private float gameEndPanelDelay = 3.0f;
         
         private bool _delayStarted = false;
@@ -64,10 +65,15 @@ namespace UI
             }
         }
 
-        public void TurnOnGameEndPanel(bool soulWin, bool playerSoul)
+        public void TurnOnGameEndPanel(bool soulWin, bool playerSoul, bool tie)
         {
             gameEndPanel.SetActive(true);
-            if (soulWin && playerSoul)
+            if (tie)
+            {
+                gameEndText.text = "It's a tie!";
+                gameEndBackground.color = GameEndTieBackground;
+            }
+            else if (soulWin && playerSoul)
             {
                 gameEndText.text = "You won!";
                 gameEndBackground.color = gameEndWinBackground;

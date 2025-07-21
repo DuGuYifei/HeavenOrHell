@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour
     private void GameResultMessageReceived(GameResultMessage message)
     {
         var result = message.GameResult;
-        GameEndUI.Instance?.TurnOnGameEndPanel(result == GameResult.SoulWin, _playerContainer is SoulContainer);
+        GameEndUI.Instance?.TurnOnGameEndPanel(result == GameResult.SoulWin, _playerContainer is SoulContainer, result == GameResult.Tie);
     }
 
     public void SpawnGateMinigame(SoulType soulType)
