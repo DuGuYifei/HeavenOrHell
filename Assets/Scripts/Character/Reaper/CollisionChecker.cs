@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class CollisionChecker : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class CollisionChecker : MonoBehaviour
                 {
                     transform.parent.GetComponent<ReaperContainer>().RegisterTheAttack(soulCon.id);
                     hasHit = true;
+                    break;
                 }
             }
 

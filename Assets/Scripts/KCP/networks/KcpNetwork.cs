@@ -28,7 +28,7 @@ namespace AntMill.Liu.Scripts.networks
         private bool _roomJoined = false;
         private float _lastHelloTime = -10;
         private const float HelloIntervalTime = 10f;
-        private const float KcpSendIntervalTime = 0.02f;
+        private const float KcpSendIntervalTime = 0.002f;
         readonly object kcpLock = new object();
 
         private bool _debugBasicMessage = false; // Debug flag for basic message sending
@@ -90,15 +90,15 @@ namespace AntMill.Liu.Scripts.networks
             // Update KCP and receive messages
             else
             {
-                if (_kcp != null && Time.time - _lastHelloTime > KcpSendIntervalTime)
+                // if (_kcp != null && Time.time - _lastHelloTime > KcpSendIntervalTime)
+                // {
+                lock (kcpLock)
                 {
-                    lock (kcpLock)
-                    {
-                        _kcp.Update();
-                        _lastHelloTime = Time.time;
-                        ReceiveKcpMessages();
-                    }
+                    _kcp.Update();
+                    _lastHelloTime = Time.time;
+                    ReceiveKcpMessages();
                 }
+                // }
             }
         }
 

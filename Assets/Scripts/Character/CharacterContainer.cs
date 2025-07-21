@@ -45,6 +45,8 @@ public abstract class CharacterContainer : MonoBehaviour
         {
             Debug.LogError("AudioSource not found on CharacterContainer: " + e.Message);
         }
+
+        GetComponent<Rigidbody2D>().bodyType = isPlayer ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
     }
 
     protected virtual void HandleBasicMessage(PlayerBasicMessage basicMessage)
