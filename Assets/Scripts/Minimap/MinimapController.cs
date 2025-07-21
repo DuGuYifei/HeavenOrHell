@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,24 +19,34 @@ namespace Minimap
         [SerializeField] private Image gatePrefab;
         [SerializeField] private RectTransform playerParent;
         [SerializeField] private Image playerPrefab;
+        [SerializeField] private Image otherPlayerPrefab; // icon for other players
         [SerializeField] private Vector2 maximizedSizeDelta;
         [SerializeField] private Vector2 maximizedAnchoredPosition;
         [SerializeField] private Vector2 maximizedAnchorMin;
         [SerializeField] private Vector2 maximizedAnchorMax;
-        
+
         private Texture2D _minimapDarkMaskTexture;
         private CharacterContainer _player;
         private RectTransform _minimapPlayer;
         private RectTransform _minimapTransform;
-        
+
         private Vector2 _minimizedSizeDelta;
         private Vector2 _minimizedAnchoredPosition;
         private Vector2 _minimizedAnchorMin;
         private Vector2 _minimizedAnchorMax;
         private float _instanceSize;
-        
+
         private readonly Color _playerColor = new (163 / 255f, 110 / 255f, 52 / 255f);
-        
+
+        // store icons of other players keyed by their unique id
+        private readonly Dictionary<int, RectTransform> _otherPlayerIcons = new();
+
+        // reaper-only reveal control
+        [SerializeField] private float revealCycle = 30f;      // total cycle length (seconds)
+        [SerializeField] private float revealDuration = 3f;     // visible window within cycle (seconds)
+        private float _revealTimer;
+        private bool _isReaper;
+
         public void SetMinimapTexture(Texture2D texture)
         {
             minimapRawImage.texture = texture;
@@ -45,7 +55,8 @@ namespace Minimap
         public void InitializeMinimapDarkMask(CharacterContainer player, List<Vector3> gatePositions)
         {
             _player = player;
-            
+            _isReaper = player is ReaperContainer;
+
             var playerPos = player.transform.position / Consts.MapScale;
             _minimapPlayer = Instantiate(playerPrefab, playerParent).transform as RectTransform;
             SetPrefabPos(_minimapPlayer, playerPos);
@@ -59,14 +70,14 @@ namespace Minimap
                 for (int x = 0; x < width * darkMaskScale; x++)
                     for (int y = 0; y < height * darkMaskScale; y++)
                         _minimapDarkMaskTexture.SetPixel(x, y, new Color(0, 0, 0, 1));
-                
+
                 UpdateDarkMask(playerPos);
                 _minimapDarkMaskTexture.filterMode = FilterMode.Point;
                 minimapDarkMaskRawImage.texture = _minimapDarkMaskTexture;
             }
 
             _instanceSize = 0.5f / width;
-            
+
             // set gates
             foreach (var gatePosition in gatePositions)
             {
@@ -80,13 +91,31 @@ namespace Minimap
             _minimizedAnchorMin = _minimapTransform.anchorMin;
             _minimizedAnchorMax = _minimapTransform.anchorMax;
         }
-        
+
         private void Update()
         {
             if (!_player) return;
             var playerPos = _player.transform.position / Consts.MapScale;
             SetPrefabPos(_minimapPlayer, playerPos);
             if (_player is not ReaperContainer) UpdateDarkMask(playerPos);
+
+            // handle reaper reveal cycle
+            if (_isReaper)
+            {
+                _revealTimer += Time.deltaTime;
+                bool showOthers = _revealTimer < revealDuration;
+
+                // ensure icons exist & positions updated first
+                UpdateOtherPlayers(showOthers);
+
+                // then toggle visibility so newly created icons respect current state
+                SetOthersActive(showOthers);
+
+                if (_revealTimer >= revealCycle)
+                {
+                    _revealTimer = 0f;
+                }
+            }
 
         }
 
@@ -111,6 +140,59 @@ namespace Minimap
                 }
             }
             _minimapDarkMaskTexture.Apply();
+        }
+
+        // -------------------- Other players --------------------
+
+        private void UpdateOtherPlayers(bool iconsActive)
+        {
+            if (!_isReaper) return; // only reaper can see others
+
+            // iterate game characters, register icons for new ones and update positions
+            var characters = GameManager.Instance ? GameManager.Instance.Characters : null;
+            if (characters == null) return;
+
+            foreach (var character in characters)
+            {
+                if (character == null || character.isPlayer) continue;
+
+                // ensure icon exists
+                if (!_otherPlayerIcons.TryGetValue(character.id, out var icon) || icon == null)
+                {
+                    // instantiate new icon
+                    icon = Instantiate(otherPlayerPrefab, playerParent).transform as RectTransform;
+                    icon.gameObject.SetActive(iconsActive);
+                    _otherPlayerIcons[character.id] = icon;
+                }
+
+                // update position
+                var pos = character.transform.position / Consts.MapScale;
+                SetPrefabPos(icon, pos);
+            }
+
+            // clean up icons whose characters are gone
+            var idsToRemove = new List<int>();
+            foreach (var kv in _otherPlayerIcons)
+            {
+                var exists = characters.Exists(c => c.id == kv.Key && !c.isPlayer);
+                if (!exists)
+                {
+                    Destroy(kv.Value.gameObject);
+                    idsToRemove.Add(kv.Key);
+                }
+            }
+            foreach (var id in idsToRemove)
+            {
+                _otherPlayerIcons.Remove(id);
+            }
+        }
+
+        private void SetOthersActive(bool active)
+        {
+            foreach (var icon in _otherPlayerIcons.Values)
+            {
+                if (icon) icon.gameObject.SetActive(active);
+            }
         }
 
         public void SetVisibility(bool visible)
