@@ -14,7 +14,7 @@ public class ReaperContainer : CharacterContainer
     [SerializeField] private float debuffLength = 5.0f;
     [SerializeField] private float speedDebuff = 0.5f;
     [SerializeField] private float regularSpeedMultiplier = 1.05f;
-    public GameObject Pointer;
+    // public GameObject Pointer;
 
     private bool _attackPerformed;
     private float _initialSpeedMultiplier;
@@ -71,24 +71,24 @@ public class ReaperContainer : CharacterContainer
         }
         if (isPlayer)
         {
-            Pointer.SetActive(true);
-            UnityEngine.Vector2 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            // Pointer.SetActive(true);
+            // UnityEngine.Vector2 mousePos = Input.mousePosition;
+            // mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            UnityEngine.Vector2 hitDir = new UnityEngine.Vector2(
-                mousePos.x - transform.position.x,
-                mousePos.y - transform.position.y
-            );
-            hitDir.Normalize();
+            // UnityEngine.Vector2 hitDir = new UnityEngine.Vector2(
+            //     mousePos.x - transform.position.x,
+            //     mousePos.y - transform.position.y
+            // );
+            // hitDir.Normalize();
 
-            hitDir = hitDir * attackDistance;
+            // hitDir = hitDir * attackDistance;
 
-            UnityEngine.Vector3 pointerPosition = new UnityEngine.Vector3(
-                transform.position.x + hitDir.x,
-                transform.position.y + hitDir.y,
-                transform.position.z
-            );
-            Pointer.transform.position = pointerPosition;
+            // UnityEngine.Vector3 pointerPosition = new UnityEngine.Vector3(
+            //     transform.position.x + hitDir.x,
+            //     transform.position.y + hitDir.y,
+            //     transform.position.z
+            // );
+            // Pointer.transform.position = pointerPosition;
 
         }
     }
@@ -98,45 +98,50 @@ public class ReaperContainer : CharacterContainer
         if (_attackPerformed) return;
         checker.StartCheck();
         // get the position of the mouse:
-        UnityEngine.Vector2 mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        // UnityEngine.Vector2 mousePos = Input.mousePosition;
+        // mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        UnityEngine.Vector2 hitDir = new UnityEngine.Vector2(
-            mousePos.x - transform.position.x,
-            mousePos.y - transform.position.y
-        );
-        hitDir.Normalize();
+        // UnityEngine.Vector2 hitDir = new UnityEngine.Vector2(
+        //     mousePos.x - transform.position.x,
+        //     mousePos.y - transform.position.y
+        // );
+        // hitDir.Normalize();
 
-        hitDir = hitDir * attackDistance;
+        // hitDir = hitDir * attackDistance;
         
-        // generate the position of the collision shape to place
-        UnityEngine.Vector3 collisionSpawn = new UnityEngine.Vector3(
-            transform.position.x + hitDir.x,
-            transform.position.y + hitDir.y,
-            transform.position.z
-        );
+        // // generate the position of the collision shape to place
+        // UnityEngine.Vector3 collisionSpawn = new UnityEngine.Vector3(
+        //     transform.position.x + hitDir.x,
+        //     transform.position.y + hitDir.y,
+        //     transform.position.z
+        // );
         
-        float angle = Mathf.Atan2(
-            (-1) * hitDir.y, 
-            (-1) * hitDir.x
-        ) * Mathf.Rad2Deg;
-        UnityEngine.Quaternion collisionRotation = UnityEngine.Quaternion.AngleAxis(angle, UnityEngine.Vector3.forward);
+        // float angle = Mathf.Atan2(
+        //     (-1) * hitDir.y, 
+        //     (-1) * hitDir.x
+        // ) * Mathf.Rad2Deg;
+        // UnityEngine.Quaternion collisionRotation = UnityEngine.Quaternion.AngleAxis(angle, UnityEngine.Vector3.forward);
 
 
         // CircleCollider2D collider = Instantiate<CircleCollider2D>(new CircleCollider2D());
-        collider2d.transform.position = collisionSpawn;
-        collider2d.transform.parent = transform;
-        collider2d.radius = collisionRadius;
-        collider2d.transform.rotation = collisionRotation;
+        // collider2d.transform.position = collisionSpawn;
+        // collider2d.transform.parent = transform;
+        // collider2d.radius = collisionRadius;
+        // collider2d.transform.rotation = collisionRotation;
         // collider.AddComponent<CollisionChecker>();
         PlayAnimation(PlayerState.ATTACK);
         
-        _audioSource.Play();
+        // _audioSource.Play();
         
         // mb check for collisions and if there's a poor soul, DAMAGE it
         _attackPerformed = true;
         _debuffTimer = 0f;
         _playerControlManager.speedMultiplier *= speedDebuff;
+    }
+
+    public void PlayAttackSound()
+    {
+        _audioSource.Play();
     }
 
     public override void GateActionPerformed()

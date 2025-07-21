@@ -31,6 +31,7 @@ public class CollisionChecker : MonoBehaviour
                 if (soulCon != null && !soulCon.isWeak)
                 {
                     transform.parent.GetComponent<ReaperContainer>().RegisterTheAttack(soulCon.id);
+                    transform.parent.GetComponent<ReaperContainer>().PlayAttackSound();
                     hasHit = true;
                     break;
                 }
