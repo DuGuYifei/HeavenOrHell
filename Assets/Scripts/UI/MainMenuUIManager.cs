@@ -59,6 +59,7 @@ namespace UI
         public float ActualTimer;
         public List<GateDirection> gateDirections;
         public int heavenGateIndex = 1;
+        public List<GateDirection> heavenGateDirections = new();
         private bool IsHost;
 
         private string mapString = "";
@@ -375,7 +376,11 @@ namespace UI
             foreach (var gate in message.Gates)
             {
                 gateDirections.Add(gate.GateDirection);
-                if (gate.GateType == GateType.GateHeaven) heavenGateIndex = i;
+                if (gate.GateType == GateType.GateHeaven)
+                {
+                    heavenGateIndex = i;
+                    heavenGateDirections.Add(gate.GateDirection);
+                }
                 i++;
             }
         }
@@ -430,9 +435,9 @@ namespace UI
             {
                 soulSpawnPositions = new List<Vector3>(),
                 gatePositions = new List<Vector3>(),
-                heavenGateIndex = heavenGateIndex,
+                heavenGateDirections = heavenGateDirections,
+                gateDirections = new List<GateDirection>(),
                 mapString = mapString,
-                gateDirections = gateDirections
             };
 
             gameStartData.playerId = PlayerLobbyState.PlayerId;

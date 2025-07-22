@@ -76,7 +76,7 @@ namespace network
                     break;
                 case MessageWrapper.PayloadOneofCase.GateMessage:
                     var gateMsg = wrapper.GateMessage;
-                    Debug.Log("[Server→Client] GateMessage");
+                    Debug.Log($"[Server→Client] GateMessage: {gateMsg}");
                     onGateMessageReceived?.Invoke(gateMsg);
                     break;
                 case MessageWrapper.PayloadOneofCase.EnterGateResultMessage:

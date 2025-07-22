@@ -187,9 +187,10 @@ public abstract class SoulContainer : CharacterContainer
             PlayerAnimationType.Idle);
         transform.position = farPosition;
         _nearestGate = nearestGate;
-        if (nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
+        if (!GameManager.Instance.mapInfoContainer.heavenGateDirections.Contains(GameManager.Instance.mapInfoContainer.gateDirections[nearestGate]))
         {
             // GameEndUI.Instance.TurnOnGameEndPanel(false);
+            
             GameManager.Instance.SpawnGateMinigame(soulType);
         }
         else
@@ -200,23 +201,6 @@ public abstract class SoulContainer : CharacterContainer
 
     }
     
-    public void TestGateActionPerformed()
-    {
-        if (_enteredGate || isWeak) return;
-        _enteredGate = true;
-        _playerControlManager.enabled = false;
-        _nearestGate = (GameManager.Instance.mapInfoContainer.heavenGateIndex + 1) % GameManager.Instance.mapInfoContainer.gatePositions.Count;
-        if (_nearestGate != GameManager.Instance.mapInfoContainer.heavenGateIndex)
-        {
-            // GameEndUI.Instance.TurnOnGameEndPanel(false);
-            GameManager.Instance.SpawnGateMinigame(soulType);
-        }
-        else
-        {
-            GameEndUI.Instance.TurnOnSoulEndPanel(true);
-            KcpNetwork.Instance.SendEnterGateMessage(id, GameManager.Instance.mapInfoContainer.gateDirections[_nearestGate]);
-        }
-    }
     
     public void RunnerMinigameFinished(bool isHeavenGate)
     {
@@ -256,11 +240,6 @@ public class SoulContainerEditor : Editor
         if (GUILayout.Button("Change Material Color"))
         {
             soulContainer.ChangeMaterialColor(soulContainer.IsWeak);
-        }
-        
-        if (GUILayout.Button("Test Gate Action"))
-        {
-            soulContainer.TestGateActionPerformed();
         }
     }
 }

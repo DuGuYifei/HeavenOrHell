@@ -14,7 +14,7 @@ namespace MapGeneration
         public List<Vector3> gatePositions;
         public List<GateDirection> gateDirections;
         public Vector3 altarPosition;
-        public int heavenGateIndex = 1;
+        public List<GateDirection> heavenGateDirections = new ();
         public string mapString;
         
         // TODO: add function calls to GameManager
@@ -28,10 +28,25 @@ namespace MapGeneration
         public void AddGatePosition(Vector3 position, bool isHeaven)
         {
             gatePositions.Add(position);
-            if (isHeaven) 
+            var minX = 1.7f;
+            var maxX = 91f;
+            var minY = 1.7f;
+            var maxY = 91f;
+            if (position.x < minX)
             {
-                heavenGateIndex = gatePositions.Count - 1;
-            }
+                gateDirections.Add(GateDirection.Left);
+            } else if (position.x > maxX)
+            {
+                gateDirections.Add(GateDirection.Right);
+            } 
+            else if (position.y < minY)
+            {
+                gateDirections.Add(GateDirection.Down);
+            } 
+            else if (position.y > maxY)
+            {
+                gateDirections.Add(GateDirection.Up);
+            } 
         }
     }
 }

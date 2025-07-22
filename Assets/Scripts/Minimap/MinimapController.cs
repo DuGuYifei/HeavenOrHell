@@ -24,6 +24,7 @@ namespace Minimap
         [SerializeField] private Vector2 maximizedAnchoredPosition;
         [SerializeField] private Vector2 maximizedAnchorMin;
         [SerializeField] private Vector2 maximizedAnchorMax;
+        [SerializeField] private float otherPlayerScale = 1.5f;
 
         private Texture2D _minimapDarkMaskTexture;
         private CharacterContainer _player;
@@ -36,7 +37,6 @@ namespace Minimap
         private Vector2 _minimizedAnchorMax;
         private float _instanceSize;
 
-        private readonly Color _playerColor = new (163 / 255f, 110 / 255f, 52 / 255f);
 
         // store icons of other players keyed by their unique id
         private readonly Dictionary<int, RectTransform> _otherPlayerIcons = new();
@@ -119,10 +119,10 @@ namespace Minimap
 
         }
 
-        private void SetPrefabPos(RectTransform instanceTransform, Vector2 pos)
+        private void SetPrefabPos(RectTransform instanceTransform, Vector2 pos, bool isOtherPlayer = false)
         {
-            instanceTransform.anchorMin = pos / width - new Vector2(_instanceSize, _instanceSize);
-            instanceTransform.anchorMax = pos / width + new Vector2(_instanceSize, _instanceSize);
+            instanceTransform.anchorMin = pos / width - Vector2.one * (isOtherPlayer? _instanceSize * otherPlayerScale : _instanceSize);
+            instanceTransform.anchorMax = pos / width + Vector2.one * (isOtherPlayer? _instanceSize * otherPlayerScale : _instanceSize);
         }
 
         private void UpdateDarkMask(Vector2 playerPos)

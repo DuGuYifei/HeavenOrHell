@@ -209,7 +209,7 @@ public class GameManager : MonoBehaviour
         if (_gates.Count <= gateId) return;
         var gate = _gates[gateId];
         if (gate == null) return;
-        gate.ChangeColor(mapInfoContainer.heavenGateIndex == gateId);
+        gate.ChangeColor(mapInfoContainer.heavenGateDirections.Contains(mapInfoContainer.gateDirections[gateId]));
     }
 
     private void OnGateResultReceived(EnterGateResultMessage message)
