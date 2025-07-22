@@ -244,4 +244,9 @@ public class GameManager : MonoBehaviour
         GameGenerated,
         GameInitialized
     }
+
+    public void TurnPlayerControl(bool on)
+    {
+        _playerContainer?.GetComponentInChildren<PlayerControlManager>().TurnControl(on);
+    }
 }

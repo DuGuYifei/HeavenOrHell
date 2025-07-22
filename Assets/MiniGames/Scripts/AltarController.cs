@@ -107,6 +107,7 @@ public class AltarController : MonoBehaviour
         miniGameController.SetActive(true);
         miniGame.enabled = true;
         miniGame.BeginTheMiniGame();
+        GameManager.Instance.TurnPlayerControl(true);
     }
 
     public void SwitchToIdle()
@@ -131,8 +132,8 @@ public class AltarController : MonoBehaviour
                 {
                     weakSoulCount += 1;
                     soulCont.isWeak = false;
-                    // TODO send message that the soul is free!!!
                     KcpNetwork.Instance.SendAltarSuccessMessage(soulCont.id);
+                    GameManager.Instance.TurnPlayerControl(false);
                 }
 
             }

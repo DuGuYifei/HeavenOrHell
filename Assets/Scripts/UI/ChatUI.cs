@@ -21,6 +21,8 @@ namespace UI
             _playerType = GameStartData.Instance.characters.Find(c => c.isPlayer).type.ToString();
             // Enter button
             inputField.onSubmit.AddListener(OnSendClick);
+            inputField.onSelect.AddListener(OnChatMessageSelected);
+            inputField.onDeselect.AddListener(OnChatMessageDeselected);
         }
 
         void OnSendClick()
@@ -33,6 +35,9 @@ namespace UI
 
             inputField.text = "";
             inputField.DeactivateInputField();
+            GameManager.Instance.TurnPlayerControl(true);
+            //Deselect the input field
+            inputField.OnDeselect(null);
         }
 
         // Support TMP_InputField onSubmit(string)
@@ -40,7 +45,16 @@ namespace UI
         {
             OnSendClick();
         }
+        
+        void OnChatMessageSelected(string text)
+        {
+            GameManager.Instance.TurnPlayerControl(false);
+        }
 
+        private void OnChatMessageDeselected(string arg0)
+        {
+            GameManager.Instance.TurnPlayerControl(true);
+        }
         void SendMessageToServer(string msg)
         {
             _kcpNetwork.SendChatMessage(_playerType, msg);

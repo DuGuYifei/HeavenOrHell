@@ -21,6 +21,7 @@ namespace Player
         private InputAction _moveAction;
         private Rigidbody2D _rigidbody2D;
         private InputAction _skillAction;
+        private bool _controllerEnabled = true;
         private bool _wasLastMoveRight = true;
 
         private void Awake()
@@ -80,6 +81,7 @@ namespace Player
 
         private void OnMapStarted(InputAction.CallbackContext obj)
         {
+            if (!_controllerEnabled) return;
             GameManager.Instance?.MiniMapController?.SetVisibility(true);
         }
 
@@ -90,23 +92,27 @@ namespace Player
 
         private void OnGateActionPerformed(InputAction.CallbackContext obj)
         {
+            if (!_controllerEnabled) return;
             _characterContainer.GateActionPerformed();
         }
 
         private void OnSkillActionPerformed(InputAction.CallbackContext obj)
         {
+            if (!_controllerEnabled) return;
             print("skillPerformed");
             _characterContainer.SkillPerformed();
         }
 
         private void OnDashActionPerformed(InputAction.CallbackContext obj)
         {
+            if (!_controllerEnabled) return;
             print("dashPerformed");
             _characterContainer.DashPerformed();
         }
 
         private void OnAttackPerformed(InputAction.CallbackContext obj)
         {
+            if (!_controllerEnabled) return;
             if (!Application.isFocused) return;
             print("attackPerformed");
             if (_characterContainer is ReaperContainer)
@@ -117,7 +123,7 @@ namespace Player
 
         private void Move()
         {
-            var moveInput = _moveAction.ReadValue<Vector2>();
+            var moveInput = _controllerEnabled ? _moveAction.ReadValue<Vector2>() : Vector2.zero;
             moveInput *= moveSpeed * speedMultiplier;
             var spumPrefab = _characterContainer.prefab;
             if (!spumPrefab.isOverrideControllerInit)
@@ -172,6 +178,11 @@ namespace Player
 
             KcpNetwork.Instance.SendPlayerBasicMessage(positionX, positionY, GameManager.Instance.PlayerId,
                 animationType);
+        }
+
+        public void TurnControl(bool on)
+        {
+            _controllerEnabled = on;
         }
     }
 }

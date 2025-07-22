@@ -72,6 +72,11 @@ public abstract class SoulContainer : CharacterContainer
         _inDash = false;
         _dashTime = 0f;
         _playerControlManager.speedMultiplier = _initialSpeedMultiplier;
+        // if (isWeak)
+        // {
+        //     //check if the player is the only soul left
+        //     
+        // }
     }
     
     public override void OnInit()
@@ -118,6 +123,9 @@ public abstract class SoulContainer : CharacterContainer
             //Dead by weak
             _playerControlManager.enabled = false;
             _isDead = true;
+            transform.position = farPosition;
+            KcpNetwork.Instance.SendPlayerBasicMessage(farPosition.x, farPosition.y, GameManager.Instance.PlayerId,
+                PlayerAnimationType.Die);
             GameEndUI.Instance.TurnOnSoulEndPanel(false, true);
         }
 
@@ -161,7 +169,9 @@ public abstract class SoulContainer : CharacterContainer
         // prefab.PlayAnimation(PlayerState.DAMAGED, 0);
         // if (playerId != id) return;
         if (playerId == id)
+        {
             _audioSource.Play();
+        }
     }
 
     public override void GateActionPerformed()
