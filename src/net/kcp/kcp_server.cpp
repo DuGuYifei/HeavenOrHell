@@ -98,8 +98,36 @@ void KcpServer::iterateBroadcastAllRooms(float delta_time)
 
 bool KcpServer::checkGameResult(std::shared_ptr<Room> room)
 {
-    // 统计各种状态的玩家数量
+    // 先统计in_game玩家数量
     int in_game_count = 0;
+    for (const auto &playerId : room->getAllPlayerIds())
+    {
+        const Player &player = room->getPlayer(playerId);
+        if (player.player_result == PlayerResult::IN_GAME)
+        {
+            in_game_count++;
+        }
+    }
+
+    // 如果只剩两个in_game的玩家，检查非reaper的玩家是否血量为0
+    if (in_game_count == 2)
+    {
+        for (const auto &playerId : room->getAllPlayerIds())
+        {
+            Player &player = room->getPlayer(playerId);
+            if (player.character_type != message::CharacterType::REAPER &&
+                player.player_result == PlayerResult::IN_GAME &&
+                player.hp <= 0)
+            {
+                player.character_state = message::CharacterState::Character_STATE_DIE;
+                player.animation_type = message::PlayerAnimationType::DIE;
+                player.player_result = PlayerResult::DIE_BY_HIT;
+            }
+        }
+    }
+
+    // 重新统计各种状态的玩家数量（因为可能刚才有玩家状态改变）
+    in_game_count = 0;
     int heaven_count = 0;
     int total_players = 0;
 
