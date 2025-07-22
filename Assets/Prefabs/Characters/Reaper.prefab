@@ -334,7 +334,7 @@ MonoBehaviour:
   attackTimeLength: 0.4
   debuffLength: 3
   speedDebuff: 0.6
-  regularSpeedMultiplier: 1.25
+  regularSpeedMultiplier: 1.3
 --- !u!50 &5784511134699703318
 Rigidbody2D:
   serializedVersion: 5
