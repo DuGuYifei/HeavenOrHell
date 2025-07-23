@@ -107,7 +107,7 @@ public class AltarController : MonoBehaviour
         miniGameController.SetActive(true);
         miniGame.enabled = true;
         miniGame.BeginTheMiniGame();
-        GameManager.Instance.TurnPlayerControl(true);
+        GameManager.Instance.TurnPlayerControl(false);
     }
 
     public void SwitchToIdle()
@@ -133,7 +133,7 @@ public class AltarController : MonoBehaviour
                     weakSoulCount += 1;
                     soulCont.isWeak = false;
                     KcpNetwork.Instance.SendAltarSuccessMessage(soulCont.id);
-                    GameManager.Instance.TurnPlayerControl(false);
+                    GameManager.Instance.TurnPlayerControl(true);
                 }
 
             }
