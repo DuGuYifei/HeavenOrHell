@@ -26,6 +26,11 @@ namespace Character
             _checkPaths = true;
             _gridSize = GameManager.Instance.GridSize;
             GameManager.Instance.OnGameInitializeFinished.AddListener(Initialize);
+            // If this script started after initialization already finished, initialize immediately
+            if (GameManager.Instance.State == GameManager.GameState.GameInitialized)
+            {
+                Initialize();
+            }
         }
 
         private void Initialize()

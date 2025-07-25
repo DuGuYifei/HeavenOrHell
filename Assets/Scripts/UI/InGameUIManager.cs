@@ -72,7 +72,7 @@ namespace DefaultNamespace.UI
             if (soulDeathImage.activeSelf) soulDeathFillRectTransform.anchorMax = new Vector2(0.5f, fillAmount);
         }
 
-        public void UpdateSoulDashCooldown(float fillAmount )
+        public void UpdateSoulDashCooldown(float fillAmount)
         {
             if (soulDashImage.activeSelf) _soulDashFillRectTransform.anchorMax = new Vector2(0.5f, fillAmount);
             soulDashFill.color = fillAmount >= 1? soulDashFillEndColor : soulDashFillingColor;
